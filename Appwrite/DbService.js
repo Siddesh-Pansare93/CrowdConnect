@@ -1,4 +1,4 @@
-import { Client, Account, ID, Databases } from "appwrite";
+import { Client, ID, Databases } from "appwrite";
 import conf from "../conf/conf";
 
 export class DbService {
@@ -12,14 +12,13 @@ export class DbService {
             .setProject(conf.appwriteProjectId);
 
         this.database = new Databases(this.client)
-
     }
 
 
     // Creating Event 
-    async createEvent({ id, title, description, date_time, location, featuredImage, organiser, attendees }) {
+    async createEvent({ id = ID.unique() , title, description, date_time, location, featuredImage, organiser, attendees  }) {
         try {
-            return this.database.createDocument(
+            return  await this.database.createDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 id, {
@@ -41,7 +40,7 @@ export class DbService {
 
     async updateEvent({ id, title, description, date_time, location, featuredImage, organiser, attendees }) {
         try {
-            return this.database.updateDocument(
+            return await this.database.updateDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 id,
@@ -62,12 +61,24 @@ export class DbService {
 
     // Delete Event 
 
-    
+    async deleteEvent(id) {
+        try {
+            return  await this.database.deleteDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
+                id
+            )
+        } catch (error) {
+            console.log(`Appwrite Error :: UpdateEvent :: error :: ${error.message}`)
+        }
+    }
+
+
 
     // Getting Particular Event 
     async getEvent(id) {
         try {
-            return this.database.getDocument(
+            return await this.database.getDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 id
@@ -79,9 +90,9 @@ export class DbService {
 
     // Get all Events or Events based on queries 
 
-    async getAllEvents(queries = [Query.equal("status", "active")]) {
+    async getAllEvents(queries = []) {
         try {
-            return this.database.listDocuments(
+            return await this.database.listDocuments(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 queries
@@ -90,6 +101,9 @@ export class DbService {
             console.log(`Appwrite Error :: GetALLEvent :: error :: ${error.message}`)
         }
     }
-
-
 }
+
+
+const dbService = DbService()
+
+export default dbService 

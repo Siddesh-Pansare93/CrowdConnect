@@ -6,11 +6,13 @@ import { createBrowserRouter, createRoutesFromElements, Route, Router, RouterPro
 import Layout from './layouts/layout.jsx'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
+import Postcard from './components/Postcard.jsx'
 
 
 const router=createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout/>}>
+      <Route path='/card' element={<Postcard/>}/>
     </Route>
   )
 )

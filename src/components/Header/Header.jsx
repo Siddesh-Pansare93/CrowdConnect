@@ -8,7 +8,7 @@ function Header() {
 
   const navigate = useNavigate()
   const authStatus = useSelector((state) => state.auth.status)
-  console.log(authStatus);
+
 
   const navitems = [
     {

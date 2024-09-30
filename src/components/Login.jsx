@@ -10,16 +10,15 @@ function Login() {
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { register ,  handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm();
 
-  // handleLogin receives form data directly
+
   const handleLogin = async (data) => {
     console.log("function execution started.............");
-
     setError('');
     try {
       console.log('Login button clicked');
-      const user = await authService.login({ ...data });
+      const user = await authService.login(data);
       if (user) {
         const userData = await authService.getCurrentUser();
         if (userData) {
@@ -61,9 +60,9 @@ function Login() {
             },
           })}
         />
-        <button className="bg-cyan-400 w-full" type="submit" onClick={()=> handleLogin({
+        <button className="bg-cyan-400 w-full" type="submit" onClick={() => handleLogin({
           email: "test@gmail.com",
-          password : "QWERTy@123"
+          password: "QWERTy@123"
         })}>Login</button>         {/*OnClick khali testing ke liye diya hai voh button me kuch issue hai form submit nhi ho rha hai */}
       </form>
     </div>

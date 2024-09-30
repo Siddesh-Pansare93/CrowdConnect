@@ -1,30 +1,30 @@
-import React, { useId } from 'react'
+import  React, {useId } from 'react'
 
-function Input({
-    type = 'text',
+const Input = React.forwardRef(function Input  ({
     label,
-    className = "",
-    ...props
+    type = 'text',
+    className = '',
+    ...props 
 }, ref) {
     const id = useId()
     return (
-
-        <div className="form-group">
-            {label &&
-                <label
-                    htmlFor={id}
-                    className="form-label"
-                >{label}
-                </label>}
+        <div className='w-full'>
+            {label && <label
+                htmlFor={id}
+                className='inline-block mb-1 pl-1'
+            >
+                {label}
+            </label>
+            }
             <input
                 type={type}
-                id={id}
                 className={`px-3 py-2 rounded-lg bg-white text-black outline-none focus:bg-gray-50 duration-200 border border-gray-200 w-full ${className}`}
+                ref={ref}
                 {...props}
-            >
-            </input>
+                id={id}
+            />
         </div>
     )
-}
+})
 
-export default React.forwardRef(Input)
+export default Input

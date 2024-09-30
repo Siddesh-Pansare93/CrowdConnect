@@ -64,7 +64,7 @@ function Login() {
         <button className="bg-cyan-400 w-full" type="submit" onClick={()=> handleLogin({
           email: "test@gmail.com",
           password : "QWERTy@123"
-        })}>Login</button>
+        })}>Login</button>         {/*OnClick khali testing ke liye diya hai voh button me kuch issue hai form submit nhi ho rha hai */}
       </form>
     </div>
   );

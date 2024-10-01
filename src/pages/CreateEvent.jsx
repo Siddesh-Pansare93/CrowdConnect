@@ -1,99 +1,60 @@
-import React, { useState, useEffect } from "react";
-import { FaImage, FaCalendarAlt, FaMapMarkerAlt, FaClock, FaTicketAlt, FaUsers, FaCheck, FaTimes } from "react-icons/fa";
-import { BsCurrencyDollar } from "react-icons/bs";
+import React, { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { FiUpload, FiCalendar, FiClock, FiDollarSign, FiUsers } from "react-icons/fi";
+import { MdLocationOn } from "react-icons/md";
 
 const CreateEventPage = () => {
-  const [eventData, setEventData] = useState({
-    image: null,
-    name: "",
-    description: "",
-    location: "",
-    startDateTime: "",
-    endDateTime: "",
-    ticketType: "free",
-    ticketPrice: "",
-    approvalRequired: false,
-    capacity: "",
+  const [isLoading, setIsLoading] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
+  const { control, handleSubmit, watch, formState: { errors }, setValue } = useForm({
+    defaultValues: {
+      image: null,
+      name: "",
+      description: "",
+      location: "",
+      date: "",
+      time: "",
+      ticketType: "free",
+      price: "",
+      tenantApproval: false,
+      capacity: "",
+    }
   });
 
-  const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setEventData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
+  const ticketType = watch("ticketType");
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setEventData((prev) => ({ ...prev, image: reader.result }));
+        setPreviewImage(reader.result);
+        setValue("image", file);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!eventData.image) newErrors.image = "Event image is required";
-    if (!eventData.name.trim()) newErrors.name = "Event name is required";
-    if (!eventData.description.trim()) newErrors.description = "Description is required";
-    if (!eventData.location.trim()) newErrors.location = "Location is required";
-    if (!eventData.startDateTime) newErrors.startDateTime = "Start date and time are required";
-    if (!eventData.endDateTime) newErrors.endDateTime = "End date and time are required";
-    if (eventData.ticketType === "paid" && !eventData.ticketPrice.trim()) {
-      newErrors.ticketPrice = "Ticket price is required for paid events";
-    }
-    if (!eventData.capacity.trim()) newErrors.capacity = "Capacity is required";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  const onSubmit = async (data) => {
+    
   };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      setIsSubmitting(true);
-      // Simulating API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log("Event created:", eventData);
-      setIsSubmitting(false);
-      // Reset form or navigate to a new page
-    }
-  };
-
-  useEffect(() => {
-    // Announce errors to screen readers
-    const errorMessages = Object.values(errors).join(", ");
-    if (errorMessages) {
-      const announcement = new SpeechSynthesisUtterance("Form errors: " + errorMessages);
-      window.speechSynthesis.speak(announcement);
-    }
-  }, [errors]);
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">
-        <form onSubmit={handleSubmit} className="flex flex-col md:flex-row">
-          {/* Image Upload Section */}
-          <div className="md:w-1/3 bg-gray-50 p-8 flex flex-col justify-center items-center">
-            <div
-              className="w-full h-64 bg-gray-200 rounded-lg overflow-hidden relative"
-              aria-label="Event image upload area"
-            >
-              {eventData.image ? (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+        <div className="md:flex">
+          <div className="md:flex-shrink-0 md:w-1/2">
+            <div className="h-64 md:h-full relative bg-gray-100 flex items-center justify-center">
+              {previewImage ? (
                 <img
-                  src={eventData.image}
+                  src={previewImage}
                   alt="Event preview"
-                  className="w-full h-full object-cover"
+                  className="h-1/2 w-full object-cover mt-0 mx-4 rounded-lg"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <FaImage className="text-gray-400 text-5xl" />
+                <div className="text-center p-6">
+                  <FiUpload className="mx-auto h-12 w-12 text-gray-400" />
+                  <p className="mt-2 text-sm text-gray-500">Upload event image</p>
                 </div>
               )}
               <input
@@ -104,259 +65,258 @@ const CreateEventPage = () => {
                 aria-label="Upload event image"
               />
             </div>
-            {errors.image && (
-              <p className="text-red-500 text-sm mt-2" role="alert">
-                {errors.image}
-              </p>
-            )}
-            <p className="text-sm text-gray-500 mt-2">Click to upload or drag and drop</p>
+            {errors.image && <p className="text-red-500 text-xs mt-1">{errors.image.message}</p>}
           </div>
-
-          {/* Form Fields Section */}
-          <div className="md:w-2/3 p-8">
-            <h2 className="text-2xl font-bold mb-6">Create Your Event</h2>
-
-            <div className="space-y-6">
-              {/* Event Name */}
+          <div className="p-8 md:w-1/2">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                   Event Name
                 </label>
-                <div className="mt-1 relative rounded-md shadow-sm">
-                  <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    value={eventData.name}
-                    onChange={handleInputChange}
-                    className={`block w-full pr-10 focus:outline-none sm:text-sm rounded-md ${errors.name ? 'border-red-300 text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'}`}
-                    placeholder="Enter event name"
-                    aria-invalid={errors.name ? "true" : "false"}
-                    aria-describedby={errors.name ? "name-error" : undefined}
-                  />
-                  {errors.name && (
-                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                      <FaTimes className="h-5 w-5 text-red-500" aria-hidden="true" />
-                    </div>
+                <Controller
+                  name="name"
+                  control={control}
+                  rules={{ required: "Event name is required" }}
+                  render={({ field }) => (
+                    <input
+                      {...field}
+                      type="text"
+                      id="name"
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    />
                   )}
-                </div>
-                {errors.name && (
-                  <p className="mt-2 text-sm text-red-600" id="name-error">
-                    {errors.name}
-                  </p>
-                )}
+                />
+                {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
               </div>
 
-              {/* Description */}
               <div>
                 <label htmlFor="description" className="block text-sm font-medium text-gray-700">
                   Description
                 </label>
-                <div className="mt-1">
-                  <textarea
-                    id="description"
-                    name="description"
-                    rows="3"
-                    value={eventData.description}
-                    onChange={handleInputChange}
-                    className={`shadow-sm block w-full focus:outline-none sm:text-sm rounded-md ${errors.description ? 'border-red-300 text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'}`}
-                    placeholder="Describe your event"
-                    aria-invalid={errors.description ? "true" : "false"}
-                    aria-describedby={errors.description ? "description-error" : undefined}
-                  ></textarea>
-                </div>
-                {errors.description && (
-                  <p className="mt-2 text-sm text-red-600" id="description-error">
-                    {errors.description}
-                  </p>
-                )}
+                <Controller
+                  name="description"
+                  control={control}
+                  rules={{ required: "Event description is required" }}
+                  render={({ field }) => (
+                    <textarea
+                      {...field}
+                      id="description"
+                      rows="3"
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    ></textarea>
+                  )}
+                />
+                {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description.message}</p>}
               </div>
 
-              {/* Location */}
               <div>
                 <label htmlFor="location" className="block text-sm font-medium text-gray-700">
                   Location
                 </label>
                 <div className="mt-1 relative rounded-md shadow-sm">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FaMapMarkerAlt className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                    <MdLocationOn className="h-5 w-5 text-gray-400" />
                   </div>
-                  <input
-                    type="text"
+                  <Controller
                     name="location"
-                    id="location"
-                    value={eventData.location}
-                    onChange={handleInputChange}
-                    className={`block w-full pl-10 focus:outline-none sm:text-sm rounded-md ${errors.location ? 'border-red-300 text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'}`}
-                    placeholder="Enter event location"
-                    aria-invalid={errors.location ? "true" : "false"}
-                    aria-describedby={errors.location ? "location-error" : undefined}
+                    control={control}
+                    rules={{ required: "Event location is required" }}
+                    render={({ field }) => (
+                      <input
+                        {...field}
+                        type="text"
+                        id="location"
+                        className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      />
+                    )}
                   />
                 </div>
-                {errors.location && (
-                  <p className="mt-2 text-sm text-red-600" id="location-error">
-                    {errors.location}
-                  </p>
-                )}
+                {errors.location && <p className="text-red-500 text-xs mt-1">{errors.location.message}</p>}
               </div>
 
-              {/* Date and Time */}
               <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="startDateTime" className="block text-sm font-medium text-gray-700">
-                    Start Date & Time
+                  <label htmlFor="date" className="block text-sm font-medium text-gray-700">
+                    Date
                   </label>
                   <div className="mt-1 relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaCalendarAlt className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                      <FiCalendar className="h-5 w-5 text-gray-400" />
                     </div>
-                    <input
-                      type="datetime-local"
-                      name="startDateTime"
-                      id="startDateTime"
-                      value={eventData.startDateTime}
-                      onChange={handleInputChange}
-                      className={`block w-full pl-10 focus:outline-none sm:text-sm rounded-md ${errors.startDateTime ? 'border-red-300 text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'}`}
-                      aria-invalid={errors.startDateTime ? "true" : "false"}
-                      aria-describedby={errors.startDateTime ? "startDateTime-error" : undefined}
+                    <Controller
+                      name="date"
+                      control={control}
+                      rules={{ required: "Event date is required" }}
+                      render={({ field }) => (
+                        <input
+                          {...field}
+                          type="date"
+                          id="date"
+                          className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        />
+                      )}
                     />
                   </div>
-                  {errors.startDateTime && (
-                    <p className="mt-2 text-sm text-red-600" id="startDateTime-error">
-                      {errors.startDateTime}
-                    </p>
-                  )}
+                  {errors.date && <p className="text-red-500 text-xs mt-1">{errors.date.message}</p>}
                 </div>
 
                 <div>
-                  <label htmlFor="endDateTime" className="block text-sm font-medium text-gray-700">
-                    End Date & Time
+                  <label htmlFor="time" className="block text-sm font-medium text-gray-700">
+                    Time
                   </label>
                   <div className="mt-1 relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaClock className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                      <FiClock className="h-5 w-5 text-gray-400" />
                     </div>
-                    <input
-                      type="datetime-local"
-                      name="endDateTime"
-                      id="endDateTime"
-                      value={eventData.endDateTime}
-                      onChange={handleInputChange}
-                      className={`block w-full pl-10 focus:outline-none sm:text-sm rounded-md ${errors.endDateTime ? 'border-red-300 text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'}`}
-                      aria-invalid={errors.endDateTime ? "true" : "false"}
-                      aria-describedby={errors.endDateTime ? "endDateTime-error" : undefined}
+                    <Controller
+                      name="time"
+                      control={control}
+                      rules={{ required: "Event time is required" }}
+                      render={({ field }) => (
+                        <input
+                          {...field}
+                          type="time"
+                          id="time"
+                          className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        />
+                      )}
                     />
                   </div>
-                  {errors.endDateTime && (
-                    <p className="mt-2 text-sm text-red-600" id="endDateTime-error">
-                      {errors.endDateTime}
-                    </p>
-                  )}
+                  {errors.time && <p className="text-red-500 text-xs mt-1">{errors.time.message}</p>}
                 </div>
               </div>
 
-              {/* Ticket Type */}
               <div>
-                <label htmlFor="ticketType" className="block text-sm font-medium text-gray-700">
-                  Ticket Type
-                </label>
-                <div className="mt-1">
-                  <select
-                    id="ticketType"
+                <label className="block text-sm font-medium text-gray-700">Ticket Type</label>
+                <div className="mt-2 space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
+                  <Controller
                     name="ticketType"
-                    value={eventData.ticketType}
-                    onChange={handleInputChange}
-                    className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none sm:text-sm rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                  >
-                    <option value="free">Free</option>
-                    <option value="paid">Paid</option>
-                  </select>
+                    control={control}
+                    render={({ field }) => (
+                      <>
+                        <div className="flex items-center">
+                          <input
+                            {...field}
+                            id="free"
+                            type="radio"
+                            value="free"
+                            checked={field.value === "free"}
+                            className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                          />
+                          <label htmlFor="free" className="ml-3 block text-sm font-medium text-gray-700">
+                            Free
+                          </label>
+                        </div>
+                        <div className="flex items-center">
+                          <input
+                            {...field}
+                            id="paid"
+                            type="radio"
+                            value="paid"
+                            checked={field.value === "paid"}
+                            className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                          />
+                          <label htmlFor="paid" className="ml-3 block text-sm font-medium text-gray-700">
+                            Paid
+                          </label>
+                        </div>
+                      </>
+                    )}
+                  />
                 </div>
               </div>
 
-              {/* Ticket Price (only if paid) */}
-              {eventData.ticketType === "paid" && (
+              {ticketType === "paid" && (
                 <div>
-                  <label htmlFor="ticketPrice" className="block text-sm font-medium text-gray-700">
-                    Ticket Price
+                  <label htmlFor="price" className="block text-sm font-medium text-gray-700">
+                    Ticket Price (₹)
                   </label>
                   <div className="mt-1 relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <BsCurrencyDollar className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                      <FiDollarSign className="h-5 w-5 text-gray-400" />
                     </div>
-                    <input
-                      type="number"
-                      name="ticketPrice"
-                      id="ticketPrice"
-                      value={eventData.ticketPrice}
-                      onChange={handleInputChange}
-                      className={`block w-full pl-10 focus:outline-none sm:text-sm rounded-md ${errors.ticketPrice ? 'border-red-300 text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'}`}
-                      placeholder="Enter ticket price"
-                      aria-invalid={errors.ticketPrice ? "true" : "false"}
-                      aria-describedby={errors.ticketPrice ? "ticketPrice-error" : undefined}
+                    <Controller
+                      name="price"
+                      control={control}
+                      rules={{ required: "Ticket price is required for paid events" }}
+                      render={({ field }) => (
+                        <input
+                          {...field}
+                          type="number"
+                          id="price"
+                          className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        />
+                      )}
                     />
                   </div>
-                  {errors.ticketPrice && (
-                    <p className="mt-2 text-sm text-red-600" id="ticketPrice-error">
-                      {errors.ticketPrice}
-                    </p>
-                  )}
+                  {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price.message}</p>}
                 </div>
               )}
 
-              {/* Approval Required */}
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  name="approvalRequired"
-                  id="approvalRequired"
-                  checked={eventData.approvalRequired}
-                  onChange={handleInputChange}
-                  className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                />
-                <label htmlFor="approvalRequired" className="ml-2 block text-sm font-medium text-gray-700">
-                  Approval required for attending
-                </label>
-              </div>
-
-              {/* Capacity */}
               <div>
-                <label htmlFor="capacity" className="block text-sm font-medium text-gray-700">
-                  Capacity
-                </label>
-                <div className="mt-1 relative rounded-md shadow-sm">
-                  <input
-                    type="number"
-                    name="capacity"
-                    id="capacity"
-                    value={eventData.capacity}
-                    onChange={handleInputChange}
-                    className={`block w-full pr-10 focus:outline-none sm:text-sm rounded-md ${errors.capacity ? 'border-red-300 text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'}`}
-                    placeholder="Enter event capacity"
-                    aria-invalid={errors.capacity ? "true" : "false"}
-                    aria-describedby={errors.capacity ? "capacity-error" : undefined}
+                <div className="flex items-center">
+                  <Controller
+                    name="tenantApproval"
+                    control={control}
+                    render={({ field }) => (
+                      <input
+                        {...field}
+                        id="tenantApproval"
+                        type="checkbox"
+                        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                      />
+                    )}
                   />
-                  {errors.capacity && (
-                    <p className="mt-2 text-sm text-red-600" id="capacity-error">
-                      {errors.capacity}
-                    </p>
-                  )}
+                  <label htmlFor="tenantApproval" className="ml-2 block text-sm text-gray-700">
+                    Tenant Approval Required
+                  </label>
                 </div>
               </div>
-            </div>
 
-            {/* Submit Button */}
-            <div className="mt-6">
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                {isSubmitting ? "Submitting..." : "Create Event"}
-              </button>
-            </div>
+              <div>
+                <label htmlFor="capacity" className="block text-sm font-medium text-gray-700">
+                  Event Capacity
+                </label>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <FiUsers className="h-5 w-5 text-gray-400" />
+                  </div>
+                  <Controller
+                    name="capacity"
+                    control={control}
+                    rules={{ required: "Event capacity is required" }}
+                    render={({ field }) => (
+                      <input
+                        {...field}
+                        type="number"
+                        id="capacity"
+                        className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      />
+                    )}
+                  />
+                </div>
+                {errors.capacity && <p className="text-red-500 text-xs mt-1">{errors.capacity.message}</p>}
+              </div>
+
+              <div>
+                <button
+                  type="submit"
+                  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                  ) : (
+                    "Create Event"
+                  )}
+                </button>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

@@ -15,24 +15,28 @@ const LoginRegisterForm = () => {
   const navigate = useNavigate()
   const handleLogin = async (data) => {
     console.log(data);
-      const user = await authService.login(data)
+     try{ const user = await authService.login(data)
       if (user){
         const userData =  await authService.getCurrentUser()
         if (userData){
           dispatch(login(userData))
           navigate("/")
         }
+      }}catch(error){
+        console.log(error.message)
       }
   };
 
   const handleRegister = async (data)=>{
       const user = await authService.createAccount(data)
-      if(user){
+      try{if(user){
         const userData =  await authService.getCurrentUser()
         if(userData){
           dispatch(login(userData))
           navigate("/")
         }
+      }}catch(error){
+        console.log(error.message)
       }
   }
 

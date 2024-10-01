@@ -104,6 +104,6 @@ export class DbService {
 }
 
 
-const dbService = DbService()
+const dbService = new  DbService()
 
 export default dbService 

@@ -2,15 +2,48 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { FiUser, FiLock, FiMail } from "react-icons/fi";
+import authService from "@/Appwrite/auth";
+import { useDispatch } from "react-redux";
+import { login } from "@/store/Features/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const LoginRegisterForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const onSubmit = (data) => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const handleLogin = async (data) => {
     console.log(data);
-    // Handle form submission
+      const user = await authService.login(data)
+      if (user){
+        const userData =  await authService.getCurrentUser()
+        if (userData){
+          dispatch(login(userData))
+          navigate("/")
+        }
+      }
   };
+
+  const handleRegister = async (data)=>{
+      const user = await authService.createAccount(data)
+      if(user){
+        const userData =  await authService.getCurrentUser()
+        if(userData){
+          dispatch(login(userData))
+          navigate("/")
+        }
+      }
+  }
+
+
+  const selectSubmitMethod =(data)=>{
+    if (isLogin) {
+      handleLogin(data)
+    }else{
+      handleRegister(data)
+    }
+  } 
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-500 to-indigo-600 p-4">
@@ -37,7 +70,7 @@ const LoginRegisterForm = () => {
           </motion.div>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={handleSubmit(selectSubmitMethod)} className="space-y-6">
           {!isLogin && (
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">

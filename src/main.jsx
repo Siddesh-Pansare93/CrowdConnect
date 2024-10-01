@@ -9,13 +9,18 @@ import store from './store/store.js'
 import Postcard from './components/Postcard.jsx'
 import SignUp from './components/SignUp.jsx'
 import Login from './components/Login.jsx'
+import EventPage from './pages/ShowEvent.jsx'
+import CreateEventPage from './pages/CreateEvent.jsx'
+import LoginRegisterForm from './pages/login.jsx'
+import Events from './pages/Event.jsx'
 
 const router=createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout/>}>
-      <Route path='/card' element={<Postcard/>}/>
-      <Route path='/signUp' element={<SignUp/>}/>
-      
+      <Route path='/showevent' element={<EventPage/>}/>
+      <Route path='/signUp' element={<LoginRegisterForm/>}/>
+      <Route path='/createevent' element={<CreateEventPage/>}/>
+      <Route path='/allevent' element={<Events/>}/>
     </Route>
   )
 )

@@ -11,7 +11,7 @@ export class StorageService {
             .setEndpoint(conf.appwriteUrl)
             .setProject(conf.appwriteProjectId)
 
-        this.storage = new Storage(Client)
+        this.storage = new Storage(this.client)
     }
 
     // uploding image or any file on the appwrite storage 

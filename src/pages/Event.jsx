@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { FaHeart, FaUser } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import storageService from "@/Appwrite/storageService";
 
 const EventCard = ({ event }) => {
     const [isLiked, setIsLiked] = useState(false);
@@ -26,8 +27,7 @@ const EventCard = ({ event }) => {
         <Link>
         <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
             <img
-                // src={event.featuredImage}
-                src="https://tinyurl.com/5e7wh44y"
+                src={storageService.getFilePreview(event.featuredImage)}
                 alt={event.title}
                 className="w-full h-48 object-cover"
             />
@@ -37,12 +37,12 @@ const EventCard = ({ event }) => {
                     <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-1">
                         <FaUser className="text-gray-500" />
                     </div>
-                    <div className="mr-1">
+                    <div className="mr-3">
                         <p className="font-semibold">{event.organiser}</p>
                        
                     </div>
                     <div>
-                    <p className="text-sm text-black">Date: {formattedDate}</p>
+                    <p className="text-sm text-black mr-3">Date: {formattedDate}</p>
                     <p className="text-sm text-black">Time: {formattedTime}</p>
                     </div>
                 </div>

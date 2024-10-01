@@ -18,15 +18,16 @@ const EventPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 p-4 md:p-8">
-      <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+      <div className="max-w-6xl mx-auto bg-gray-100 rounded-xl shadow-lg overflow-hidden">
         <div className="md:flex">
-          <div className="md:flex-shrink-0 md:w-1/2">
+        <div className="md:flex-shrink-0 md:w-1/2 p-4">
             <img
-              className="h-full w-full object-cover md:h-full md:w-full"
-              src={event.image}
-              alt="Tech Innovation Summit 2023"
+                className="w-full h-1/2 mt-8 object-cover rounded-lg"
+                src={event.image}
+                alt="Tech Innovation Summit 2023"
             />
-          </div>
+        </div>
+
           <div className="p-8 md:w-1/2">
             <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
               {event.host}
@@ -37,7 +38,7 @@ const EventPage = () => {
             <p className="mt-4 text-xl text-gray-500 flex items-center">
               <FaCalendarAlt className="mr-2" /> {event.date}
             </p>
-            <button className="mt-6 px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
+            <button className="mt-6 px-6 py-3 bg-black text-white font-semibold rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
               Register Now
             </button>
 

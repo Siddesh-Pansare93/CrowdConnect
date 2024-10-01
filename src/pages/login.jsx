@@ -13,7 +13,7 @@ const LoginRegisterForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-500 to-indigo-600 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-black p-4">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -26,7 +26,7 @@ const LoginRegisterForm = () => {
             onClick={() => setIsLogin(!isLogin)}
           >
             <motion.div
-              className="absolute w-24 h-10 bg-indigo-600 rounded-full"
+              className="absolute w-24 h-10 bg-gray-600 rounded-full"
               animate={{ x: isLogin ? 0 : 96 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             />
@@ -114,7 +114,7 @@ const LoginRegisterForm = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               {isLogin ? "Login" : "Register"}
             </motion.button>
@@ -125,7 +125,7 @@ const LoginRegisterForm = () => {
           {isLogin ? "Don't have an account? " : "Already have an account? "}
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150"
+            className="font-medium text-black hover:text-gray-500 focus:outline-none focus:underline transition ease-in-out duration-150"
           >
             {isLogin ? "Register" : "Login"}
           </button>

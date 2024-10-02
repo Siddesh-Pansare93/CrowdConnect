@@ -139,7 +139,7 @@ const EventCreationPage = () => {
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">
         <div className="md:flex">
           {/* Left side image upload */}
-          <div className="md:flex-shrink-0 md:w-1/2 bg-indigo-600 p-8 flex items-center justify-center">
+          <div className="md:flex-shrink-0 md:w-1/2 bg-gray-500 p-8 flex items-center justify-center">
             <div className="text-center">
               <h2 className="text-3xl font-extrabold text-white mb-4">Create Your Event</h2>
               <p className="text-indigo-200 mb-6">Upload an eye-catching image for your event</p>
@@ -156,7 +156,7 @@ const EventCreationPage = () => {
                     />
                     <label
                       htmlFor="image-upload"
-                      className="cursor-pointer bg-white text-indigo-600 font-semibold py-2 px-4 rounded-lg inline-flex items-center transition duration-300 ease-in-out hover:bg-indigo-100"
+                      className="cursor-pointer bg-white text-black font-semibold py-2 px-4 rounded-lg inline-flex items-center transition duration-300 ease-in-out hover:bg-indigo-100"
                     >
                       <FaUpload className="mr-2" />
                       Choose Image
@@ -186,7 +186,7 @@ const EventCreationPage = () => {
                   type="text"
                   id="eventTitle"
                   {...register("eventTitle", { required: "Event title is required" })}
-                  className={`mt-1 block w-full rounded-md shadow-sm ${errors.eventTitle ? "border-red-500" : "border-gray-300"} focus:border-indigo-500 focus:ring-indigo-500`}
+                  className={`mt-1 block w-full border border-gray-200  bg-gray-50 shadow-sm rounded-md ${errors.eventTitle ? "border-red-500" : "border-gray-200"}`}
                 />
                 {errors.eventTitle && (
                   <p className="mt-2 text-sm text-red-600">{errors.eventTitle.message}</p>
@@ -201,7 +201,7 @@ const EventCreationPage = () => {
                   id="description"
                   rows="3"
                   {...register("description", { required: "Description is required" })}
-                  className={`mt-1 block w-full rounded-md shadow-sm ${errors.description ? "border-red-500" : "border-gray-300"} focus:border-indigo-500 focus:ring-indigo-500`}
+                  className={`mt-1 block w-full border border-gray-200  bg-gray-50 rounded-md shadow-sm ${errors.description ? "border-red-500" : "border-gray-300"} `}
                 ></textarea>
                 {errors.description && (
                   <p className="mt-2 text-sm text-red-600">{errors.description.message}</p>
@@ -220,7 +220,7 @@ const EventCreationPage = () => {
                     type="text"
                     id="location"
                     {...register("location", { required: "Location is required" })}
-                    className={`pl-10 block w-full rounded-md ${errors.location ? "border-red-500" : "border-gray-300"} focus:border-indigo-500 focus:ring-indigo-500`}
+                    className={`pl-10 block w-full border border-gray-200  bg-gray-50 rounded-md ${errors.location ? "border-red-500" : "border-gray-300"}`}
                   />
                 </div>
                 {errors.location && (
@@ -241,7 +241,7 @@ const EventCreationPage = () => {
                       type="date"
                       id="date"
                       {...register("date", { required: "Date is required" })}
-                      className={`pl-10 block w-full rounded-md ${errors.date ? "border-red-500" : "border-gray-300"} focus:border-indigo-500 focus:ring-indigo-500`}
+                      className={`pl-10 block w-full border border-gray-200  bg-gray-50 rounded-md ${errors.date ? "border-red-500" : "border-gray-300"}`}
                     />
                   </div>
                   {errors.date && (
@@ -261,7 +261,7 @@ const EventCreationPage = () => {
                       type="time"
                       id="startTime"
                       {...register("startTime", { required: "Start time is required" })}
-                      className={`pl-10 block w-full rounded-md ${errors.startTime ? "border-red-500" : "border-gray-300"} focus:border-indigo-500 focus:ring-indigo-500`}
+                      className={`pl-10 block w-full border border-gray-200  bg-gray-50 rounded-md ${errors.startTime ? "border-red-500" : "border-gray-300"}`}
                     />
                   </div>
                   {errors.startTime && (
@@ -281,7 +281,7 @@ const EventCreationPage = () => {
                       type="time"
                       id="endTime"
                       {...register("endTime", { required: "End time is required" })}
-                      className={`pl-10 block w-full rounded-md ${errors.endTime ? "border-red-500" : "border-gray-300"} focus:border-indigo-500 focus:ring-indigo-500`}
+                      className={`pl-10 block w-full border border-gray-200  bg-gray-50 rounded-md ${errors.endTime ? "border-red-500" : "border-gray-300"} `}
                     />
                   </div>
                   {errors.endTime && (
@@ -298,10 +298,10 @@ const EventCreationPage = () => {
                   <select
                     id="ticketType"
                     {...register("ticketType")}
-                    className="mt-1 block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                    className="mt-1 block w-full border border-gray-200 bg-gray-50 rounded-md  "
                   >
-                    <option value="free">Free</option>
-                    <option value="paid">Paid</option>
+                    <option value="free">&nbsp;&nbsp;Free</option>
+                    <option value="paid">&nbsp;&nbsp;Paid</option>
                   </select>
                 </div>
 
@@ -318,7 +318,7 @@ const EventCreationPage = () => {
                         type="number"
                         id="ticketPrice"
                         {...register("ticketPrice", { required: "Ticket price is required" })}
-                        className={`pl-10 block w-full rounded-md ${errors.ticketPrice ? "border-red-500" : "border-gray-300"} focus:border-indigo-500 focus:ring-indigo-500`}
+                        className={`pl-10 block w-full border border-gray-200 bg-gray-50 rounded-md ${errors.ticketPrice ? "border-red-500" : "border-gray-300"} `}
                       />
                     </div>
                     {errors.ticketPrice && (
@@ -336,7 +336,7 @@ const EventCreationPage = () => {
                   type="number"
                   id="capacity"
                   {...register("capacity", { required: "Capacity is required" })}
-                  className={`mt-1 block w-full rounded-md shadow-sm ${errors.capacity ? "border-red-500" : "border-gray-700"} focus:border-indigo-500 focus:ring-indigo-500`}
+                  className={`mt-1 block w-full border border-gray-200 bg-gray-50 rounded-md shadow-sm ${errors.capacity ? "border-red-500" : "border-gray-200"}`}
                 />
                 {errors.capacity && (
                   <p className="mt-2 text-sm text-red-600">{errors.capacity.message}</p>
@@ -350,17 +350,17 @@ const EventCreationPage = () => {
                 <select
                   id="tenantApproval"
                   {...register("tenantApproval")}
-                  className="mt-1 block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                  className="mt-1 block w-full border border-gray-200 bg-gray-50 rounded-md "
                 >
-                  <option value="no">No</option>
-                  <option value="yes">Yes</option>
+                  <option value="no">&nbsp;&nbsp;No</option>
+                  <option value="yes">&nbsp;&nbsp;Yes</option>
                 </select>
               </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`mt-4 w-full bg-indigo-600 text-white font-semibold py-2 rounded-md transition duration-300 ease-in-out hover:bg-indigo-700 ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
+                className={`mt-4 w-full bg-black text-white font-semibold py-2 rounded-md transition duration-300 ease-in-out hover:bg-gray-700 ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
               >
                 {isSubmitting ? "Submitting..." : "Create Event"}
               </button>

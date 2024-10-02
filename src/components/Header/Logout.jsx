@@ -21,7 +21,7 @@ function Logout() {
     
   
     return (
-    <div>
+    <div className='mt-2 pl-4'>
         <button onClick={handleLogOut}>Logout</button>
     </div>
   )

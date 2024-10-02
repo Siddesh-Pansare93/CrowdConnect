@@ -63,7 +63,7 @@ function Header() {
           {authStatus && (
             <>
               <li onClick={toggleProfilePanel} className="cursor-pointer">
-                <CgProfile className="h-6 w-6" />
+                <CgProfile className="h-5 w-5 mt-3" />
               </li>
               <li>
                 <Logout />

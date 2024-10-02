@@ -14,6 +14,7 @@ import CreateEventPage from './pages/CreateEvent.jsx'
 import LoginRegisterForm from './pages/login.jsx'
 import Events from './pages/Event.jsx'
 import ShowEvent from './pages/ShowEvent.jsx'
+import Home from './pages/Home.jsx'
 
 const router=createBrowserRouter(
   createRoutesFromElements(

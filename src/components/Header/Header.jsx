@@ -18,8 +18,8 @@ function Header() {
     },
     {
       name: "Create Event",
-      link: "/create-event",
-      active: authStatus
+      link: "/createevent",
+      // active: authStatus
     },
     {
       name: "Your Events",

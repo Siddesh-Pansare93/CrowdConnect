@@ -2,14 +2,17 @@ import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { FiUpload, FiCalendar, FiClock, FiDollarSign, FiUsers } from "react-icons/fi";
 import { MdLocationOn } from "react-icons/md";
+import EventSlice, { setAllEvents } from "@/store/Features/eventSlice";
+import { useDispatch } from "react-redux";
+import dbService, { DbService } from "@/Appwrite/DbService";
 
 const CreateEventPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
-  const { control, handleSubmit, watch, formState: { errors }, setValue } = useForm({
+  const { control, handleSubmit, watch, formState: { errors }, setValue, register } = useForm({
     defaultValues: {
-      image: null,
-      name: "",
+      featuredImage: null,
+      title: "",
       description: "",
       location: "",
       date: "",
@@ -22,6 +25,8 @@ const CreateEventPage = () => {
   });
 
   const ticketType = watch("ticketType");
+  const dispatch = useDispatch()
+
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -36,7 +41,16 @@ const CreateEventPage = () => {
   };
 
   const onSubmit = async (data) => {
-    
+    console.log(data);
+    try {
+      const event = await dbService.createEvent(data)
+      if (event) {
+        dispatch(setAllEvents(event))
+        console.log(event)
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
   };
 
   return (
@@ -70,25 +84,29 @@ const CreateEventPage = () => {
           <div className="p-8 md:w-1/2">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="title" className="block text-sm font-medium text-gray-700">
                   Event Name
                 </label>
                 <Controller
-                  name="name"
+                  name="title"
                   control={control}
                   rules={{ required: "Event name is required" }}
                   render={({ field }) => (
                     <input
                       {...field}
                       type="text"
-                      id="name"
+                      id="title"
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                     />
                   )}
                 />
                 {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
               </div>
-
+              <input
+    type="datetime-local"
+    {...register("Start_date_time", { required: true })}
+    placeholder="Start Date and Time"
+  />
               <div>
                 <label htmlFor="description" className="block text-sm font-medium text-gray-700">
                   Description

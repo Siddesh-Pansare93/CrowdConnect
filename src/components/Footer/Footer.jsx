@@ -38,7 +38,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
             <h3 className="text-xl font-semibold mb-4">Company</h3>
-            <p className="mb-4">We are a forward-thinking company dedicated to innovation and excellence in technology solutions.</p>
+            <p className="mb-4">We are a forward-thinking company dedicated to Connect with Crowd and excellence in technology solutions.</p>
             <div className="flex space-x-4">
               <a href="#" aria-label="Facebook" className="text-gray-400 hover:text-white transition duration-300">
                 <FaFacebook size={24} />
@@ -57,9 +57,9 @@ const Footer = () => {
 
           <div>
             <h3 className="text-xl font-semibold mb-4">Information</h3>
-            <p className="mb-2">Email: info@example.com</p>
-            <p className="mb-2">Phone: +1 (555) 123-4567</p>
-            <p>123 Tech Street, Silicon Valley, CA 94000</p>
+            <p className="mb-2">Email: crowdconnect2024@gmail.com</p>
+            <p className="mb-2">Phone: +91 87792 00752</p>
+            <p>Kisan Nagar, Silicon Valley, Wagle Estate 400 604</p>
           </div>
 
           <div>
@@ -90,7 +90,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-gray-700 pt-8 text-sm text-gray-400">
-          <p>&copy; 2023 Your Company Name. All rights reserved.</p>
+          <p>&copy; 2024 CrowdConnect. All rights reserved.</p>
           <div className="mt-2 space-x-4">
             <a href="#" className="hover:text-white transition duration-300">Privacy Policy</a>
             <a href="#" className="hover:text-white transition duration-300">Terms of Service</a>

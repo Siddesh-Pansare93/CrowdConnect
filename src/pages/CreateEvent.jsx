@@ -4,6 +4,7 @@ import { FaUpload, FaCalendarAlt, FaClock, FaMapMarkerAlt, FaRupeeSign, FaUsers 
 import { motion } from "framer-motion";
 import dbService from "@/Appwrite/DbService";
 import eventSlice from "@/store/Features/eventSlice";
+import storageService from "@/Appwrite/storageService";
 
 const EventCreationPage = () => {
   const [imagePreview, setImagePreview] = useState(null);
@@ -21,6 +22,7 @@ const EventCreationPage = () => {
       ticketPrice: "",
       tenantApproval: "no",
       capacity: "",
+      coordinates :[]
     }
   });
 
@@ -28,10 +30,16 @@ const EventCreationPage = () => {
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
+    console.log(file)
+
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result); // Set image preview
+        setImagePreview(reader.result)
+          // if(reader.result){
+          //   storageService.uploadFile(reader.result)
+          // }
+          ; // Set image preview
         setValue("image", file); // Store the file in form state
       };
       reader.readAsDataURL(file);
@@ -40,16 +48,56 @@ const EventCreationPage = () => {
 
   // Simulated function to convert location to coordinates
   const convertLocationToCoordinates = async (location) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate delay
-    return { lat: 40.7128, lng: -74.0060 }; // Example coordinates
+    const apiKey = "5b3ce3597851110001cf6248ea161ad8474a473891318c69b7978604";
+    const response = await fetch(`https://api.openrouteservice.org/geocode/search?api_key=${apiKey}&text=${encodeURIComponent(location)}`);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch coordinates");
+    }
+
+    const data = await response.json();
+
+    if (data.features.length > 0) {
+      const { coordinates } = data.features[0].geometry;
+      const [lng, lat] = coordinates;
+      return { lat, lng };
+    } else {
+      throw new Error("Location not found");
+    }
   };
 
+
   const onSubmit = async (data) => {
+    setIsSubmitting(true); // Set submitting state to true
     try {
-      console.log(data)
-      const event = await dbService.createEvent(data)
+      const { image, location, ...eventData } = data; // Destructure image from data
+
+      // Convert location to coordinates
+      const coordinates = await convertLocationToCoordinates(location)
+      if (coordinates) {
+        eventData.coordinates = coordinates
+      }
+
+
+
+      // Upload the image to Appwrite and get the file ID or URL
+      if (image) {
+        const fileId = await storageService.uploadFile(image);
+        if (fileId) {
+          eventData.featuredImage = fileId; // Add the uploaded image data to the event
+        }
+      }
+
+      console.log(eventData)
+      if(eventData){
+      const event = await dbService.createEvent(eventData);
+      console.log("Event created successfully:", event);
+      }
+      
     } catch (error) {
-      console.log(error) 
+      console.error("Error creating event:", error);
+    } finally {
+      setIsSubmitting(false); 
     }
   };
 
@@ -167,7 +215,7 @@ const EventCreationPage = () => {
                     <p className="mt-2 text-sm text-red-600">{errors.date.message}</p>
                   )}
                 </div>
-                  <br />
+                <br />
                 <div>
                   <label htmlFor="startTime" className="block text-sm font-medium text-gray-700">
                     Start Time
@@ -255,7 +303,7 @@ const EventCreationPage = () => {
                   type="number"
                   id="capacity"
                   {...register("capacity", { required: "Capacity is required" })}
-                  className={`mt-1 block w-full rounded-md shadow-sm ${errors.capacity ? "border-red-500" : "border-gray-300"} focus:border-indigo-500 focus:ring-indigo-500`}
+                  className={`mt-1 block w-full rounded-md shadow-sm ${errors.capacity ? "border-red-500" : "border-gray-700"} focus:border-indigo-500 focus:ring-indigo-500`}
                 />
                 {errors.capacity && (
                   <p className="mt-2 text-sm text-red-600">{errors.capacity.message}</p>

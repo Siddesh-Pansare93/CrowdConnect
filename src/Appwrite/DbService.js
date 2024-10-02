@@ -16,13 +16,13 @@ export class DbService {
 
 
     // Creating Event 
-    async createEvent({ id = ID.unique() , title, description, date, time, location, featuredImage, ticketType, price, tenantApproval, capacity, Start_date_time  }) {
+    async createEvent({ id = ID.unique() , eventtitle, description, date, time, location, featuredImage, ticketType, price, tenantApproval, capacity  }) {
         try {
             return  await this.database.createDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 id, {
-                title,
+                eventtitle,
                 description,
                 date,
                 time,
@@ -31,8 +31,7 @@ export class DbService {
                 ticketType,
                 price,
                 tenantApproval,
-                capacity,
-                Start_date_time
+                capacity
             })
         } catch (error) {
             console.log(`Appwrite Error :: CreateEvent :: error :: ${error.message}`)

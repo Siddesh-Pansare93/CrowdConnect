@@ -107,20 +107,15 @@ const Map = ({ endCoords, onClose }) => {
   }, [userLocation, temporaryEndCoords]);
 
   return (
-    <div className="relative h-auto m-10">
+    <div className="relative h-auto m-1 p-1">
       {/* Close button */}
-      <button
-        onClick={onClose}
-        className="bg-red-500 text-white rounded-full p-2 shadow-md hover:bg-red-600 transition duration-200 absolute top-4 right-4 z-10"
-      >
-        &times;
-      </button>
+      
 
       {/* Map Container */}
       <MapContainer
         center={userLocation || endCoords || [19.076, 72.8777]}
         zoom={13}
-        style={{ height: "400px", width: "100%", marginTop: "80px" }}
+        style={{ height: "400px", width: "100%", marginTop: "10px" }}
         ref={mapRef}
       >
         <TileLayer
@@ -161,7 +156,7 @@ const Map = ({ endCoords, onClose }) => {
         </button>
       </form>
 
-      {error && <div className="text-red-500 text-center mt-2">{error}</div>}
+      {error && <div className="text-red-500 text-center mt-2"><p>Cannot Find Route for this Location</p></div>}
     </div>
   );
 };

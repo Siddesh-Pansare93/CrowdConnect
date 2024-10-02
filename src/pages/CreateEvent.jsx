@@ -1,23 +1,28 @@
 import React, { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
-import { FiUpload, FiCalendar, FiClock, FiDollarSign, FiUsers } from "react-icons/fi";
-import { MdLocationOn } from "react-icons/md";
+import { useForm } from "react-hook-form";
+import { FaUpload, FaCalendarAlt, FaClock, FaMapMarkerAlt, FaRupeeSign, FaUsers } from "react-icons/fa";
+import { motion } from "framer-motion";
+import dbService from "@/Appwrite/DbService";
+import eventSlice from "@/store/Features/eventSlice";
+import storageService from "@/Appwrite/storageService";
 
-const CreateEventPage = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [previewImage, setPreviewImage] = useState(null);
-  const { control, handleSubmit, watch, formState: { errors }, setValue } = useForm({
+const EventCreationPage = () => {
+  const [imagePreview, setImagePreview] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { register, handleSubmit, setValue, formState: { errors }, watch } = useForm({
     defaultValues: {
-      image: null,
-      name: "",
+      eventTitle: "",
       description: "",
       location: "",
       date: "",
-      time: "",
+      startTime: "",
+      endTime: "",
       ticketType: "free",
-      price: "",
-      tenantApproval: false,
+      ticketPrice: "",
+      tenantApproval: "no",
       capacity: "",
+      coordinates :[]
     }
   });
 
@@ -25,88 +30,149 @@ const CreateEventPage = () => {
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
+    console.log(file)
+
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreviewImage(reader.result);
-        setValue("image", file);
+        setImagePreview(reader.result)
+          // if(reader.result){
+          //   storageService.uploadFile(reader.result)
+          // }
+          ; // Set image preview
+        setValue("image", file); // Store the file in form state
       };
       reader.readAsDataURL(file);
     }
   };
 
+  // Simulated function to convert location to coordinates
+  const convertLocationToCoordinates = async (location) => {
+    const apiKey = "5b3ce3597851110001cf6248ea161ad8474a473891318c69b7978604";
+    const response = await fetch(`https://api.openrouteservice.org/geocode/search?api_key=${apiKey}&text=${encodeURIComponent(location)}`);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch coordinates");
+    }
+
+    const data = await response.json();
+
+    if (data.features.length > 0) {
+      const { coordinates } = data.features[0].geometry;
+      const [lng, lat] = coordinates;
+      return { lat, lng };
+    } else {
+      throw new Error("Location not found");
+    }
+  };
+
+
   const onSubmit = async (data) => {
-    
+    setIsSubmitting(true); // Set submitting state to true
+    try {
+      const { image, location, ...eventData } = data; // Destructure image from data
+
+      // Convert location to coordinates
+      const coordinates = await convertLocationToCoordinates(location)
+      if (coordinates) {
+        eventData.coordinates = coordinates
+      }
+
+
+
+      // Upload the image to Appwrite and get the file ID or URL
+      if (image) {
+        const fileId = await storageService.uploadFile(image);
+        if (fileId) {
+          eventData.featuredImage = fileId; // Add the uploaded image data to the event
+        }
+      }
+
+      console.log(eventData)
+      if(eventData){
+      const event = await dbService.createEvent(eventData);
+      console.log("Event created successfully:", event);
+      }
+      
+    } catch (error) {
+      console.error("Error creating event:", error);
+    } finally {
+      setIsSubmitting(false); 
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-purple-100 to-indigo-200 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">
         <div className="md:flex">
-          <div className="md:flex-shrink-0 md:w-1/2">
-            <div className="h-64 md:h-full relative bg-gray-100 flex items-center justify-center">
-              {previewImage ? (
-                <img
-                  src={previewImage}
-                  alt="Event preview"
-                  className="h-1/2 w-full object-cover mt-0 mx-4 rounded-lg"
-                />
-              ) : (
-                <div className="text-center p-6">
-                  <FiUpload className="mx-auto h-12 w-12 text-gray-400" />
-                  <p className="mt-2 text-sm text-gray-500">Upload event image</p>
-                </div>
-              )}
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                aria-label="Upload event image"
-              />
+          {/* Left side image upload */}
+          <div className="md:flex-shrink-0 md:w-1/2 bg-indigo-600 p-8 flex items-center justify-center">
+            <div className="text-center">
+              <h2 className="text-3xl font-extrabold text-white mb-4">Create Your Event</h2>
+              <p className="text-indigo-200 mb-6">Upload an eye-catching image for your event</p>
+              <div className="relative">
+                {!imagePreview ? ( // Only show input if no image is selected
+                  <>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                      id="image-upload"
+                      aria-label="Upload event image"
+                    />
+                    <label
+                      htmlFor="image-upload"
+                      className="cursor-pointer bg-white text-indigo-600 font-semibold py-2 px-4 rounded-lg inline-flex items-center transition duration-300 ease-in-out hover:bg-indigo-100"
+                    >
+                      <FaUpload className="mr-2" />
+                      Choose Image
+                    </label>
+                  </>
+                ) : (
+                  <div className="mt-6">
+                    <img
+                      src={imagePreview}
+                      alt="Event preview"
+                      className="max-w-full h-auto rounded-lg shadow-md"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
-            {errors.image && <p className="text-red-500 text-xs mt-1">{errors.image.message}</p>}
           </div>
+
+          {/* Right side form */}
           <div className="p-8 md:w-1/2">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                  Event Name
+                <label htmlFor="eventTitle" className="block text-sm font-medium text-gray-700">
+                  Event Title
                 </label>
-                <Controller
-                  name="name"
-                  control={control}
-                  rules={{ required: "Event name is required" }}
-                  render={({ field }) => (
-                    <input
-                      {...field}
-                      type="text"
-                      id="name"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                    />
-                  )}
+                <input
+                  type="text"
+                  id="eventTitle"
+                  {...register("eventTitle", { required: "Event title is required" })}
+                  className={`mt-1 block w-full rounded-md shadow-sm ${errors.eventTitle ? "border-red-500" : "border-gray-300"} focus:border-indigo-500 focus:ring-indigo-500`}
                 />
-                {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
+                {errors.eventTitle && (
+                  <p className="mt-2 text-sm text-red-600">{errors.eventTitle.message}</p>
+                )}
               </div>
 
               <div>
                 <label htmlFor="description" className="block text-sm font-medium text-gray-700">
                   Description
                 </label>
-                <Controller
-                  name="description"
-                  control={control}
-                  rules={{ required: "Event description is required" }}
-                  render={({ field }) => (
-                    <textarea
-                      {...field}
-                      id="description"
-                      rows="3"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                    ></textarea>
-                  )}
-                />
-                {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description.message}</p>}
+                <textarea
+                  id="description"
+                  rows="3"
+                  {...register("description", { required: "Description is required" })}
+                  className={`mt-1 block w-full rounded-md shadow-sm ${errors.description ? "border-red-500" : "border-gray-300"} focus:border-indigo-500 focus:ring-indigo-500`}
+                ></textarea>
+                {errors.description && (
+                  <p className="mt-2 text-sm text-red-600">{errors.description.message}</p>
+                )}
               </div>
 
               <div>
@@ -115,205 +181,156 @@ const CreateEventPage = () => {
                 </label>
                 <div className="mt-1 relative rounded-md shadow-sm">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <MdLocationOn className="h-5 w-5 text-gray-400" />
+                    <FaMapMarkerAlt className="text-gray-400" />
                   </div>
-                  <Controller
-                    name="location"
-                    control={control}
-                    rules={{ required: "Event location is required" }}
-                    render={({ field }) => (
-                      <input
-                        {...field}
-                        type="text"
-                        id="location"
-                        className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                      />
-                    )}
+                  <input
+                    type="text"
+                    id="location"
+                    {...register("location", { required: "Location is required" })}
+                    className={`pl-10 block w-full rounded-md ${errors.location ? "border-red-500" : "border-gray-300"} focus:border-indigo-500 focus:ring-indigo-500`}
                   />
                 </div>
-                {errors.location && <p className="text-red-500 text-xs mt-1">{errors.location.message}</p>}
+                {errors.location && (
+                  <p className="mt-2 text-sm text-red-600">{errors.location.message}</p>
+                )}
               </div>
 
-              <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <label htmlFor="date" className="block text-sm font-medium text-gray-700">
                     Date
                   </label>
                   <div className="mt-1 relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiCalendar className="h-5 w-5 text-gray-400" />
+                      <FaCalendarAlt className="text-gray-400" />
                     </div>
-                    <Controller
-                      name="date"
-                      control={control}
-                      rules={{ required: "Event date is required" }}
-                      render={({ field }) => (
-                        <input
-                          {...field}
-                          type="date"
-                          id="date"
-                          className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                        />
-                      )}
+                    <input
+                      type="date"
+                      id="date"
+                      {...register("date", { required: "Date is required" })}
+                      className={`pl-10 block w-full rounded-md ${errors.date ? "border-red-500" : "border-gray-300"} focus:border-indigo-500 focus:ring-indigo-500`}
                     />
                   </div>
-                  {errors.date && <p className="text-red-500 text-xs mt-1">{errors.date.message}</p>}
+                  {errors.date && (
+                    <p className="mt-2 text-sm text-red-600">{errors.date.message}</p>
+                  )}
                 </div>
-
+                <br />
                 <div>
-                  <label htmlFor="time" className="block text-sm font-medium text-gray-700">
-                    Time
+                  <label htmlFor="startTime" className="block text-sm font-medium text-gray-700">
+                    Start Time
                   </label>
                   <div className="mt-1 relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiClock className="h-5 w-5 text-gray-400" />
+                      <FaClock className="text-gray-400" />
                     </div>
-                    <Controller
-                      name="time"
-                      control={control}
-                      rules={{ required: "Event time is required" }}
-                      render={({ field }) => (
-                        <input
-                          {...field}
-                          type="time"
-                          id="time"
-                          className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                        />
-                      )}
+                    <input
+                      type="time"
+                      id="startTime"
+                      {...register("startTime", { required: "Start time is required" })}
+                      className={`pl-10 block w-full rounded-md ${errors.startTime ? "border-red-500" : "border-gray-300"} focus:border-indigo-500 focus:ring-indigo-500`}
                     />
                   </div>
-                  {errors.time && <p className="text-red-500 text-xs mt-1">{errors.time.message}</p>}
+                  {errors.startTime && (
+                    <p className="mt-2 text-sm text-red-600">{errors.startTime.message}</p>
+                  )}
                 </div>
-              </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Ticket Type</label>
-                <div className="mt-2 space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
-                  <Controller
-                    name="ticketType"
-                    control={control}
-                    render={({ field }) => (
-                      <>
-                        <div className="flex items-center">
-                          <input
-                            {...field}
-                            id="free"
-                            type="radio"
-                            value="free"
-                            checked={field.value === "free"}
-                            className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-                          />
-                          <label htmlFor="free" className="ml-3 block text-sm font-medium text-gray-700">
-                            Free
-                          </label>
-                        </div>
-                        <div className="flex items-center">
-                          <input
-                            {...field}
-                            id="paid"
-                            type="radio"
-                            value="paid"
-                            checked={field.value === "paid"}
-                            className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-                          />
-                          <label htmlFor="paid" className="ml-3 block text-sm font-medium text-gray-700">
-                            Paid
-                          </label>
-                        </div>
-                      </>
-                    )}
-                  />
-                </div>
-              </div>
-
-              {ticketType === "paid" && (
                 <div>
-                  <label htmlFor="price" className="block text-sm font-medium text-gray-700">
-                    Ticket Price (₹)
+                  <label htmlFor="endTime" className="block text-sm font-medium text-gray-700">
+                    End Time
                   </label>
                   <div className="mt-1 relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiDollarSign className="h-5 w-5 text-gray-400" />
+                      <FaClock className="text-gray-400" />
                     </div>
-                    <Controller
-                      name="price"
-                      control={control}
-                      rules={{ required: "Ticket price is required for paid events" }}
-                      render={({ field }) => (
-                        <input
-                          {...field}
-                          type="number"
-                          id="price"
-                          className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                        />
-                      )}
+                    <input
+                      type="time"
+                      id="endTime"
+                      {...register("endTime", { required: "End time is required" })}
+                      className={`pl-10 block w-full rounded-md ${errors.endTime ? "border-red-500" : "border-gray-300"} focus:border-indigo-500 focus:ring-indigo-500`}
                     />
                   </div>
-                  {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price.message}</p>}
+                  {errors.endTime && (
+                    <p className="mt-2 text-sm text-red-600">{errors.endTime.message}</p>
+                  )}
                 </div>
-              )}
+              </div>
 
-              <div>
-                <div className="flex items-center">
-                  <Controller
-                    name="tenantApproval"
-                    control={control}
-                    render={({ field }) => (
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="ticketType" className="block text-sm font-medium text-gray-700">
+                    Ticket Type
+                  </label>
+                  <select
+                    id="ticketType"
+                    {...register("ticketType")}
+                    className="mt-1 block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                  >
+                    <option value="free">Free</option>
+                    <option value="paid">Paid</option>
+                  </select>
+                </div>
+
+                {ticketType === "paid" && (
+                  <div>
+                    <label htmlFor="ticketPrice" className="block text-sm font-medium text-gray-700">
+                      Ticket Price
+                    </label>
+                    <div className="mt-1 relative rounded-md shadow-sm">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <FaRupeeSign className="text-gray-400" />
+                      </div>
                       <input
-                        {...field}
-                        id="tenantApproval"
-                        type="checkbox"
-                        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                        type="number"
+                        id="ticketPrice"
+                        {...register("ticketPrice", { required: "Ticket price is required" })}
+                        className={`pl-10 block w-full rounded-md ${errors.ticketPrice ? "border-red-500" : "border-gray-300"} focus:border-indigo-500 focus:ring-indigo-500`}
                       />
+                    </div>
+                    {errors.ticketPrice && (
+                      <p className="mt-2 text-sm text-red-600">{errors.ticketPrice.message}</p>
                     )}
-                  />
-                  <label htmlFor="tenantApproval" className="ml-2 block text-sm text-gray-700">
-                    Tenant Approval Required
-                  </label>
-                </div>
+                  </div>
+                )}
               </div>
 
               <div>
                 <label htmlFor="capacity" className="block text-sm font-medium text-gray-700">
-                  Event Capacity
+                  Capacity
                 </label>
-                <div className="mt-1 relative rounded-md shadow-sm">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FiUsers className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <Controller
-                    name="capacity"
-                    control={control}
-                    rules={{ required: "Event capacity is required" }}
-                    render={({ field }) => (
-                      <input
-                        {...field}
-                        type="number"
-                        id="capacity"
-                        className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                      />
-                    )}
-                  />
-                </div>
-                {errors.capacity && <p className="text-red-500 text-xs mt-1">{errors.capacity.message}</p>}
+                <input
+                  type="number"
+                  id="capacity"
+                  {...register("capacity", { required: "Capacity is required" })}
+                  className={`mt-1 block w-full rounded-md shadow-sm ${errors.capacity ? "border-red-500" : "border-gray-700"} focus:border-indigo-500 focus:ring-indigo-500`}
+                />
+                {errors.capacity && (
+                  <p className="mt-2 text-sm text-red-600">{errors.capacity.message}</p>
+                )}
               </div>
 
               <div>
-                <button
-                  type="submit"
-                  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                  disabled={isLoading}
+                <label htmlFor="tenantApproval" className="block text-sm font-medium text-gray-700">
+                  Tenant Approval Required?
+                </label>
+                <select
+                  id="tenantApproval"
+                  {...register("tenantApproval")}
+                  className="mt-1 block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                 >
-                  {isLoading ? (
-                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                  ) : (
-                    "Create Event"
-                  )}
-                </button>
+                  <option value="no">No</option>
+                  <option value="yes">Yes</option>
+                </select>
               </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className={`mt-4 w-full bg-indigo-600 text-white font-semibold py-2 rounded-md transition duration-300 ease-in-out hover:bg-indigo-700 ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
+              >
+                {isSubmitting ? "Submitting..." : "Create Event"}
+              </button>
             </form>
           </div>
         </div>
@@ -322,4 +339,4 @@ const CreateEventPage = () => {
   );
 };
 
-export default CreateEventPage;
+export default EventCreationPage;

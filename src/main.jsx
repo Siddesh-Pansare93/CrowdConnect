@@ -13,17 +13,16 @@ import EventPage from './pages/ShowEvent.jsx'
 import CreateEventPage from './pages/CreateEvent.jsx'
 import LoginRegisterForm from './pages/login.jsx'
 import Events from './pages/Event.jsx'
-// import { Home } from 'lucide-react'
-import Home from './pages/Home.jsx'
+import ShowEvent from './pages/ShowEvent.jsx'
 
 const router=createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout/>}>
-      <Route path = '/Home' element = {<Home/>} />
-      <Route path='/showevent' element={<EventPage/>}/>
+      {/* <Route path='/showevent' element={<EventPage/>}/> */}
       <Route path='/signUp' element={<LoginRegisterForm/>}/>
       <Route path='/createevent' element={<CreateEventPage/>}/>
       <Route path='/allevent' element={<Events/>}/>
+      <Route path='/showEvent' element={<ShowEvent/>}/>
     </Route>
   )
 )

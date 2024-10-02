@@ -13,6 +13,7 @@ import EventPage from './pages/ShowEvent.jsx'
 import CreateEventPage from './pages/CreateEvent.jsx'
 import LoginRegisterForm from './pages/login.jsx'
 import Events from './pages/Event.jsx'
+import ShowEvent from './pages/ShowEvent.jsx'
 
 const router=createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +22,7 @@ const router=createBrowserRouter(
       <Route path='/signUp' element={<LoginRegisterForm/>}/>
       <Route path='/createevent' element={<CreateEventPage/>}/>
       <Route path='/allevent' element={<Events/>}/>
+      <Route path='/showEvent' element={<ShowEvent/>}/>
     </Route>
   )
 )

@@ -69,7 +69,7 @@ const CreateEventPage = () => {
           </div>
           <div className="p-8 md:w-1/2">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              <div>
+              <div >
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                   Event Name
                 </label>
@@ -82,7 +82,7 @@ const CreateEventPage = () => {
                       {...field}
                       type="text"
                       id="name"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      className="mt-1 block w-full rounded-md border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                     />
                   )}
                 />
@@ -152,7 +152,7 @@ const CreateEventPage = () => {
                           {...field}
                           type="date"
                           id="date"
-                          className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                          className="pl-10 block w-full rounded-md border-red-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                         />
                       )}
                     />
@@ -188,7 +188,7 @@ const CreateEventPage = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700">Ticket Type</label>
-                <div className="mt-2 space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
+                <div className="mt-2 space-y-4 sm:flex sm:items-center  sm:space-y-0 sm:space-x-10">
                   <Controller
                     name="ticketType"
                     control={control}

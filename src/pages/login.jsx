@@ -10,33 +10,37 @@ import { useNavigate } from "react-router-dom";
 const LoginRegisterForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const [error , setError] = useState('')
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const handleLogin = async (data) => {
-    console.log(data);
+    setError('')
      try{ const user = await authService.login(data)
       if (user){
         const userData =  await authService.getCurrentUser()
+        console.log(userData)
         if (userData){
           dispatch(login(userData))
           navigate("/")
         }
       }}catch(error){
-        console.log(error.message)
+        setError(error.message)
       }
   };
 
   const handleRegister = async (data)=>{
+    setError('')
       const user = await authService.createAccount(data)
       try{if(user){
         const userData =  await authService.getCurrentUser()
+        console.log(userData)
         if(userData){
           dispatch(login(userData))
           navigate("/")
         }
       }}catch(error){
-        console.log(error.message)
+        setError(error.message)
       }
   }
 
@@ -74,6 +78,7 @@ const LoginRegisterForm = () => {
           </motion.div>
         </div>
 
+        {error && <p className="text-red-600 ">{error}</p>}
         <form onSubmit={handleSubmit(selectSubmitMethod)} className="space-y-6">
           {!isLogin && (
             <div>

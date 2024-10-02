@@ -14,11 +14,14 @@ import CreateEventPage from './pages/CreateEvent.jsx'
 import LoginRegisterForm from './pages/login.jsx'
 import Events from './pages/Event.jsx'
 import ShowEvent from './pages/ShowEvent.jsx'
+import Logout from './components/Header/Logout.jsx'
 
 const router=createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout/>}>
       {/* <Route path='/showevent' element={<EventPage/>}/> */}
+
+      <Route path='/logout' element={<Logout/>}/>
       <Route path='/signUp' element={<LoginRegisterForm/>}/>
       <Route path='/createevent' element={<CreateEventPage/>}/>
       <Route path='/allevent' element={<Events/>}/>

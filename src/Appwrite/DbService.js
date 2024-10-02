@@ -16,22 +16,28 @@ export class DbService {
 
 
     // Creating Event 
-    async createEvent({ id = ID.unique() , eventtitle, description, date, time, location, featuredImage, ticketType, price, tenantApproval, capacity  }) {
+    async createEvent({ id = ID.unique(), capacity, latitude, longitude, date, description, endTime, eventTitle, featuredImage, location, organiser, startTime, tenantApproval, ticketPrice, ticketType }) {
         try {
-            return  await this.database.createDocument(
+            return await this.database.createDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 id, {
-                eventtitle,
+                eventTitle,
                 description,
-                date,
-                time,
                 location,
                 featuredImage,
                 ticketType,
-                price,
+                date,
+                ticketPrice,
                 tenantApproval,
-                capacity
+                capacity,
+                startTime,
+                endTime,
+                latitude,
+                longitude,
+                organiser
+
+
             })
         } catch (error) {
             console.log(`Appwrite Error :: CreateEvent :: error :: ${error.message}`)
@@ -66,7 +72,7 @@ export class DbService {
 
     async deleteEvent(id) {
         try {
-            return  await this.database.deleteDocument(
+            return await this.database.deleteDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 id
@@ -107,6 +113,6 @@ export class DbService {
 }
 
 
-const dbService = new  DbService()
+const dbService = new DbService()
 
 export default dbService 

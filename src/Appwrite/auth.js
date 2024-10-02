@@ -52,6 +52,18 @@ export class AuthService {
             
         }
      }
+
+     //To get user by its id 
+
+     async getUserById(userId){
+            try {
+                const user = await this.account.get(userId)
+                return user 
+            } catch (error) {
+            console.log(`Appwrite Error :: Get user By Id :: error :: ${error.message}`)
+                
+            }
+     }
 }
 
 const  authService  = new AuthService()

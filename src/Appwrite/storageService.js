@@ -52,7 +52,7 @@ export class StorageService {
     }
 
     // getting file preview so that it can be shown to users
-    async getFilePreview (fileId){
+     getFilePreview (fileId){
         try {
             return  this.storage.getFilePreview(
                 conf.appwriteBucketId ,

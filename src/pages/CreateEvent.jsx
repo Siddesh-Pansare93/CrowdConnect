@@ -5,10 +5,15 @@ import { motion } from "framer-motion";
 import dbService from "@/Appwrite/DbService";
 import eventSlice from "@/store/Features/eventSlice";
 import storageService from "@/Appwrite/storageService";
+import { useSelector } from "react-redux";
 
 const EventCreationPage = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+
+  const userData = useSelector(state => state.auth.userData)
+  console.log(userData)
 
   const { register, handleSubmit, setValue, formState: { errors }, watch } = useForm({
     defaultValues: {
@@ -22,7 +27,7 @@ const EventCreationPage = () => {
       ticketPrice: "",
       tenantApproval: "no",
       capacity: "",
-      coordinates :[]
+      coordinates: []
     }
   });
 
@@ -68,38 +73,66 @@ const EventCreationPage = () => {
 
 
   const onSubmit = async (data) => {
-    setIsSubmitting(true); // Set submitting state to true
+    setIsSubmitting(true); 
     try {
-      const { image, location, ...eventData } = data; // Destructure image from data
+      const { image, location, ticketPrice, tenantApproval, capacity ,  ...eventData } = data; // Destructure image and location from the form data
+
+
 
       // Convert location to coordinates
-      const coordinates = await convertLocationToCoordinates(location)
-      if (coordinates) {
-        eventData.coordinates = coordinates
-      }
+      const coordinates = await convertLocationToCoordinates(location);
+      eventData.latitude = coordinates.lat; // Directly set coordinates
+      eventData.longitude = coordinates.lng; // Directly set coordinates
+      eventData.location = location
 
 
 
       // Upload the image to Appwrite and get the file ID or URL
       if (image) {
-        const fileId = await storageService.uploadFile(image);
-        if (fileId) {
-          eventData.featuredImage = fileId; // Add the uploaded image data to the event
+        const file = await storageService.uploadFile(image);
+        if (file) {
+          eventData.featuredImage = file.$id; 
         }
       }
 
-      console.log(eventData)
-      if(eventData){
-      const event = await dbService.createEvent(eventData);
-      console.log("Event created successfully:", event);
+
+
+      // Converting tanentApproval to boolean values 
+      eventData.tenantApproval = tenantApproval === 'yes' ? true : false
+
+
+
+      // Convert ticketPrice and capacity to a number if it's present
+      if (ticketPrice) {
+        eventData.ticketPrice = Number(ticketPrice);
       }
-      
+      eventData.capacity = Number(capacity)
+
+
+
+      // Add organiser ID from user data
+      eventData.organiser = userData.$id;
+
+
+      console.log(eventData); 
+
+
+
+      // Submiting the event data to the backend
+      const event = await dbService.createEvent(eventData);
+      if (event) {
+        console.log("Event created successfully:", event);
+      } else {
+        console.log("Failed to create the event");
+      }
+
     } catch (error) {
       console.error("Error creating event:", error);
     } finally {
       setIsSubmitting(false); 
     }
   };
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 to-indigo-200 py-12 px-4 sm:px-6 lg:px-8">

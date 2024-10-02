@@ -1,6 +1,6 @@
 // src/components/Map.jsx
 import React, { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from "react-leaflet";
 import axios from "axios";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet"; // Import Leaflet for marker customization
@@ -47,16 +47,30 @@ const Map = ({ startCoords, endCoords, onClose }) => {
         }
     }, [startCoords, endCoords]);
 
+    // Custom hook to fit bounds
+    const FitBounds = ({ startCoords, endCoords, routeCoordinates }) => {
+        const map = useMap();
+
+        useEffect(() => {
+            if (startCoords && endCoords) {
+                const bounds = L.latLngBounds([startCoords, endCoords]);
+                map.fitBounds(bounds); // Adjust map view to fit both markers
+            }
+        }, [map, startCoords, endCoords, routeCoordinates]);
+
+        return null;
+    };
+
     // Custom marker icons
     const startIcon = new L.Icon({
-        iconUrl: 'https://img.icons8.com/ios-filled/50/000000/marker.png', // Start marker URL
+        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png', // Start marker URL
         iconSize: [25, 41],
         iconAnchor: [12, 41],
         popupAnchor: [1, -34],
     });
 
     const endIcon = new L.Icon({
-        iconUrl: 'https://img.icons8.com/ios-filled/50/000000/marker.png', // End marker URL
+        iconUrl: 'https://img.icons8.com/ios-filled/50/ff0000/marker.png', // End marker URL (Red)
         iconSize: [25, 41],
         iconAnchor: [12, 41],
         popupAnchor: [1, -34],
@@ -85,6 +99,7 @@ const Map = ({ startCoords, endCoords, onClose }) => {
                 {routeCoordinates.length > 0 && (
                     <Polyline positions={routeCoordinates} color="blue" />
                 )}
+                <FitBounds startCoords={startCoords} endCoords={endCoords} routeCoordinates={routeCoordinates} />
             </MapContainer>
         </div>
     );

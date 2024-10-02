@@ -139,10 +139,10 @@ const EventCreationPage = () => {
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">
         <div className="md:flex">
           {/* Left side image upload */}
-          <div className="md:flex-shrink-0 md:w-1/2 bg-gray-500 p-8 flex items-center justify-center">
+          <div className="md:flex-shrink-0 md:w-1/2 bg-gray-400 p-8 flex items-center justify-center">
             <div className="text-center">
               <h2 className="text-3xl font-extrabold text-white mb-4">Create Your Event</h2>
-              <p className="text-indigo-200 mb-6">Upload an eye-catching image for your event</p>
+              <p className="text-black mb-6">Upload an eye-catching image for your event</p>
               <div className="relative">
                 {!imagePreview ? ( // Only show input if no image is selected
                   <>

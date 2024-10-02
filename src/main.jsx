@@ -15,6 +15,7 @@ import LoginRegisterForm from './pages/login.jsx'
 import Events from './pages/Event.jsx'
 import ShowEvent from './pages/ShowEvent.jsx'
 import Home from './pages/Home.jsx'
+import Payment from './components/Payment.jsx'
 
 const router=createBrowserRouter(
   createRoutesFromElements(
@@ -25,6 +26,7 @@ const router=createBrowserRouter(
       <Route path='/createevent' element={<CreateEventPage/>}/>
       <Route path='/allevent' element={<Events/>}/>
       <Route path='/showEvent' element={<ShowEvent/>}/>
+      <Route path="/payment" element={<Payment/>} />
     </Route>
   )
 )

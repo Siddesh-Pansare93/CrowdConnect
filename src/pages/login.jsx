@@ -6,52 +6,67 @@ import authService from "@/Appwrite/auth";
 import { useDispatch } from "react-redux";
 import { login } from "@/store/Features/authSlice";
 import { useNavigate } from "react-router-dom";
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+
 
 const LoginRegisterForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [error , setError] = useState('')
+  const [error, setError] = useState('')
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const handleLogin = async (data) => {
     setError('')
-     try{ const user = await authService.login(data)
-      if (user){
-        const userData =  await authService.getCurrentUser()
+    try {
+      const user = await authService.login(data)
+      if (user) {
+        const userData = await authService.getCurrentUser()
         console.log(userData)
-        if (userData){
+        if (userData) {
           dispatch(login(userData))
           navigate("/")
         }
-      }}catch(error){
-        setError(error.message)
       }
+    } catch (error) {
+      setError(error.message)
+    }
   };
 
-  const handleRegister = async (data)=>{
+  const handleRegister = async (data) => {
     setError('')
-      const user = await authService.createAccount(data)
-      try{if(user){
-        const userData =  await authService.getCurrentUser()
+    const user = await authService.createAccount(data)
+    try {
+      if (user) {
+        const userData = await authService.getCurrentUser()
         console.log(userData)
-        if(userData){
+        if (userData) {
           dispatch(login(userData))
           navigate("/")
         }
-      }}catch(error){
-        setError(error.message)
       }
+    } catch (error) {
+      setError(error.message)
+    }
   }
-
-
-  const selectSubmitMethod =(data)=>{
+  
+  const selectSubmitMethod = (data) => {
     if (isLogin) {
       handleLogin(data)
-    }else{
+    } else {
       handleRegister(data)
     }
-  } 
+  }
+
+  
+<GoogleLogin
+  onSuccess={credentialResponse => {
+    console.log(credentialResponse);
+  }}
+  onError={() => {
+    console.log('Login Failed');
+  }}
+/>;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black p-4">

@@ -15,7 +15,7 @@ const SignUp = () => {
     const handleSignUp = async (data) => {
         try {
             console.log("handleSignUp..................");
-            
+
             const user = await authService.createAccount(data)
             console.log(user)
 
@@ -37,40 +37,50 @@ const SignUp = () => {
         }
     }
 
+    <GoogleLogin
+        onSuccess={credentialResponse => {
+            console.log(credentialResponse);
+        }}
+        onError={() => {
+            console.log('Login Failed');
+        }}
+    />;
+
     return (
         <>
             <h1>Sign Up</h1>
             <p>This is my SignUp page</p>
             {error && <p className="text-red-600">{error}</p>} {/* Display error if exists */}
             <form onSubmit={handleSubmit(handleSignUp)}>
-                    <div className='space-y-5'>
-                        <Input
+                <div className='space-y-5'>
+                    <Input
                         label="Full Name: "
                         placeholder="Enter your full name"
                         {...register("name", {
                             required: true,
                         })}
-                        />
-                        <Input
+                    />
+                    <Input
                         label="Email: "
                         placeholder="Enter your email"
                         type="email"
                         {...register("email", {
                             required: true,
                         })}
-                        />
-                        <Input
+                    />
+                    <Input
                         label="Password: "
                         type="password"
                         placeholder="Enter your password"
                         {...register("password", {
-                            required: true,})}
-                        />
-                        <button type="submit">
-                            SignUp
-                        </button>
-                    </div>
-                </form>
+                            required: true,
+                        })}
+                    />
+                    <button type="submit">
+                        SignUp
+                    </button>
+                </div>
+            </form>
         </>
     )
 }

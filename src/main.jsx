@@ -27,6 +27,7 @@ const router = createBrowserRouter(
       <Route path='/showEvent' element={<ShowEvent />} />
       <Route path="/payment" element={<Payment />} />
       <Route path="/logout" element={<Logout />} />
+      <Route path="/event/:id" element={<ShowEvent/>} />
 
     </Route>
   )

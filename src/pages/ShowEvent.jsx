@@ -33,7 +33,7 @@ const EventPage = () => {
     }, [id]);
 
 
-    const endCoords = [event.latitude, event.longitude]; // Example end coordinates
+    const endCoords = [event.latitude, event.longitude]; 
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 p-4 md:p-8">

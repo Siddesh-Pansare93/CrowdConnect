@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { FaUpload, FaCalendarAlt, FaClock, FaMapMarkerAlt, FaRupeeSign, FaUsers } from "react-icons/fa";
 import { motion } from "framer-motion";
 import dbService from "@/Appwrite/DbService";
-import eventSlice from "@/store/Features/eventSlice";
+import eventSlice from "@/store/Features/EventSlice";
 import storageService from "@/Appwrite/storageService";
 import { useSelector } from "react-redux";
 

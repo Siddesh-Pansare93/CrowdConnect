@@ -111,7 +111,8 @@ export class DbService {
             console.log(`Appwrite Error :: GetALLEvent :: error :: ${error.message}`)
         }
     }
-
+ 
+    // Get only User Events
 
     async createUser({ id, name, email }) {
         try {

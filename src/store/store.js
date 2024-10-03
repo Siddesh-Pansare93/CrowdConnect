@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "./Features/authSlice";
-import eventSlice from "./Features/eventSlice";
+import eventSlice from "./Features/EventSlice";
 import { persistStore, persistReducer } from "redux-persist";  // assuming you use redux-persist
 import storage from "redux-persist/lib/storage";  // or another storage if needed
 

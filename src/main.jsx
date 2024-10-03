@@ -10,11 +10,12 @@ import { PersistGate } from "redux-persist/integration/react";
 
 import CreateEventPage from './pages/CreateEvent.jsx'
 import LoginRegisterForm from './pages/login.jsx'
-import Events from './pages/Event.jsx'
+import Events from './pages/allEvent.jsx'
 import ShowEvent from './pages/ShowEvent.jsx'
 import Home from './pages/Home.jsx'
 import Payment from './components/Payment.jsx'
 import Logout from './components/Header/Logout.jsx'
+import YourEvents from './pages/yourevent.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,6 +28,7 @@ const router = createBrowserRouter(
       <Route path='/showEvent' element={<ShowEvent />} />
       <Route path="/payment" element={<Payment />} />
       <Route path="/logout" element={<Logout />} />
+      <Route path='/your-events' element={<YourEvents/>}/>
 
     </Route>
   )

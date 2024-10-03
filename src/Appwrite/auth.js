@@ -1,5 +1,6 @@
 import { Client , Account , ID } from "appwrite";
 import conf from "../conf/conf";
+import dbService from "./DbService";
 
 export class AuthService {
     client = new Client() ;  
@@ -12,20 +13,29 @@ export class AuthService {
         this.account = new Account(this.client)
      }
 
-     async createAccount({name , email , password}){
-            try {
-                const userAccount = await this.account.create(ID.unique(),  email , password , name )
-                if (userAccount) {
-                    // call login function 
-                     return this.login({email, password})
-                } else {
-                    return userAccount
-                }
-
-            } catch (error) {
-                throw  error
+     async createAccount({ name, email, password }) {
+        try {
+            const userAccount = await this.account.create(ID.unique(), email, password, name);
+            if (userAccount) {
+                console.log(userAccount);
+                
+                // Store user details in the database
+                const userId = userAccount.$id; // Get user ID from the account creation response
+                await dbService.createUser({ 
+                    id: userId,
+                    name,
+                    email,
+                });
+                
+                // Call login function 
+                return this.login({ email, password });
+            } else {
+                return userAccount;
             }
-     }
+        } catch (error) {
+            throw error;
+        }
+    }
 
      async login({email , password}){
         try {
@@ -55,15 +65,15 @@ export class AuthService {
 
      //To get user by its id 
 
-     async getUserById(userId){
-            try {
-                const user = await this.account.get(userId)
-                return user 
-            } catch (error) {
-            console.log(`Appwrite Error :: Get user By Id :: error :: ${error.message}`)
-                
-            }
-     }
+     async getUserById(userId) {
+        try {
+            const user = await dbService.getUserById(userId); // Use the dbService to get the user
+            return user;
+        } catch (error) {
+            console.log(`Appwrite Error :: Get user By Id :: error :: ${error.message}`);
+            return null; // Return null in case of an error to handle it gracefully.
+        }
+    }
 }
 
 const  authService  = new AuthService()

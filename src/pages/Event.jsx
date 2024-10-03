@@ -12,11 +12,13 @@ const EventCard = ({ event }) => {
 
     useEffect(() => {
         const fetchUser = async () => {
-            const user = await authService.getUserById(event.organiser);
-            setUser(user.name);
+            console.log(event.organiser);
+            const userDetails = await authService.getUserById(event.organiser);
+            setUser(userDetails ? userDetails.name : "Grafana and Friends"); // Handle case when user is not found
         };
         fetchUser();
     }, [event.organiser]);
+    // console.log(user)
 
     return (
         <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg p-6">

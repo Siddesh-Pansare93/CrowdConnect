@@ -1,5 +1,6 @@
 import { Client, ID, Databases } from "appwrite";
 import conf from "../conf/conf";
+import { Permission, Role } from 'appwrite';
 
 export class DbService {
 
@@ -16,11 +17,11 @@ export class DbService {
 
 
     // Creating Event 
-    async createEvent({ id = ID.unique(), capacity, latitude, longitude, date, description, endTime, eventTitle, featuredImage, location, organiser, startTime, tenantApproval, ticketPrice, ticketType }) {
+    async createEvent({ id = ID.unique(), capacity, latitude, longitude, date, description, endTime, eventTitle, featuredImage, location, organiser, startTime, tenantApproval, ticketPrice = null, ticketType }) {
         try {
             return await this.database.createDocument(
                 conf.appwriteDatabaseId,
-                conf.appwriteCollectionId,
+                conf.appwriteEventCollectionId,
                 id, {
                 eventTitle,
                 description,
@@ -28,7 +29,7 @@ export class DbService {
                 featuredImage,
                 ticketType,
                 date,
-                ticketPrice,
+                ticketPrice ,
                 tenantApproval,
                 capacity,
                 startTime,
@@ -74,7 +75,7 @@ export class DbService {
         try {
             return await this.database.deleteDocument(
                 conf.appwriteDatabaseId,
-                conf.appwriteCollectionId,
+                conf.appwriteEventCollectionId,
                 id
             )
         } catch (error) {
@@ -89,7 +90,7 @@ export class DbService {
         try {
             return await this.database.getDocument(
                 conf.appwriteDatabaseId,
-                conf.appwriteCollectionId,
+                conf.appwriteEventCollectionId,
                 id
             )
         } catch (error) {
@@ -103,11 +104,52 @@ export class DbService {
         try {
             return await this.database.listDocuments(
                 conf.appwriteDatabaseId,
-                conf.appwriteCollectionId,
+                conf.appwriteEventCollectionId,
                 queries
             )
         } catch (error) {
             console.log(`Appwrite Error :: GetALLEvent :: error :: ${error.message}`)
+        }
+    }
+
+
+    async createUser({ id, name, email }) {
+        try {
+            return await this.database.createDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteUserCollectionId, // Specify the user collection ID
+                id, 
+                {
+                    name,
+                    email,
+                    createdAt: new Date().toISOString(), // Store creation date
+                },
+                // Permissions: allow the specific user to read and write their document
+                [
+                    Permission.read(Role.user(id)),   // Allow the user to read their document
+                    Permission.write(Role.user(id))  // Allow the user to write (update) their document
+                ]
+            );
+        } catch (error) {
+            console.log(`Appwrite Error :: CreateUser :: error :: ${error.message}`);
+        }
+    }
+    
+    
+    //
+
+    async getUserById(id) {
+        try {
+            const user = await this.database.getDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteUserCollectionId,
+                id
+
+            ); // Use the appropriate collection ID
+            return user;
+        } catch (error) {
+            console.log(`Error fetching user: ${error.message}`);
+            throw error; // Rethrow to handle it in authService if needed
         }
     }
 }

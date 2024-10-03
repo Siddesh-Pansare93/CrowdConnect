@@ -3,55 +3,69 @@ import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { FiUser, FiLock, FiMail } from "react-icons/fi";
 import authService from "@/Appwrite/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/store/Features/authSlice";
 import { useNavigate } from "react-router-dom";
 
 const LoginRegisterForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [error , setError] = useState('')
+  const [error, setError] = useState('');
 
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const storeUser = useSelector(state => state.auth.userData);
+  console.log("storeUser: ", storeUser);
+
+async function fetchCCuser(){
+  const existingUser = await authService.getCurrentUser()
+  console.log(existingUser);
+  
+}
+fetchCCuser()
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const handleLogin = async (data) => {
-    setError('')
-     try{ const user = await authService.login(data)
-      if (user){
-        const userData =  await authService.getCurrentUser()
-        console.log(userData)
-        if (userData){
-          dispatch(login(userData))
-          navigate("/")
+    setError('');
+    try {
+      const user = await authService.login(data); // Perform login
+      if (user) {
+        const userData = await authService.getCurrentUser(); // Get current user data
+        console.log(userData);
+        if (userData) {
+          dispatch(login(userData)); // Dispatch to store userData
+          navigate("/"); // Navigate to the home page or wherever necessary
         }
-      }}catch(error){
-        setError(error.message)
       }
+    } catch (error) {
+      setError(error.message); // Show error if any
+    }
   };
 
-  const handleRegister = async (data)=>{
-    setError('')
-      const user = await authService.createAccount(data)
-      try{if(user){
-        const userData =  await authService.getCurrentUser()
-        console.log(userData)
-        if(userData){
-          dispatch(login(userData))
-          navigate("/")
+  const handleRegister = async (data) => {
+    setError('');
+    try {
+      const user = await authService.createAccount(data); // Create a new account
+      if (user) {
+        const userData = await authService.getCurrentUser(); // Get the current user data
+        console.log(userData);
+        if (userData) {
+          dispatch(login(userData)); // Dispatch to store userData
+          navigate("/"); // Navigate after successful registration
         }
-      }}catch(error){
-        setError(error.message)
       }
-  }
-
-
-  const selectSubmitMethod =(data)=>{
-    if (isLogin) {
-      handleLogin(data)
-    }else{
-      handleRegister(data)
+    } catch (error) {
+      setError(error.message); // Handle registration errors
     }
-  } 
+  };
+
+  const selectSubmitMethod = (data) => {
+    if (isLogin) {
+      handleLogin(data);
+    } else {
+      handleRegister(data);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black p-4">
@@ -167,9 +181,9 @@ const LoginRegisterForm = () => {
           {isLogin ? "Don't have an account? " : "Already have an account? "}
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className="font-medium text-black hover:text-gray-500 focus:outline-none focus:underline transition ease-in-out duration-150"
+            className="font-medium text-black hover:text-gray-700"
           >
-            {isLogin ? "Register" : "Login"}
+            {isLogin ? "Sign Up" : "Sign In"}
           </button>
         </p>
       </motion.div>

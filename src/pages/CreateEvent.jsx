@@ -14,6 +14,9 @@ const EventCreationPage = () => {
 
   const userData = useSelector(state => state.auth.userData)
   console.log(userData)
+  if(!userData){
+    throw new Error("Login to create post ")
+  }
 
   const { register, handleSubmit, setValue, formState: { errors }, watch } = useForm({
     defaultValues: {

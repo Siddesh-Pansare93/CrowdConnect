@@ -6,7 +6,6 @@ import authService from "@/Appwrite/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/store/Features/authSlice";
 import { useNavigate } from "react-router-dom";
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
 
 const LoginRegisterForm = () => {

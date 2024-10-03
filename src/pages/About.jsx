@@ -1,7 +1,15 @@
 import React, { useState } from "react";
+import emailjs from '@emailjs/browser';
 import { FaUsers, FaCalendarAlt, FaComments, FaStar } from "react-icons/fa";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+
+// Import images 
+import Sumit from '../assets/sumit.png';
+import dinya from '../assets/Dinya.jpg';
+import siddesh from '../assets/siddesh.jpg'
+import ashmit from '../assets/ashmit.png'
+
 
 const About = () => {
     const [formData, setFormData] = useState({
@@ -21,8 +29,24 @@ const About = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle form submission logic here
-        console.log("Form submitted:", formData);
+
+        // Send email using EmailJS
+        emailjs.send('service_o1k03ot', 'template_jc873aq', formData, 'fbxLzbBncfCIVbQwF')
+            .then((response) => {
+                console.log('Email sent successfully:', response);
+                // Reset form data
+                setFormData({
+                    name: "",
+                    email: "",
+                    subject: "",
+                    message: ""
+                });
+                alert("Your message has been sent!");
+            })
+            .catch((error) => {
+                console.error('Error sending email:', error);
+                alert("There was an error sending your message. Please try again later.");
+            });
     };
 
     const features = [
@@ -38,10 +62,10 @@ const About = () => {
     ];
 
     const teamMembers = [
-        { name: "Sumit Singh", role: "Front-End Developer", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80" },
-        { name: "Siddesh Pansare", role: "Backend Developer", image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80" },
-        { name: "Ashmit Singh", role: "Frontend Developer", image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1376&q=80" },
-        { name: "Sumit Singh", role: "Python Developer", image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80" }
+        { name: "Sumit Singh", role: "Front-End Developer", image: Sumit },
+        { name: "Siddesh Pansare", role:"Full-Stack Developer", image: siddesh },
+        { name: "Ashmit Singh", role: "Frontend Developer", image: ashmit },
+        { name: "Sumit Singh", role: "Python Developer", image: dinya }
     ];
 
     return (

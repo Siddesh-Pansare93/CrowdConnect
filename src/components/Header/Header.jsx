@@ -18,6 +18,8 @@ function Header() {
     { name: 'Your Events', link: '/your-events', active: authStatus },
     { name: 'Login', link: '/login', active: !authStatus },
     { name: 'SignUp', link: '/signup', active: !authStatus },
+    { name: 'About', link: '/About', active: !authStatus },
+    
   ];
 
   const toggleProfilePanel = () => {

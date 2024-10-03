@@ -10,6 +10,7 @@ import Postcard from './components/Postcard.jsx'
 import SignUp from './components/SignUp.jsx'
 import Login from './components/Login.jsx'
 import EventPage from './pages/ShowEvent.jsx'
+import About from './pages/About.jsx'
 import CreateEventPage from './pages/CreateEvent.jsx'
 import LoginRegisterForm from './pages/login.jsx'
 import Events from './pages/Event.jsx'
@@ -22,6 +23,8 @@ const router=createBrowserRouter(
     <Route path='/' element={<Layout/>}>
       {/* <Route path='/showevent' element={<EventPage/>}/> */}
       <Route path='/Home' element={<Home/>}/>
+      <Route path='/About' element={<About/>}/>
+      <Route path='/Login' element={<Login/>}/>
       <Route path='/signUp' element={<LoginRegisterForm/>}/>
       <Route path='/createevent' element={<CreateEventPage/>}/>
       <Route path='/allevent' element={<Events/>}/>

@@ -1,32 +1,32 @@
-import { Client , Account , ID } from "appwrite";
+import { Client, Account, ID } from "appwrite";
 import conf from "../conf/conf";
 import dbService from "./DbService";
 
 export class AuthService {
-    client = new Client() ;  
-     account ; 
+    client = new Client();
+    account;
 
-     constructor(){
+    constructor() {
         this.client
             .setEndpoint(conf.appwriteUrl)
-            .setProject(conf.appwriteProjectId) ; 
+            .setProject(conf.appwriteProjectId);
         this.account = new Account(this.client)
-     }
+    }
 
-     async createAccount({ name, email, password }) {
+    async createAccount({ name, email, password }) {
         try {
             const userAccount = await this.account.create(ID.unique(), email, password, name);
             if (userAccount) {
                 console.log(userAccount);
-                
+
                 // Store user details in the database
                 const userId = userAccount.$id; // Get user ID from the account creation response
-                await dbService.createUser({ 
+                await dbService.createUser({
                     id: userId,
                     name,
                     email,
                 });
-                
+
                 // Call login function 
                 return this.login({ email, password });
             } else {
@@ -37,35 +37,35 @@ export class AuthService {
         }
     }
 
-     async login({email , password}){
+    async login({ email, password }) {
         try {
-            return await this.account.createEmailPasswordSession(email , password)
+            return await this.account.createEmailPasswordSession(email, password)
         } catch (error) {
-            throw error 
+            throw error
         }
-     }
+    }
 
-     async getCurrentUser(){
+    async getCurrentUser() {
         try {
             return await this.account.get()
         } catch (error) {
-            throw error 
+            throw error
         }
-        return null 
-     }
+        return null
+    }
 
-     async logout(){
+    async logout() {
         try {
             await this.account.deleteSessions('current')
         } catch (error) {
-            throw error 
-            
+            throw error
+
         }
-     }
+    }
 
-     //To get user by its id 
+    //To get user by its id 
 
-     async getUserById(userId) {
+    async getUserById(userId) {
         try {
             const user = await dbService.getUserById(userId); // Use the dbService to get the user
             return user;
@@ -76,6 +76,6 @@ export class AuthService {
     }
 }
 
-const  authService  = new AuthService()
+const authService = new AuthService()
 
 export default authService

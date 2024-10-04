@@ -11,9 +11,8 @@ function App() {
 
   return (
     <>
-      <GoogleOAuthProvider clientId="304995574032-iups63vm374vbran2ofgbceq3hjkg90d.apps.googleusercontent.com">
         <div>Hello</div>
-      </GoogleOAuthProvider>
+        
 
     </>
   )

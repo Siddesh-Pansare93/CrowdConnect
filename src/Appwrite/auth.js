@@ -45,6 +45,18 @@ export class AuthService {
         }
      }
 
+     async session({email , password}){
+        return await this.account.createEmailPasswordSession(email, password);
+     }
+
+     async verification(url){
+        return await this.account.createVerification(url);
+     }
+
+     async updateVerification(id,secret){
+        return await this.account.updateVerification(id,secret);
+     }
+
      async getCurrentUser(){
         try {
             return await this.account.get()

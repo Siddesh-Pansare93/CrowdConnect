@@ -17,6 +17,7 @@ import Payment from './components/Payment.jsx'
 import Logout from './components/Header/Logout.jsx'
 import YourEvents from './pages/yourevent.jsx'
 import About from './pages/About.jsx'
+import Verify from './pages/Verify.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -31,6 +32,7 @@ const router = createBrowserRouter(
       <Route path="/logout" element={<Logout />} />
       <Route path='/your-events' element={<YourEvents/>}/>
       <Route path='/event/:id' element={<ShowEvent/>}/>
+      <Route path='/Verify' element={<Verify/>}/>
 
     </Route>
   )

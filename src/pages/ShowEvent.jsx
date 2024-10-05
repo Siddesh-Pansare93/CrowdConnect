@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import { FaMapMarkerAlt, FaCalendarAlt, FaClock, FaMoon, FaSun } from "react-icons/fa";
 import Map from "@/components/Map";
 import Modal from "@/components/Modal";
-import RSVPForm from "@/components/RSVPForm"; // Import the RSVP form component
+import RSVPForm from "@/components/RSVPForm";
 import { useParams } from "react-router-dom";
 import dbService from "@/Appwrite/DbService";
 import storageService from "@/Appwrite/storageService";
 import { motion } from 'framer-motion';
 
 const EventPage = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false); // For the map
-    const [isRsvpModalOpen, setIsRsvpModalOpen] = useState(false); // For the RSVP form
+    const [isModalOpen, setIsModalOpen] = useState(false); // map ke liye 
+    const [isRsvpModalOpen, setIsRsvpModalOpen] = useState(false); //  RSVP form ke liye
     const [event, setEvent] = useState({});
     const [isDarkMode, setIsDarkMode] = useState(false);
     const { id } = useParams();
@@ -40,6 +40,20 @@ const EventPage = () => {
         const eventDate = new Date(event.date);
         const now = new Date();
         const timeRemaining = eventDate - now;
+
+        if (timeRemaining < 0) {
+            return (
+                <motion.div
+                    className="flex items-center justify-center space-x-4 mt-6 text-lg font-semibold bg-gray-100 dark:bg-gray-700 p-4 rounded-lg shadow-md"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                >
+                    <div className="text-gray-800 dark:text-gray-100">
+                        <span className="block">Event has started!</span>
+                    </div>
+                </motion.div>
+            );
+        }
 
         const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
         const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
@@ -72,6 +86,14 @@ const EventPage = () => {
         );
     };
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setEvent((prevEvent) => ({ ...prevEvent })); // Trigger a re-render
+        }, 1000);
+
+        return () => clearInterval(interval); // Cleanup on unmount
+    }, [event.date])
+
     return (
         <div className={`${isDarkMode ? "dark" : ""}`}>
             <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6 md:p-12">
@@ -95,11 +117,12 @@ const EventPage = () => {
                                 className="w-full h-full object-cover border-4 border-indigo-500"
                                 src={storageService.getFilePreview(event.featuredImage)}
                                 alt={event.eventTitle}
-                                style={{ borderRadius: "1rem" }} // Added border radius for a softer frame
+                                style={{ borderRadius: "1rem" }} 
                             />
                         </motion.div>
 
-                        {/* Event Information */}
+                        {/* //Event */}
+ 
                         <div className="w-full md:w-2/3 md:pl-6">
                             <motion.div
                                 className="uppercase tracking-wide text-sm text-indigo-500 dark:text-indigo-300 font-semibold"
@@ -139,7 +162,7 @@ const EventPage = () => {
                             {renderCountdown()}
 
                             <motion.button
-                                onClick={() => setIsRsvpModalOpen(true)} // Open RSVP modal
+                                onClick={() => setIsRsvpModalOpen(true)} 
                                 className="mt-6 px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-lg shadow-lg hover:scale-105 transition-all duration-300"
                                 whileHover={{ scale: 1.05 }}
                             >
@@ -172,14 +195,16 @@ const EventPage = () => {
                         </motion.div>
                     )}
 
-                    {/* Location Section */}
+                    {/* // Location (TODO :: Thoda problem hai idhr design ka ) */}
+
+
                     <motion.div className="mt-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Location</h3>
                         <p className="text-lg text-gray-700 dark:text-gray-300 flex items-center">
                             <FaMapMarkerAlt className="mr-2" /> {event.location || "Not specified"} {/* Fallback if location is missing */}
                         </p>
                         <button
-                            onClick={() => setIsModalOpen(true)} // Keep existing logic for map
+                            onClick={() => setIsModalOpen(true)}
                             className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition duration-300"
                         >
                             See Location
@@ -187,13 +212,17 @@ const EventPage = () => {
                     </motion.div>
                 </div>
 
-                {/* RSVP Modal */}
+                {/* // RSVP form  */}
+
                 <Modal isOpen={isRsvpModalOpen} onClose={() => setIsRsvpModalOpen(false)}>
                     <RSVPForm eventId={id} onClose={() => setIsRsvpModalOpen(false)} />
                 </Modal>
 
                 
-                {/* Modal for displaying the map */}
+
+
+               {/* //  Map  */}
+
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                 <h2 className="text-xl font-bold mb-4">Location Map</h2>
                 <Map  endCoords={endCoords} onClose={() => setIsModalOpen(false)} />

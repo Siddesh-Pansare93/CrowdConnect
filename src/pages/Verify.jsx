@@ -12,6 +12,7 @@ const Verify = () => {
     useEffect(()=>{
         try {
             const verify = authService.updateVerification(id,secret)
+            console.log(verify)
             if(verify){
                 console.log("verified Successfully")
                 setStatus("Verified Successfully")

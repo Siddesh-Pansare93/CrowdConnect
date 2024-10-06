@@ -21,14 +21,13 @@ export class AuthService {
 
                 // Store user details in the database
                 const userId = userAccount.$id; // Get user ID from the account creation response
-                await dbService.createUser({
+                  await dbService.createUser({
                     id: userId,
                     name,
                     email,
                 });
 
                 // Call login function 
-                return this.login({ email, password });
             } else {
                 return userAccount;
             }
@@ -37,13 +36,13 @@ export class AuthService {
         }
     }
 
-    async login({ email, password }) {
-        try {
-            return await this.account.createEmailPasswordSession(email, password)
-        } catch (error) {
-            throw error
-        }
-    }
+    // async login({ email, password }) {
+    //     try {
+    //         return await this.account.createEmailPasswordSession(email, password)
+    //     } catch (error) {
+    //         throw error
+    //     }
+    // }
 
      async session({email , password}){
         return await this.account.createEmailPasswordSession(email, password);

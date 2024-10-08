@@ -52,7 +52,7 @@ export class DbService {
         try {
             return await this.database.updateDocument(
                 conf.appwriteDatabaseId,
-                conf.appwriteCollectionId,
+                conf.appwriteEventCollectionId,
                 id,
                 {
                     title,
@@ -116,23 +116,22 @@ export class DbService {
 
     async createUser({ id, name, email }) {
         try {
+            console.log(id)
             return await this.database.createDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteUserCollectionId, // Specify the user collection ID
                 id, 
                 {
+                    id , 
                     name,
                     email,
                     createdAt: new Date().toISOString(), // Store creation date
                 },
-                // Permissions: allow the specific user to read and write their document
-                [
-                    Permission.read(Role.user(id)),   // Allow the user to read their document
-                    Permission.write(Role.user(id))  // Allow the user to write (update) their document
-                ]
+               
             );
         } catch (error) {
-            console.log(`Appwrite Error :: CreateUser :: error :: ${error.message}`);
+            console.log(`Appwrite Error :: createUser :: error :: ${error.message}`)
+
         }
     }
     

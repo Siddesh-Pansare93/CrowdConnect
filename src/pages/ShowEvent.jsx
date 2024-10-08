@@ -7,12 +7,14 @@ import { useParams } from "react-router-dom";
 import dbService from "@/Backend/Appwrite/DbService";
 import storageService from "@/Backend/Appwrite/storageService";
 import { motion } from 'framer-motion';
+import authService from "@/Backend/Appwrite/auth";
 
 const EventPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false); // map ke liye 
     const [isRsvpModalOpen, setIsRsvpModalOpen] = useState(false); //  RSVP form ke liye
     const [event, setEvent] = useState({});
     const [isDarkMode, setIsDarkMode] = useState(false);
+    const [organiserName, setOrganiserName] = useState("")
     const { id } = useParams();
 
     useEffect(() => {
@@ -20,6 +22,9 @@ const EventPage = () => {
             try {
                 const event = await dbService.getEvent(id);
                 setEvent(event);
+
+                const organiser = await dbService.getUserById(event.organiser)
+                setOrganiserName(organiser.name)
             } catch (error) {
                 console.error("Error fetching event:", error);
             }
@@ -130,7 +135,7 @@ const EventPage = () => {
                                 animate={{ x: 0, opacity: 1 }}
                                 transition={{ delay: 0.2 }}
                             >
-                                {event.organiser}
+                               Hosted BY :  {organiserName}
                             </motion.div>
 
                             <motion.h1

@@ -36,25 +36,25 @@ export class AuthService {
         }
     }
 
-    // async login({ email, password }) {
-    //     try {
-    //         return await this.account.createEmailPasswordSession(email, password)
-    //     } catch (error) {
-    //         throw error
-    //     }
-    // }
+    async login({ email, password }) {
+        try {
+            return await this.account.createEmailPasswordSession(email, password)
+        } catch (error) {
+            throw error
+        }
+    }
 
-     async session({email , password}){
-        return await this.account.createEmailPasswordSession(email, password);
-     }
+    //  async session({email , password}){
+    //     return await this.account.createEmailPasswordSession(email, password);
+    //  }
 
-     async verification(url){
-        return await this.account.createVerification(url);
-     }
+    //  async verification(url){
+    //     return await this.account.createVerification(url);
+    //  }
 
-     async updateVerification(id,secret){
-        return await this.account.updateVerification(id,secret);
-     }
+    //  async updateVerification(id,secret){
+    //     return await this.account.updateVerification(id,secret);
+    //  }
 
     async getCurrentUser() {
         try {

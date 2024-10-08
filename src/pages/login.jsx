@@ -33,7 +33,7 @@ fetchCCuser()
   const handleLogin = async (data) => {
     setError('');
     try {
-      const user = await authService.login(data); // Perform login
+      const user = await authService.session(data); // Perform login
       // if(user.emailVerification == false){
       //   navigate("/signup")
       // }

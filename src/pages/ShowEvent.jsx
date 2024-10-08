@@ -102,11 +102,11 @@ const EventPage = () => {
     return (
         <div className={`${isDarkMode ? "dark" : ""}`}>
             <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6 md:p-12">
-                <div className="flex justify-end">
+                <div className="flex justify-end ">
                     <motion.button
                         whileHover={{ scale: 1.1 }}
                         onClick={toggleDarkMode}
-                        className="flex items-center justify-center w-12 h-12 bg-black text-white rounded-full hover:bg-gray-700 transition-all duration-300 focus:outline-none shadow-lg"
+                        className="flex items-center justify-center w-12 h-12 bg-black text-white rounded-full hover:bg-gray-700 transition-all duration-300 focus:outline-none shadow-lg "
                     >
                         {isDarkMode ? <FaSun /> : <FaMoon />}
                     </motion.button>

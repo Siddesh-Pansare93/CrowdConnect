@@ -27,7 +27,7 @@ export class AuthService {
                     email,
                 });
 
-                // Call login function 
+                this.login({email  ,password})
             } else {
                 return userAccount;
             }

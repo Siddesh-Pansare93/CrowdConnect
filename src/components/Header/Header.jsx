@@ -64,12 +64,13 @@ function Header() {
           )}
           {authStatus && (
             <>
-              <li onClick={toggleProfilePanel} className="cursor-pointer">
-                <CgProfile className="h-5 w-5 mt-3" />
-              </li>
-              <li>
+             <li>
                 <Logout />
               </li>
+              <li onClick={toggleProfilePanel} className="cursor-pointer">
+                <CgProfile className="h-5 w-5 m-3" />
+              </li>
+             
             </>
           )}
         </ul>

@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaUpload, FaCalendarAlt, FaClock, FaMapMarkerAlt, FaRupeeSign, FaUsers } from "react-icons/fa";
 import { motion } from "framer-motion";
-import dbService from "@/Appwrite/DbService";
+import dbService from "@/Backend/Appwrite/DbService";
 import eventSlice from "@/store/Features/EventSlice";
-import storageService from "@/Appwrite/storageService";
+import storageService from "@/Backend/Appwrite/storageService";
 import { useSelector } from "react-redux";
 
 const EventCreationPage = () => {

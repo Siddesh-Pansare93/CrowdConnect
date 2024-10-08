@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Logout from './Logout';
 import { CgProfile } from 'react-icons/cg';
-import authService from '@/Appwrite/auth';
+import authService from '@/Backend/Appwrite/auth';
 
 
 function Header() {

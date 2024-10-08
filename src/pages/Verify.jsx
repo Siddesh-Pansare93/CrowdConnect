@@ -1,4 +1,4 @@
-import authService from '@/Appwrite/auth'
+import authService from '@/Backend/Appwrite/auth'
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 

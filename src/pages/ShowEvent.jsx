@@ -4,8 +4,8 @@ import Map from "@/components/Map";
 import Modal from "@/components/Modal";
 import RSVPForm from "@/components/RSVPForm";
 import { useParams } from "react-router-dom";
-import dbService from "@/Appwrite/DbService";
-import storageService from "@/Appwrite/storageService";
+import dbService from "@/Backend/Appwrite/DbService";
+import storageService from "@/Backend/Appwrite/storageService";
 import { motion } from 'framer-motion';
 
 const EventPage = () => {

@@ -33,7 +33,7 @@ fetchCCuser()
   const handleLogin = async (data) => {
     setError('');
     try {
-      const user = await authService.session(data); // Perform login
+      const user = await authService.login(data); // Perform login
       // if(user.emailVerification == false){
       //   navigate("/signup")
       // }
@@ -54,10 +54,10 @@ fetchCCuser()
     setError('');
     try {
       const user = await authService.createAccount(data); // Create a new account
-      const session = await authService.session(user?.email,user?.password)
-      console.log(session)
-      const link = await authService.verification("http://localhost:5173/Verify")
-      console.log(link)
+      // const session = await authService.session(user?.email,user?.password)
+      // console.log(session)
+      // const link = await authService.verification("http://localhost:5173/Verify")
+      // console.log(link)
       if (user) {
         const userData = await authService.getCurrentUser(); // Get the current user data
         console.log(userData);

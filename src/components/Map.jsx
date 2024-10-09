@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet"
 import axios from "axios";
 import "leaflet/dist/leaflet.css";
 import { FaSearch } from "react-icons/fa";
-import L from "leaflet";
+
 
 const OpenRouteServiceAPIKey = "5b3ce3597851110001cf6248ea161ad8474a473891318c69b7978604";
 

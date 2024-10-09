@@ -77,7 +77,7 @@ function Header() {
       </nav>
 
       {isProfileVisible && user && (
-        <div className="bg-white shadow-md rounded-lg p-6 mt-3 absolute right-10 z-10">
+        <div className="bg-white shadow-md rounded-lg p-6 mt-3 absolute right-10 z-999">
           <h2 className="text-2xl font-bold mb-4">Profile</h2>
           <div className="space-y-2">
             <div>

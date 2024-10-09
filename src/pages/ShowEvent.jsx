@@ -128,7 +128,7 @@ const EventPage = () => {
 
                         {/* //Event */}
  
-                        <div className="w-full md:w-2/3 md:pl-6">
+                        <div className="w-full md:w-2/3 md:pl-6 ">
                             <motion.div
                                 className="uppercase tracking-wide text-sm text-indigo-500 dark:text-indigo-300 font-semibold"
                                 initial={{ x: -50, opacity: 0 }}

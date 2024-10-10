@@ -7,6 +7,22 @@ const RSVPForm = ({ onClose }) => {
 
     const onSubmit = (data) => {
         console.log(data); // Handle form submission, e.g., send data to an API
+        emailjs.send('service_o1k03ot', 'template_jc873aq', formData, 'fbxLzbBncfCIVbQwF')
+            .then((response) => {
+                console.log('Email sent successfully:', response);
+                // Reset form data
+                setFormData({
+                    name: "",
+                    email: "",
+                    subject: "",
+                    message: ""
+                });
+                alert("Your message has been sent!");
+            })
+            .catch((error) => {
+                console.error('Error sending email:', error);
+                alert("There was an error sending your message. Please try again later.");
+            });
         onClose(); // Close the form after submission
     };
 

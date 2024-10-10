@@ -8,16 +8,16 @@ import { Provider } from 'react-redux'
 import store ,{persistor} from './store/store.js'
 import { PersistGate } from "redux-persist/integration/react";
 
-import CreateEventPage from './pages/CreateEvent.jsx'
+import CreateEventPage from './components/CreateEvent.jsx'
 import LoginRegisterForm from './pages/login.jsx'
-import Events from './pages/allEvent.jsx'
+import Events from './components/allEvent.jsx'
 import ShowEvent from './pages/ShowEvent.jsx'
 import Home from './pages/Home.jsx'
 import Payment from './components/Payment.jsx'
 import Logout from './components/Header/Logout.jsx'
 import YourEvents from './pages/yourevent.jsx'
 import About from './pages/About.jsx'
-import OTPVerification from './pages/Verify.jsx'
+import OTPVerification from './components/Verify.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(

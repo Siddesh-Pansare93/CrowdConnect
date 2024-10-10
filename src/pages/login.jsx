@@ -6,6 +6,7 @@ import authService from "@/Appwrite/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/store/Features/authSlice";
 import { useNavigate } from "react-router-dom";
+import emailjs from 'emailjs-com';
 
 
 const LoginRegisterForm = () => {
@@ -26,17 +27,10 @@ fetchCCuser()
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const sendOTP = async (email) =>{
-    
-  }
-  
   const handleLogin = async (data) => {
     setError('');
     try {
       const user = await authService.login(data); // Perform login
-      // if(user.emailVerification == false){
-      //   navigate("/signup")
-      // }
       if (user) {
         const userData = await authService.getCurrentUser(); // Get current user data
         console.log(userData);
@@ -50,26 +44,80 @@ fetchCCuser()
     }
   };
 
+  // Function to generate a random 6-digit OTP
+  const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
+
+  // Function to send OTP email using EmailJS
+  const sendOTPEmail = async (email, otp) => {
+    if (!email) {
+      setError('Email is missing!');
+      console.error('Email not provided for OTP');
+      return;
+    }
+
+    const templateParams = {
+      user_email: email, // Correctly use email from the form data
+      otp_code: otp,
+    };
+
+    try {
+      await emailjs.send(
+        'service_eq3m2ed',  // Replace with your EmailJS service ID
+        'template_fa9c7eo', // Replace with your EmailJS template ID
+        templateParams,
+        '152Q6uG2K9dkInbrZ'   // Replace with your EmailJS public key
+      );
+      console.log('OTP sent to email');
+    } catch (error) {
+      console.error('Failed to send OTP:', error);
+    }
+  };
+  
   const handleRegister = async (data) => {
     setError('');
     try {
-      const user = await authService.createAccount(data); // Create a new account
-      const session = await authService.session(user?.email,user?.password)
-      console.log(session)
-      const link = await authService.verification("http://localhost:5173/Verify")
-      console.log(link)
-      if (user) {
-        const userData = await authService.getCurrentUser(); // Get the current user data
-        console.log(userData);
-        if (userData) {
-          dispatch(login(userData)); // Dispatch to store userData
-          navigate("/"); // Navigate after successful registration
-        }
+      const otpCode = generateOTP();  // Generate OTP // Debug: log generated OTP
+      console.log('Email provided:', data.email); // Debug: check if email is captured
+  
+      if (!data.email) {
+        setError('Email field is empty! Please provide an email.');
+        return; // Stop further execution if email is empty
       }
+  
+      sessionStorage.setItem('otp', otpCode);  // Store OTP in session storage
+      sessionStorage.setItem('userData', JSON.stringify(data));  // Store user registration data temporarily
+  
+      sendOTPEmail(data.email, otpCode);  // Send OTP to the provided email
+      navigate("/otp-verification");  // Redirect to OTP verification page
     } catch (error) {
       setError(error.message); // Handle registration errors
     }
   };
+  
+
+  // const handleRegister = async (data) => {
+  //   setError('');
+  //   try {
+      
+  //     const otpCode = generateOTP();  // Generate OTP
+  //     sessionStorage.setItem('otp', otpCode);  // Store OTP in session storage
+  //     sessionStorage.setItem('userData', JSON.stringify(data));  // Store user registration data temporarily
+  //     sendOTPEmail(data.email, otpCode);  // Send OTP to email
+  //     navigate("/otp-verification");  // Redirect to OTP verification page
+
+
+      // const user = await authService.createAccount(data); // Create a new account
+      // if (user) {
+      //   const userData = await authService.getCurrentUser(); // Get current user data
+      //   if (userData) {
+      //     dispatch(login(userData)); // Dispatch to store userData
+      //     navigate("/"); // Navigate after successful registration
+  //       // }
+  //     // }
+  //   } catch (error) {
+  //     setError(error.message); // Handle registration errors
+  //   }
+  // };
 
   const selectSubmitMethod = (data) => {
     if (isLogin) {

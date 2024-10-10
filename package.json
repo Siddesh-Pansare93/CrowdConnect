@@ -20,6 +20,8 @@
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "emailjs": "^4.0.3",
+    "emailjs-com": "^3.2.0",
     "framer-motion": "^11.9.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.446.0",

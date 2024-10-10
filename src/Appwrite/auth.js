@@ -21,11 +21,12 @@ export class AuthService {
 
                 // Store user details in the database
                 const userId = userAccount.$id; // Get user ID from the account creation response
-                await dbService.createUser({
+                const ok = await dbService.createUser({
                     id: userId,
                     name,
                     email,
                 });
+                console.log(ok)
 
                 // Call login function 
                 return this.login({ email, password });
@@ -45,17 +46,17 @@ export class AuthService {
         }
     }
 
-     async session({email , password}){
-        return await this.account.createEmailPasswordSession(email, password);
-     }
+    //  async session({email , password}){
+    //     return await this.account.createEmailPasswordSession(email, password);
+    //  }
 
-     async verification(url){
-        return await this.account.createVerification(url);
-     }
+    //  async verification(url){
+    //     return await this.account.createVerification(url);
+    //  }
 
-     async updateVerification(id,secret){
-        return await this.account.updateVerification(id,secret);
-     }
+    //  async updateVerification(id,secret){
+    //     return await this.account.updateVerification(id,secret);
+    //  }
 
     async getCurrentUser() {
         try {

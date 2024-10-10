@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Logout from './Logout';
 import { CgProfile } from 'react-icons/cg';
-import authService from '@/Appwrite/auth';
+import authService from '@/Backend/Appwrite/auth';
 
 
 function Header() {
@@ -64,19 +64,20 @@ function Header() {
           )}
           {authStatus && (
             <>
-              <li onClick={toggleProfilePanel} className="cursor-pointer">
-                <CgProfile className="h-5 w-5 mt-3" />
-              </li>
-              <li>
+             <li>
                 <Logout />
               </li>
+              <li onClick={toggleProfilePanel} className="cursor-pointer">
+                <CgProfile className="h-5 w-5 m-3" />
+              </li>
+             
             </>
           )}
         </ul>
       </nav>
 
       {isProfileVisible && user && (
-        <div className="bg-white shadow-md rounded-lg p-6 mt-3 absolute right-10 z-10">
+        <div className="bg-white shadow-md rounded-lg p-6 mt-3 absolute right-10 z-999">
           <h2 className="text-2xl font-bold mb-4">Profile</h2>
           <div className="space-y-2">
             <div>

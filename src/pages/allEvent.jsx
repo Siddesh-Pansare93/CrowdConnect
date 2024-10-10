@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { FaHeart, FaUser, FaCalendarAlt, FaUsers, FaTicketAlt } from "react-icons/fa"; // Import necessary icons
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import storageService from "@/Appwrite/storageService";
-import authService from "@/Appwrite/auth";
-import dbService from "@/Appwrite/DbService";
+import storageService from "@/Backend/Appwrite/storageService";
+import authService from "@/Backend/Appwrite/auth";
+import dbService from "@/Backend/Appwrite/DbService";
 
 const EventCard = ({ event }) => {
     const [isLiked, setIsLiked] = useState(false);

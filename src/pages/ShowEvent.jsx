@@ -4,15 +4,17 @@ import Map from "@/components/Map";
 import Modal from "@/components/Modal";
 import RSVPForm from "@/components/RSVPForm";
 import { useParams } from "react-router-dom";
-import dbService from "@/Appwrite/DbService";
-import storageService from "@/Appwrite/storageService";
+import dbService from "@/Backend/Appwrite/DbService";
+import storageService from "@/Backend/Appwrite/storageService";
 import { motion } from 'framer-motion';
+import authService from "@/Backend/Appwrite/auth";
 
 const EventPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false); // map ke liye 
     const [isRsvpModalOpen, setIsRsvpModalOpen] = useState(false); //  RSVP form ke liye
     const [event, setEvent] = useState({});
     const [isDarkMode, setIsDarkMode] = useState(false);
+    const [organiserName, setOrganiserName] = useState("")
     const { id } = useParams();
 
     useEffect(() => {
@@ -20,6 +22,9 @@ const EventPage = () => {
             try {
                 const event = await dbService.getEvent(id);
                 setEvent(event);
+
+                const organiser = await dbService.getUserById(event.organiser)
+                setOrganiserName(organiser.name)
             } catch (error) {
                 console.error("Error fetching event:", error);
             }
@@ -97,11 +102,11 @@ const EventPage = () => {
     return (
         <div className={`${isDarkMode ? "dark" : ""}`}>
             <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6 md:p-12">
-                <div className="flex justify-end">
+                <div className="flex justify-end ">
                     <motion.button
                         whileHover={{ scale: 1.1 }}
                         onClick={toggleDarkMode}
-                        className="flex items-center justify-center w-12 h-12 bg-black text-white rounded-full hover:bg-gray-700 transition-all duration-300 focus:outline-none shadow-lg"
+                        className="flex items-center justify-center w-12 h-12 bg-black text-white rounded-full hover:bg-gray-700 transition-all duration-300 focus:outline-none shadow-lg "
                     >
                         {isDarkMode ? <FaSun /> : <FaMoon />}
                     </motion.button>
@@ -123,14 +128,14 @@ const EventPage = () => {
 
                         {/* //Event */}
  
-                        <div className="w-full md:w-2/3 md:pl-6">
+                        <div className="w-full md:w-2/3 md:pl-6 ">
                             <motion.div
                                 className="uppercase tracking-wide text-sm text-indigo-500 dark:text-indigo-300 font-semibold"
                                 initial={{ x: -50, opacity: 0 }}
                                 animate={{ x: 0, opacity: 1 }}
                                 transition={{ delay: 0.2 }}
                             >
-                                {event.organiser}
+                               Hosted BY :  {organiserName}
                             </motion.div>
 
                             <motion.h1

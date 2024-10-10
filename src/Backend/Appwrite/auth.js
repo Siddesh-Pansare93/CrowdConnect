@@ -1,5 +1,5 @@
 import { Client, Account, ID } from "appwrite";
-import conf from "../conf/conf";
+import conf from "../../conf/conf";
 import dbService from "./DbService";
 
 export class AuthService {
@@ -21,15 +21,13 @@ export class AuthService {
 
                 // Store user details in the database
                 const userId = userAccount.$id; // Get user ID from the account creation response
-                const ok = await dbService.createUser({
+                  await dbService.createUser({
                     id: userId,
                     name,
                     email,
                 });
-                console.log(ok)
 
-                // Call login function 
-                return this.login({ email, password });
+                this.login({email  ,password})
             } else {
                 return userAccount;
             }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import authService from "@/Appwrite/auth";  // Assuming authService handles user registration
+import authService from "../Backend/Appwrite/auth";  // Assuming authService handles user registration
 import { useDispatch } from 'react-redux';
 import { login } from "@/store/Features/authSlice";
 
@@ -22,6 +22,7 @@ const OTPVerification = () => {
       try {
         // Now proceed to register the user since OTP is verified
         const user = await authService.createAccount(userData);
+        console.log(user)
 
         if (user) {
           const userDatas = await authService.getCurrentUser()

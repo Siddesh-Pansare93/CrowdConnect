@@ -7,6 +7,7 @@ const RSVPForm = ({ onClose }) => {
 
     const onSubmit = (data) => {
         console.log(data); // Handle form submission, e.g., send data to an API
+        
         onClose(); // Close the form after submission
     };
 

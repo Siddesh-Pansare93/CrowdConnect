@@ -117,7 +117,9 @@ export class DbService {
     async createUser({ id, name, email }) {
         try {
             console.log(id)
-            return await this.database.createDocument(
+            console.log(conf.appwriteDatabaseId)
+            console.log(conf.appwriteUserCollectionId)
+            const result = await this.database.createDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteUserCollectionId, // Specify the user collection ID
                 id, 
@@ -129,9 +131,11 @@ export class DbService {
                 },
                
             );
+            console.log(result)
+            return result
         } catch (error) {
             console.log(`Appwrite Error :: createUser :: error :: ${error.message}`)
-
+            console.log(`Appwrite Error :: createUser :: error :: ${error}`)
         }
     }
     

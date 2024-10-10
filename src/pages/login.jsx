@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { FiUser, FiLock, FiMail } from "react-icons/fi";
-import authService from "@/Backend/Appwrite/auth";
+import authService from '../Backend/Appwrite/auth';
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "@/store/Features/authSlice";
+import { login } from '../store/Features/authSlice';
 import { useNavigate } from "react-router-dom";
 import emailjs from 'emailjs-com';
 

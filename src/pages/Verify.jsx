@@ -22,9 +22,9 @@ const OTPVerification = () => {
       try {
         // Now proceed to register the user since OTP is verified
 
-        console.log(userData)
+        
         const user = await authService.createAccount(userData);
-        console.log(user)
+        
 
         if (user) {
           const userDatas = await authService.getCurrentUser()

@@ -16,12 +16,15 @@ const EventPage = () => {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [organiserName, setOrganiserName] = useState("")
     const { id } = useParams();
+    
 
     useEffect(() => {
         async function fetchEvent() {
             try {
                 const event = await dbService.getEvent(id);
                 setEvent(event);
+
+
 
                 const organiser = await dbService.getUserById(event.organiser)
                 setOrganiserName(organiser.name)

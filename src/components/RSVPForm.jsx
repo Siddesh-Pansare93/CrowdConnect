@@ -1,14 +1,51 @@
 // src/components/RSVPForm.jsx
-import React from 'react';
+import React, { useEffect ,useState  ,useMemo} from 'react';
 import { useForm } from 'react-hook-form';
+import  emailjs from 'emailjs-com';
+import dbService from '@/Backend/Appwrite/DbService';
+import { useSelector } from 'react-redux';
 
-const RSVPForm = ({ onClose }) => {
+const RSVPForm = ({ onClose , eventId } ) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const [event, setEvent] = useState({})
+    const [userData , setUserData] =  useState({})
+   
+    const storeUserData = useMemo(()=>{
+        const userData = useSelector(state => state.auth.userData)
+        console.log(userData);
+    } , [userData])
+
+    storeUserData()
+   
+    
+
+    useEffect(()=>{
+        // Event ka data chaiye 
+        const fetchEvent =async(eventId)=>{
+        console.log(eventId)
+        const event  = await dbService.getEvent(eventId)
+        setEvent(event)
+        }
+        fetchEvent(eventId)
+        console.log(event)
+
+        
+
+    } ,[eventId])
+    
+    
 
     const onSubmit = (data) => {
-        console.log(data); // Handle form submission, e.g., send data to an API
+        console.log(data); 
+
+        //Sending mail to user 
+
+        const templateParams  = {
+
+        }
+       
         
-        onClose(); // Close the form after submission
+        onClose(); 
     };
 
     return (
@@ -52,5 +89,5 @@ const RSVPForm = ({ onClose }) => {
     );
 };
 
-// Export the component as default
+
 export default RSVPForm;

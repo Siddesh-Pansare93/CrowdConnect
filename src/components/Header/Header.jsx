@@ -17,7 +17,7 @@ function Header() {
     { name: 'Your Events', link: '/your-events', active: authStatus },
     { name: 'Login', link: '/login', active: !authStatus },
     { name: 'SignUp', link: '/signup', active: !authStatus },
-    { name: 'About', link: '/about', active: authStatus },
+    { name: 'About', link: '/about', active: !authStatus },// isko active rako as user can see it without login
   ];
 
   const fetchUser = async () => {
@@ -42,7 +42,8 @@ function Header() {
       <nav className='flex items-center justify-between'>
         <div className="mr-4">
           <Link to="/">
-            <h1 className="text-xl font-bold">Logo</h1>
+            <h1 className="text-xl font-bold">CrowdConnect</h1>
+            <img src={crowd} alt="crowdconnect" className='ml-2' />
           </Link>
         </div>
         <div className="hidden md:flex space-x-4">

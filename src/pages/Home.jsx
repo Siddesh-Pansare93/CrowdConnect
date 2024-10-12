@@ -1,19 +1,19 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Spline from '@splinetool/react-spline';
 import { useSelector } from "react-redux";
 
 const Home = () => {
-   const authStatus = useSelector(state => state.auth.status)
-    const navigate = useNavigate(); 
+    const authStatus = useSelector(state => state.auth.status)
+    const navigate = useNavigate();
 
     const handleGetStarted = () => {
         navigate("/signup");
     };
     const handleExploreEvents = () => {
-        navigate("/allevent"); 
+        navigate("/allevent");
     };
 
     return (

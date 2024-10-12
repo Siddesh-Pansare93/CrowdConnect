@@ -21,13 +21,13 @@ export class AuthService {
 
                 // Store user details in the database
                 const userId = userAccount.$id; // Get user ID from the account creation response
-                  await dbService.createUser({
+                await dbService.createUser({
                     id: userId,
                     name,
                     email,
                 });
 
-                return this.login({email  ,password})
+                return this.login({ email, password })
             } else {
                 return userAccount;
             }

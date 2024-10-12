@@ -4,12 +4,11 @@ import { useSelector } from 'react-redux';
 import Logout from './Logout';
 import { CgProfile } from 'react-icons/cg';
 import authService from '@/Backend/Appwrite/auth';
-
-
+import ProfileDropdown from '../ProfileDropdown';
+import ProfileSettings from '../Profilesettings';
 function Header() {
   const navigate = useNavigate();
   const authStatus = useSelector((state) => state.auth.status);
-  const [isProfileVisible, setIsProfileVisible] = useState(false);
   const [user, setUser] = useState(null);
 
   const navitems = [
@@ -18,13 +17,8 @@ function Header() {
     { name: 'Your Events', link: '/your-events', active: authStatus },
     { name: 'Login', link: '/login', active: !authStatus },
     { name: 'SignUp', link: '/signup', active: !authStatus },
-    { name: 'About', link: '/About', active: !authStatus },
-    
+    { name: 'About', link: '/About', active: authStatus },
   ];
-
-  const toggleProfilePanel = () => {
-    setIsProfileVisible(!isProfileVisible);
-  };
 
   const fetchUser = async () => {
     try {
@@ -36,10 +30,10 @@ function Header() {
   };
 
   useEffect(() => {
-    if (isProfileVisible) {
+    if (authStatus) {
       fetchUser();
     }
-  }, [isProfileVisible]);
+  }, [authStatus]);
 
   return (
     <header className='py-3 shadow bg-black text-white sticky'>
@@ -64,43 +58,17 @@ function Header() {
           )}
           {authStatus && (
             <>
-             <li>
+              {/* <li>
                 <Logout />
+              </li> */}
+              <li className="relative">
+                {/* Use ProfileDropdown here */}
+                <ProfileDropdown user={user} />
               </li>
-              <li onClick={toggleProfilePanel} className="cursor-pointer">
-                <CgProfile className="h-5 w-5 m-3" />
-              </li>
-             
             </>
           )}
         </ul>
       </nav>
-
-      {isProfileVisible && user && (
-        <div className="bg-white shadow-md rounded-lg p-6 mt-3 absolute right-10 z-999">
-          <h2 className="text-2xl font-bold mb-4">Profile</h2>
-          <div className="space-y-2">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Name:</label>
-              <p className="mt-1 text-gray-900">{user.name || 'N/A'}</p>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Email:</label>
-              <p className="mt-1 text-gray-900">{user.email || 'N/A'}</p>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Password:</label>
-              <p className="mt-1 text-gray-900">{user.password || 'N/A'}</p>
-            </div>
-            <button
-              onClick={() => setIsProfileVisible(false)}
-              className="mt-4 w-full bg-red-600 text-white font-bold py-2 rounded-md hover:bg-red-500"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
     </header>
   );
 }

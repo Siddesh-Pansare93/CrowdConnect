@@ -168,7 +168,7 @@ fetchCCuser()
                   id="name"
                   type="text"
                   {...register("name", { required: "Name is required" })}
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-3xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-3xl leading-5 bg-white placeholder-gray-500 focus:outline-yellow-600 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="Your name"
                 />
               </div>
@@ -194,7 +194,7 @@ fetchCCuser()
                     message: "Invalid email address"
                   }
                 })}
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-3xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-3xl leading-5 bg-white placeholder-gray-500 focus:outline-yellow-600 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 placeholder="you@example.com"
               />
             </div>
@@ -219,8 +219,8 @@ fetchCCuser()
                     message: "Password must be at least 6 characters"
                   }
                 })}
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-3xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                placeholder=""
+                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-3xl leading-5 bg-white placeholder-gray-500 focus:outline-yellow-600 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                placeholder="password"
               />
             </div>
             {errors.password && <p className="mt-2 text-md      text-red-600  font-semibold     ">{errors.password.message}</p>}
@@ -231,7 +231,7 @@ fetchCCuser()
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-3xl shadow-sm text-md   font-bold text-white bg-bg hover:border-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-3xl shadow-sm text-md   font-bold text-white bg-bg hover:border-white focus:outline-yellow-600 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               {isLogin ? "Login" : "Register"}
             </motion.button>

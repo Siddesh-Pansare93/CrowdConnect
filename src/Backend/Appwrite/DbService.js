@@ -83,6 +83,36 @@ export class DbService {
         }
     }
 
+    async addUserToEventAttendees(eventId, userId) {
+        try {
+            // Fetch the current event document to get the existing attendees
+            const event = await this.getEvent(eventId);
+            
+            // If there are no attendees, initialize as an empty array
+            const currentRegistration = event.registrations || [];
+            
+            // Add the new user ID to the attendees array
+            const updatedRegistration = [...currentRegistration, userId];
+    
+            // Update the event document with the new attendees array
+            const response = await this.database.updateDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteEventCollectionId,
+                eventId,
+                {
+                    registrations: updatedRegistration,  // Set the updated attendees array
+                }
+            );
+    
+            return response;
+        } catch (error) {
+            console.error('Failed to update attendees:', error);
+            throw error;
+        }
+    }
+    
+    
+
 
 
     // Getting Particular Event 

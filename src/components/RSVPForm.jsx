@@ -1,68 +1,66 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import dbService from '@/Backend/Appwrite/DbService';
 import { useSelector } from 'react-redux';
 import emailjs from 'emailjs-com';
-
+import { toast } from 'react-toastify'; // For toast notifications
+import dbService from '@/Backend/Appwrite/DbService'; // Assuming you have a service to update your event
 
 const RSVPForm = ({ onClose, eventId }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [event, setEvent] = useState({});
     const userData = useSelector(state => state.auth.userData);
-    const [template , setTemplate] = useState('')
+    const [template, setTemplate] = useState('');
+    const [isRegistered, setIsRegistered] = useState(false);
 
     useEffect(() => {
-        console.log(userData); // Log userData when it changes
-
-        // Event data fetch logic
         const fetchEvent = async (eventId) => {
-            console.log(eventId);
             const event = await dbService.getEvent(eventId);
-            console.log(event)
             setEvent(event);
         };
         fetchEvent(eventId);
-    }, [eventId, userData]);
+    }, [eventId]);
+
+    useEffect(() => {
+        if (event.tenantApproval) {
+            setTemplate("template_j77s0ym");
+        } else {
+            setTemplate("");
+        }
+    }, [event.tenantApproval]);
 
     const onSubmit = async (data) => {
-        console.log(data);  // Log form data
-
-        // Sending mail logic (emailjs or other)
         const templateParams = {
-            event_name : event.eventTitle  , 
-            user_name : userData.name , 
-            event_date : event.date , 
-            event_time : event.startTime , 
-            organisation_name :"CrowdConnect" ,
-            event_location : event.location ,
-            user_email : data.email
+            event_name: event.eventTitle,
+            user_name: userData.name,
+            event_date: event.date,
+            event_time: event.startTime,
+            organisation_name: "CrowdConnect",
+            event_location: event.location,
+            user_email: data.email,
         };
 
-        if(event.tenantApproval){
-            setTemplate("template_j77s0ym")
-            console.log(template)
-        }else{
-            setTemplate("")
-            console.log(template)
-
-        }
-
-
-
         try {
-            
-             emailjs.send(
-              'service_eq3m2ed',  // Replace with your EmailJS service ID
-              template, // Replace with your EmailJS template ID
-              templateParams,
-              '152Q6uG2K9dkInbrZ'   // Replace with your EmailJS public key
+            await emailjs.send(
+                'service_eq3m2ed',
+                template,
+                templateParams,
+                '152Q6uG2K9dkInbrZ'
             );
-            console.log('Mail send to email');
-          } catch (error) {
-            console.error('Failed to send mail:', error);
-          }
 
-        onClose();  // Close the form on submit
+            // Show success message
+            toast.success("You have been successfully registered for the event! Check your email for further details.");
+
+            // Register the user for the event in your database (optional)
+            console.log(eventId)
+            await dbService.addUserToEventAttendees(eventId, userData.$id); // Assuming you have a method to do this
+
+            // Close the form
+            setIsRegistered(true);
+            onClose(); // This will close the RSVP form
+        } catch (error) {
+            console.error('Failed to send mail:', error);
+            toast.error("Failed to register. Please try again later.");
+        }
     };
 
     return (
@@ -98,7 +96,9 @@ const RSVPForm = ({ onClose, eventId }) => {
                     </div>
                     <div className="flex justify-end">
                         <button type="button" onClick={onClose} className="mr-2 px-4 py-2 bg-gray-300 text-black rounded-lg">Cancel</button>
-                        <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-lg">Submit</button>
+                        <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-lg" disabled={isRegistered}>
+                            {isRegistered ? "You have been registered for the event" : "Submit"}
+                        </button>
                     </div>
                 </form>
             </div>

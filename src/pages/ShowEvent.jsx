@@ -8,15 +8,17 @@ import dbService from "@/Backend/Appwrite/DbService";
 import storageService from "@/Backend/Appwrite/storageService";
 import { motion } from 'framer-motion';
 import authService from "@/Backend/Appwrite/auth";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import the CSS
 
 const EventPage = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false); // map ke liye 
-    const [isRsvpModalOpen, setIsRsvpModalOpen] = useState(false); //  RSVP form ke liye
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isRsvpModalOpen, setIsRsvpModalOpen] = useState(false);
     const [event, setEvent] = useState({});
     const [isDarkMode, setIsDarkMode] = useState(false);
-    const [organiserName, setOrganiserName] = useState("")
+    const [organiserName, setOrganiserName] = useState("");
+    const [isRegistered, setIsRegistered] = useState(false);
     const { id } = useParams();
-    
 
     useEffect(() => {
         async function fetchEvent() {
@@ -24,10 +26,8 @@ const EventPage = () => {
                 const event = await dbService.getEvent(id);
                 setEvent(event);
 
-
-
-                const organiser = await dbService.getUserById(event.organiser)
-                setOrganiserName(organiser.name)
+                const organiser = await dbService.getUserById(event.organiser);
+                setOrganiserName(organiser.name);
             } catch (error) {
                 console.error("Error fetching event:", error);
             }
@@ -43,7 +43,7 @@ const EventPage = () => {
     };
 
     const endCoords = [event.latitude, event.longitude];
-    
+
     const renderCountdown = () => {
         const eventDate = new Date(event.date);
         const now = new Date();
@@ -100,10 +100,18 @@ const EventPage = () => {
         }, 1000);
 
         return () => clearInterval(interval); // Cleanup on unmount
-    }, [event.date])
+    }, [event.date]);
+
+    const handleRegistrationSuccess = () => {
+        setIsRegistered(true);
+        // toast.success("You have been successfully registered for the event!");
+        setIsRsvpModalOpen(false); 
+    };
 
     return (
         <div className={`${isDarkMode ? "dark" : ""}`}>
+            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} closeOnClick draggable pauseOnHover />
+
             <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6 md:p-12">
                 <div className="flex justify-end ">
                     <motion.button
@@ -117,7 +125,6 @@ const EventPage = () => {
 
                 <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden p-6">
                     <div className="md:flex items-center">
-                        {/* Photo Frame-like Design for Image */}
                         <motion.div
                             className="w-full md:w-1/3 md:h-48 h-48 mb-4 md:mb-0 flex-shrink-0 relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
                         >
@@ -125,12 +132,10 @@ const EventPage = () => {
                                 className="w-full h-full object-cover border-4 border-indigo-500"
                                 src={storageService.getFilePreview(event.featuredImage)}
                                 alt={event.eventTitle}
-                                style={{ borderRadius: "1rem" }} 
+                                style={{ borderRadius: "1rem" }}
                             />
                         </motion.div>
 
-                        {/* //Event */}
- 
                         <div className="w-full md:w-2/3 md:pl-6 ">
                             <motion.div
                                 className="uppercase tracking-wide text-sm text-indigo-500 dark:text-indigo-300 font-semibold"
@@ -173,8 +178,9 @@ const EventPage = () => {
                                 onClick={() => setIsRsvpModalOpen(true)} 
                                 className="mt-6 px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-lg shadow-lg hover:scale-105 transition-all duration-300"
                                 whileHover={{ scale: 1.05 }}
+                                disabled={isRegistered}
                             >
-                                Register Now
+                                {isRegistered ? "You have been successfully registered for the event" : "Register Now"}
                             </motion.button>
                         </div>
                     </div>
@@ -203,13 +209,10 @@ const EventPage = () => {
                         </motion.div>
                     )}
 
-                    {/* // Location (TODO :: Thoda problem hai idhr design ka ) */}
-
-
                     <motion.div className="mt-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Location</h3>
                         <p className="text-lg text-gray-700 dark:text-gray-300 flex items-center">
-                            <FaMapMarkerAlt className="mr-2" /> {event.location || "Not specified"} {/* Fallback if location is missing */}
+                            <FaMapMarkerAlt className="mr-2" /> {event.location || "Not specified"}
                         </p>
                         <button
                             onClick={() => setIsModalOpen(true)}
@@ -220,22 +223,14 @@ const EventPage = () => {
                     </motion.div>
                 </div>
 
-                {/* // RSVP form  */}
-
                 <Modal isOpen={isRsvpModalOpen} onClose={() => setIsRsvpModalOpen(false)}>
-                    <RSVPForm eventId={id} onClose={() => setIsRsvpModalOpen(false)} />
+                    <RSVPForm eventId={id} onClose={handleRegistrationSuccess} />
                 </Modal>
 
-                
-
-
-               {/* //  Map  */}
-
-            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                <h2 className="text-xl font-bold mb-4">Location Map</h2>
-                <Map  endCoords={endCoords} onClose={() => setIsModalOpen(false)} />
-            </Modal>
-
+                <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                    <h2 className="text-xl font-bold mb-4">Location Map</h2>
+                    <Map endCoords={endCoords} onClose={() => setIsModalOpen(false)} />
+                </Modal>
             </div>
         </div>
     );

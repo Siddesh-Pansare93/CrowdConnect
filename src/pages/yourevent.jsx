@@ -107,7 +107,7 @@ const YourEvents = () => {
     }
 
     return (
-        <div className="container px-4 py-8 bg-gray-700 w-screen">
+        <div className="container px-4 py-8 bg-gray-700 w-vw">
             <h1 className="text-4xl font-bold mb-8 text-center">Your Events</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {events.length > 0 ? (

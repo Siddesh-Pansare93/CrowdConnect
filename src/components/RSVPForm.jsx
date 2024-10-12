@@ -1,51 +1,68 @@
-// src/components/RSVPForm.jsx
-import React, { useEffect ,useState  ,useMemo} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import  emailjs from 'emailjs-com';
 import dbService from '@/Backend/Appwrite/DbService';
 import { useSelector } from 'react-redux';
+import emailjs from 'emailjs-com';
 
-const RSVPForm = ({ onClose , eventId } ) => {
+
+const RSVPForm = ({ onClose, eventId }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const [event, setEvent] = useState({})
-    const [userData , setUserData] =  useState({})
-   
-    const storeUserData = useMemo(()=>{
-        const userData = useSelector(state => state.auth.userData)
-        console.log(userData);
-    } , [userData])
+    const [event, setEvent] = useState({});
+    const userData = useSelector(state => state.auth.userData);
+    const [template , setTemplate] = useState('')
 
-    storeUserData()
-   
-    
+    useEffect(() => {
+        console.log(userData); // Log userData when it changes
 
-    useEffect(()=>{
-        // Event ka data chaiye 
-        const fetchEvent =async(eventId)=>{
-        console.log(eventId)
-        const event  = await dbService.getEvent(eventId)
-        setEvent(event)
+        // Event data fetch logic
+        const fetchEvent = async (eventId) => {
+            console.log(eventId);
+            const event = await dbService.getEvent(eventId);
+            console.log(event)
+            setEvent(event);
+        };
+        fetchEvent(eventId);
+    }, [eventId, userData]);
+
+    const onSubmit = async (data) => {
+        console.log(data);  // Log form data
+
+        // Sending mail logic (emailjs or other)
+        const templateParams = {
+            event_name : event.eventTitle  , 
+            user_name : userData.name , 
+            event_date : event.date , 
+            event_time : event.startTime , 
+            organisation_name :"CrowdConnect" ,
+            event_location : event.location ,
+            user_email : data.email
+        };
+
+        if(event.tenantApproval){
+            setTemplate("template_j77s0ym")
+            console.log(template)
+        }else{
+            setTemplate("")
+            console.log(template)
+
         }
-        fetchEvent(eventId)
-        console.log(event)
 
-        
 
-    } ,[eventId])
-    
-    
 
-    const onSubmit = (data) => {
-        console.log(data); 
+        try {
+            
+             emailjs.send(
+              'service_eq3m2ed',  // Replace with your EmailJS service ID
+              template, // Replace with your EmailJS template ID
+              templateParams,
+              '152Q6uG2K9dkInbrZ'   // Replace with your EmailJS public key
+            );
+            console.log('Mail send to email');
+          } catch (error) {
+            console.error('Failed to send mail:', error);
+          }
 
-        //Sending mail to user 
-
-        const templateParams  = {
-
-        }
-       
-        
-        onClose(); 
+        onClose();  // Close the form on submit
     };
 
     return (
@@ -88,6 +105,5 @@ const RSVPForm = ({ onClose , eventId } ) => {
         </div>
     );
 };
-
 
 export default RSVPForm;

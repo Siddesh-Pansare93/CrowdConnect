@@ -83,6 +83,32 @@ export class DbService {
         }
     }
 
+    async addUserToEventAttendees(eventId, userId) {
+        try {
+            const event = await this.getEvent(eventId);
+            
+            const currentRegistration = event.registrations || [];
+            
+            const updatedRegistration = [...currentRegistration, userId];
+    
+            const response = await this.database.updateDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteEventCollectionId,
+                eventId,
+                {
+                    registrations: updatedRegistration,
+                }
+            );
+    
+            return response;
+        } catch (error) {
+            console.error('Failed to update attendees:', error);
+            throw error;
+        }
+    }
+    
+    
+
 
 
     // Getting Particular Event 
@@ -127,7 +153,7 @@ export class DbService {
                     id , 
                     name,
                     email,
-                    createdAt: new Date().toISOString(), // Store creation date
+                    createdAt: new Date().toISOString(), 
                 },
                
             );
@@ -149,11 +175,11 @@ export class DbService {
                 conf.appwriteUserCollectionId,
                 id
 
-            ); // Use the appropriate collection ID
+            ); 
             return user;
         } catch (error) {
             console.log(`Error fetching user: ${error.message}`);
-            throw error; // Rethrow to handle it in authService if needed
+            throw error; 
         }
     }
 }

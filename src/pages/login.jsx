@@ -128,12 +128,13 @@ fetchCCuser()
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black p-4">
+    <div className="min-h-screen flex items-center justify-center bg-login-pattern bg-cover bg-center p-4">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md"
+        className="bg-transparent rounded-3xl shadow-xl p-8 w-full max-w-md border  border-gray-200"
+
       >
         <div className="flex justify-center mb-8">
           <motion.div
@@ -141,22 +142,22 @@ fetchCCuser()
             onClick={() => setIsLogin(!isLogin)}
           >
             <motion.div
-              className="absolute w-24 h-10 bg-gray-600 rounded-full"
+              className="absolute w-20 h-10 bg-bg2 rounded-full"
               animate={{ x: isLogin ? 0 : 96 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             />
-            <div className="relative flex justify-around items-center h-full text-sm font-medium">
+            <div className="relative flex justify-around items-center h-full text-md font-medium">
               <span className={isLogin ? "text-white" : "text-gray-700"}>Login</span>
               <span className={!isLogin ? "text-white" : "text-gray-700"}>Register</span>
             </div>
           </motion.div>
         </div>
 
-        {error && <p className="text-red-600 ">{error}</p>}
+        {error && <p className="     text-red-600  font-semibold      ">{error}</p>}
         <form onSubmit={handleSubmit(selectSubmitMethod)} className="space-y-6">
           {!isLogin && (
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="name" className="block text-md  font-bold text-lg text-secondary">
                 Name
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
@@ -167,16 +168,16 @@ fetchCCuser()
                   id="name"
                   type="text"
                   {...register("name", { required: "Name is required" })}
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-3xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="Your name"
                 />
               </div>
-              {errors.name && <p className="mt-2 text-sm text-red-600">{errors.name.message}</p>}
+              {errors.name && <p className="mt-2 text-md      text-red-600  font-semibold     ">{errors.name.message}</p>}
             </div>
           )}
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="email" className="block text-md  text-lg font-bold text-secondary">
               Email
             </label>
             <div className="mt-1 relative rounded-md shadow-sm">
@@ -193,15 +194,15 @@ fetchCCuser()
                     message: "Invalid email address"
                   }
                 })}
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-3xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 placeholder="you@example.com"
               />
             </div>
-            {errors.email && <p className="mt-2 text-sm text-red-600">{errors.email.message}</p>}
+            {errors.email && <p className="mt-2 text-md      text-red-600  font-semibold     ">{errors.email.message}</p>}
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="password" className="block text-md text-lg  font-bold text-secondary">
               Password
             </label>
             <div className="mt-1 relative rounded-md shadow-sm">
@@ -218,11 +219,11 @@ fetchCCuser()
                     message: "Password must be at least 6 characters"
                   }
                 })}
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-3xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 placeholder=""
               />
             </div>
-            {errors.password && <p className="mt-2 text-sm text-red-600">{errors.password.message}</p>}
+            {errors.password && <p className="mt-2 text-md      text-red-600  font-semibold     ">{errors.password.message}</p>}
           </div>
 
           <div>
@@ -230,18 +231,18 @@ fetchCCuser()
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-3xl shadow-sm text-md   font-bold text-white bg-bg hover:border-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               {isLogin ? "Login" : "Register"}
             </motion.button>
           </div>
         </form>
 
-        <p className="mt-4 text-center text-sm text-gray-600">
+        <p className="mt-4 text-center text-md text-secondary">
           {isLogin ? "Don't have an account? " : "Already have an account? "}
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className="font-medium text-black hover:text-gray-700"
+            className="  font-bold text-yellow-400 hover:underline"
           >
             {isLogin ? "Sign Up" : "Sign In"}
           </button>

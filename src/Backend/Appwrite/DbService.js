@@ -85,22 +85,18 @@ export class DbService {
 
     async addUserToEventAttendees(eventId, userId) {
         try {
-            // Fetch the current event document to get the existing attendees
             const event = await this.getEvent(eventId);
             
-            // If there are no attendees, initialize as an empty array
             const currentRegistration = event.registrations || [];
             
-            // Add the new user ID to the attendees array
             const updatedRegistration = [...currentRegistration, userId];
     
-            // Update the event document with the new attendees array
             const response = await this.database.updateDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteEventCollectionId,
                 eventId,
                 {
-                    registrations: updatedRegistration,  // Set the updated attendees array
+                    registrations: updatedRegistration,
                 }
             );
     
@@ -157,7 +153,7 @@ export class DbService {
                     id , 
                     name,
                     email,
-                    createdAt: new Date().toISOString(), // Store creation date
+                    createdAt: new Date().toISOString(), 
                 },
                
             );
@@ -179,11 +175,11 @@ export class DbService {
                 conf.appwriteUserCollectionId,
                 id
 
-            ); // Use the appropriate collection ID
+            ); 
             return user;
         } catch (error) {
             console.log(`Error fetching user: ${error.message}`);
-            throw error; // Rethrow to handle it in authService if needed
+            throw error; 
         }
     }
 }

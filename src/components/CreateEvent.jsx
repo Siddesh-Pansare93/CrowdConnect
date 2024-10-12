@@ -82,7 +82,7 @@ const EventCreationPage = () => {
   };
 
   const onSubmit = async (data) => {
-    console.log(data)
+    console.log(data);
     setIsSubmitting(true);
     try {
       const {
@@ -141,16 +141,16 @@ const EventCreationPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 to-indigo-200 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">
+    <div className="min-h-screen bg-[#050816] py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto bg-[#151030]  rounded-xl shadow-xl overflow-hidden">
         <div className="md:flex">
           {/* Left side image upload */}
-          <div className="md:flex-shrink-0 md:w-1/2 bg-gray-400 p-8 flex items-center justify-center">
+          <div className="md:flex-shrink-0 md:w-1/2 bg-[#402C78] p-8 flex items-center justify-center">
             <div className="text-center">
               <h2 className="text-3xl font-extrabold text-white mb-4">
                 Create Your Event
               </h2>
-              <p className="text-black mb-6">
+              <p className="text-[#aaa6c3] mb-6">
                 Upload an eye-catching image for your event
               </p>
               <div className="relative">
@@ -166,7 +166,7 @@ const EventCreationPage = () => {
                     />
                     <label
                       htmlFor="image-upload"
-                      className="cursor-pointer bg-white text-black font-semibold py-2 px-4 rounded-lg inline-flex items-center transition duration-300 ease-in-out hover:bg-indigo-100"
+                      className="cursor-pointer bg-[#151030] text-[#aaa6c3] font-semibold py-2 px-4  rounded-xl inline-flex items-center transition duration-300 ease-in-out hover:bg-indigo-600"
                     >
                       <FaUpload className="mr-2" />
                       Choose Image
@@ -177,7 +177,7 @@ const EventCreationPage = () => {
                     <img
                       src={imagePreview}
                       alt="Event preview"
-                      className="max-w-full h-auto rounded-lg shadow-md"
+                      className="max-w-full h-auto  rounded-xl shadow-md"
                     />
                   </div>
                 )}
@@ -191,7 +191,7 @@ const EventCreationPage = () => {
               <div>
                 <label
                   htmlFor="eventTitle"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-[#aaa6c3]"
                 >
                   Event Title
                 </label>
@@ -201,11 +201,11 @@ const EventCreationPage = () => {
                   {...register("eventTitle", {
                     required: "Event title is required",
                   })}
-                  className={`mt-1 block w-full border border-gray-200  bg-gray-50 shadow-sm rounded-md ${
+                  className={`mt-1 block w-full border border-gray-200 bg-[#151030] shadow-sm    rounded-xl ${
                     errors.eventTitle
                       ? "border-red-500"
                       : "border-gray-200"
-                  }`}
+                  } text-[#aaa6c3]`}
                 />
                 {errors.eventTitle && (
                   <p className="mt-2 text-sm text-red-600">
@@ -217,7 +217,7 @@ const EventCreationPage = () => {
               <div>
                 <label
                   htmlFor="description"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-[#aaa6c3]"
                 >
                   Description
                 </label>
@@ -227,11 +227,11 @@ const EventCreationPage = () => {
                   {...register("description", {
                     required: "Description is required",
                   })}
-                  className={`mt-1 block w-full border border-gray-200  bg-gray-50 rounded-md shadow-sm ${
+                  className={`mt-1 block w-full border border-gray-200 bg-[#151030]    rounded-xl shadow-sm ${
                     errors.description
                       ? "border-red-500"
                       : "border-gray-300"
-                  } `}
+                  } text-[#aaa6c3]`}
                 ></textarea>
                 {errors.description && (
                   <p className="mt-2 text-sm text-red-600">
@@ -243,11 +243,11 @@ const EventCreationPage = () => {
               <div>
                 <label
                   htmlFor="location"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-[#aaa6c3]"
                 >
                   Location
                 </label>
-                <div className="mt-1 relative rounded-md shadow-sm">
+                <div className="mt-1 relative    rounded-xl shadow-sm">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <FaMapMarkerAlt className="text-gray-400" />
                   </div>
@@ -257,11 +257,11 @@ const EventCreationPage = () => {
                     {...register("location", {
                       required: "Location is required",
                     })}
-                    className={`pl-10 block w-full border border-gray-200  bg-gray-50 rounded-md ${
+                    className={`pl-10 block w-full border border-gray-200 bg-[#151030]    rounded-xl ${
                       errors.location
                         ? "border-red-500"
                         : "border-gray-300"
-                    }`}
+                    } text-[#aaa6c3]`}
                   />
                 </div>
                 {errors.location && (
@@ -275,11 +275,11 @@ const EventCreationPage = () => {
                 <div>
                   <label
                     htmlFor="date"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-[#aaa6c3]"
                   >
                     Date
                   </label>
-                  <div className="mt-1 relative rounded-md shadow-sm">
+                  <div className="mt-1 relative    rounded-xl shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <FaCalendarAlt className="text-gray-400" />
                     </div>
@@ -289,9 +289,9 @@ const EventCreationPage = () => {
                       {...register("date", {
                         required: "Date is required",
                       })}
-                      className={`pl-10 block w-full border border-gray-200  bg-gray-50 rounded-md ${
+                      className={`pl-10 block w-full border border-gray-200 bg-[#151030]    rounded-xl ${
                         errors.date ? "border-red-500" : "border-gray-300"
-                      }`}
+                      } text-[#aaa6c3]`}
                     />
                   </div>
                   {errors.date && (
@@ -304,11 +304,11 @@ const EventCreationPage = () => {
                 <div>
                   <label
                     htmlFor="startTime"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-[#aaa6c3]"
                   >
                     Start Time
                   </label>
-                  <div className="mt-1 relative rounded-md shadow-sm">
+                  <div className="mt-1 relative    rounded-xl shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <FaClock className="text-gray-400" />
                     </div>
@@ -318,11 +318,11 @@ const EventCreationPage = () => {
                       {...register("startTime", {
                         required: "Start time is required",
                       })}
-                      className={`pl-10 block w-full border border-gray-200  bg-gray-50 rounded-md ${
+                      className={`pl-10 block w-full border border-gray-200 bg-[#151030]    rounded-xl ${
                         errors.startTime
                           ? "border-red-500"
                           : "border-gray-300"
-                      }`}
+                      } text-[#aaa6c3]`}
                     />
                   </div>
                   {errors.startTime && (
@@ -331,51 +331,49 @@ const EventCreationPage = () => {
                     </p>
                   )}
                 </div>
-              </div>
 
-              <div>
-                <label
-                  htmlFor="endTime"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  End Time
-                </label>
-                <div className="mt-1 relative rounded-md shadow-sm">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FaClock className="text-gray-400" />
+                <div>
+                  <label
+                    htmlFor="endTime"
+                    className="block text-sm font-medium text-[#aaa6c3]"
+                  >
+                    End Time
+                  </label>
+                  <div className="mt-1 relative    rounded-xl shadow-sm">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <FaClock className="text-gray-400" />
+                    </div>
+                    <input
+                      type="time"
+                      id="endTime"
+                      {...register("endTime", {
+                        required: "End time is required",
+                      })}
+                      className={`pl-10 block w-full border border-gray-200 bg-[#151030]    rounded-xl ${
+                        errors.endTime
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      } text-[#aaa6c3]`}
+                    />
                   </div>
-                  <input
-                    type="time"
-                    id="endTime"
-                    {...register("endTime", {
-                      required: "End time is required",
-                    })}
-                    className={`pl-10 block w-full border border-gray-200  bg-gray-50 rounded-md ${
-                      errors.endTime
-                        ? "border-red-500"
-                        : "border-gray-300"
-                    }`}
-                  />
+                  {errors.endTime && (
+                    <p className="mt-2 text-sm text-red-600">
+                      {errors.endTime.message}
+                    </p>
+                  )}
                 </div>
-                {errors.endTime && (
-                  <p className="mt-2 text-sm text-red-600">
-                    {errors.endTime.message}
-                  </p>
-                )}
-              </div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <label
                     htmlFor="ticketType"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-[#aaa6c3]"
                   >
                     Ticket Type
                   </label>
                   <select
                     id="ticketType"
                     {...register("ticketType")}
-                    className="mt-1 block w-full border border-gray-200  bg-gray-50 rounded-md shadow-sm"
+                    className="mt-1 block w-full border border-gray-200 bg-[#151030]    rounded-xl text-[#aaa6c3]"
                   >
                     <option value="free">Free</option>
                     <option value="paid">Paid</option>
@@ -386,11 +384,11 @@ const EventCreationPage = () => {
                   <div>
                     <label
                       htmlFor="ticketPrice"
-                      className="block text-sm font-medium text-gray-700"
+                      className="block text-sm font-medium text-[#aaa6c3]"
                     >
                       Ticket Price
                     </label>
-                    <div className="mt-1 relative rounded-md shadow-sm">
+                    <div className="mt-1 relative    rounded-xl shadow-sm">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <FaRupeeSign className="text-gray-400" />
                       </div>
@@ -398,25 +396,23 @@ const EventCreationPage = () => {
                         type="number"
                         id="ticketPrice"
                         {...register("ticketPrice")}
-                        className="pl-10 block w-full border border-gray-200  bg-gray-50 rounded-md"
+                        className={`pl-10 block w-full border border-gray-200 bg-[#151030]    rounded-xl text-[#aaa6c3]`}
                       />
                     </div>
                   </div>
                 )}
-              </div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <label
                     htmlFor="tenantApproval"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-[#aaa6c3]"
                   >
                     Tenant Approval Required?
                   </label>
                   <select
                     id="tenantApproval"
                     {...register("tenantApproval")}
-                    className="mt-1 block w-full border border-gray-200  bg-gray-50 rounded-md shadow-sm"
+                    className="mt-1 block w-full border border-gray-200 bg-[#151030]    rounded-xl text-[#aaa6c3]"
                   >
                     <option value="no">No</option>
                     <option value="yes">Yes</option>
@@ -426,42 +422,29 @@ const EventCreationPage = () => {
                 <div>
                   <label
                     htmlFor="capacity"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-[#aaa6c3]"
                   >
                     Capacity
                   </label>
                   <input
                     type="number"
                     id="capacity"
-                    {...register("capacity", {
-                      required: "Capacity is required",
-                    })}
-                    className={`mt-1 block w-full border border-gray-200  bg-gray-50 rounded-md shadow-sm ${
-                      errors.capacity
-                        ? "border-red-500"
-                        : "border-gray-300"
-                    }`}
+                    {...register("capacity")}
+                    className="mt-1 block w-full border border-gray-200 bg-[#151030]    rounded-xl text-[#aaa6c3]"
                   />
-                  {errors.capacity && (
-                    <p className="mt-2 text-sm text-red-600">
-                      {errors.capacity.message}
-                    </p>
-                  )}
                 </div>
-              </div>
 
-              {/* Multiple category selection */}
-              <div>
+                <div>
                 <label
                   htmlFor="categories"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-[#aaa6c3]"
                 >
                   Categories
                 </label>
                 <select
                   id="categories"
                   {...register("categories")}
-                  className="mt-1 block w-full border border-gray-200  bg-gray-50 rounded-md shadow-sm"
+                  className="mt-1 block w-full border text-[#aaa6c3] border-gray-200 bg-[#151030]   rounded-sm shadow-sm"
                   multiple
                 >
                   <option value="music">Music</option>
@@ -471,12 +454,13 @@ const EventCreationPage = () => {
                   <option value="sports">Sports</option>
                 </select>
               </div>
+              </div>
 
-              <div className="mt-6">
+              <div>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300 ease-in-out"
+                  className="w-full bg-[#402C78] text-white font-semibold py-2 px-4    rounded-xl transition duration-300 ease-in-out hover:bg-[#3d274f] disabled:opacity-50"
                 >
                   {isSubmitting ? "Creating Event..." : "Create Event"}
                 </button>

@@ -49,7 +49,7 @@ const YourEventCard = ({ event }) => {
             <p className="text-gray-600 mt-2">{event.description || "Join us for an insightful meetup!"}</p>
 
             <div className="flex justify-between items-center mt-4">
-                <Link to={`/event/${event.$id}`}>
+                <Link to={`/EventManager/${event.$id}`}>
                     <button className="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition-all duration-300">
                         View Details
                     </button>

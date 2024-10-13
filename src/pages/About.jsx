@@ -79,7 +79,7 @@ const About = () => {
         },
         {
             name: "Ashmit Singh",
-            role: "Frontend Developer",
+            role: "Full-Stack Developer",
             image: ashmit,
             github: "https://github.com/Ashmit111",
             linkedin: "https://www.linkedin.com/in/ashmit-singh-768456257/"

@@ -43,7 +43,6 @@
     "react-router-dom": "^6.26.1",
     "react-toastify": "^10.0.5",
     "react-transition-group": "^4.4.5",
-    "react-tsparticles": "^2.12.2",
     "redux-persist": "^6.0.0",
     "shadcn-ui": "^0.9.2",
     "tailwind-merge": "^2.5.2",

@@ -129,6 +129,7 @@ export class DbService {
 
     async getAllEvents(queries = []) {
         try {
+            console.log(queries)
             return await this.database.listDocuments(
                 conf.appwriteDatabaseId,
                 conf.appwriteEventCollectionId,

@@ -10,10 +10,12 @@ import {
 import dbService from "@/Backend/Appwrite/DbService";
 import storageService from "@/Backend/Appwrite/storageService";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const EventCreationPage = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate() ;
 
   const userData = useSelector((state) => state.auth.userData);
   if (!userData) {
@@ -137,6 +139,7 @@ const EventCreationPage = () => {
       console.error("Error creating event:", error);
     } finally {
       setIsSubmitting(false);
+      navigate("/your-event")
     }
   };
 

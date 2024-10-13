@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom"; // For accessing eventId from URL
 import dbService from "../Backend/Appwrite/DbService"; // Assuming dbService has methods for event fetching
 import storageService from "../Backend/Appwrite/storageService";
 import authService from "../Backend/Appwrite/auth";
+import emailjs from 'emailjs-com';
 
 const EventManager = () => {
   const { eventId } = useParams(); // Fetch eventId from the URL
@@ -58,6 +59,32 @@ const EventManager = () => {
     setDarkMode(!darkMode);
   };
 
+// Function to send confirmation email
+const sendConfirmationEmail = (userEmail, userName, eventTitle) => {
+  const templateParams = {
+    to_name: userName,
+    to_email: userEmail,
+    event_name: eventTitle,
+  };
+
+  emailjs
+    .send(
+      "service_urnjv47", // Replace with your EmailJS service ID
+      "template_frpp7dt", // Replace with your EmailJS template ID
+      templateParams,
+      "sTkbtnTzVWr4EoiBs" // Replace with your EmailJS user ID
+    )
+    .then(
+      (response) => {
+        console.log("Confirmation email sent successfully:", response.status, response.text);
+      },
+      (error) => {
+        console.error("Failed to send confirmation email:", error);
+      }
+    );
+};
+
+
   const handleRegistration = async (action, userId) => {
     try {
       // Update registration status in the backend
@@ -74,6 +101,7 @@ const EventManager = () => {
           // Add user to attendees
           await dbService.addUserToEventAttendees(eventId, userId);
           setAttendees([...attendees, user]); // Add the approved user to the attendees list
+          sendConfirmationEmail(user.email, user.name, eventDetails.eventTitle);
         }
       }
     } catch (error) {
@@ -177,9 +205,9 @@ const EventManager = () => {
                 <ul className="space-y-4">
                   {attendees.length > 0 ? (
                     attendees.map((attendee) => (
-                      <li key={attendee.id} className="p-4 bg-gray-100 dark:bg-gray-700 rounded-md">
-                        <p className="font-semibold">{attendee.name}</p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">{attendee.email}</p>
+                      <li key={attendee?.id} className="p-4 bg-gray-100 dark:bg-gray-700 rounded-md">
+                        <p className="font-semibold">{attendee?.name}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{attendee?.email}</p>
                       </li>
                     ))
                   ) : (

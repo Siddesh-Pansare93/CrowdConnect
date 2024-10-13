@@ -19,9 +19,8 @@ function Header() {
     { name: 'Registered Events', link: '/registered-events', active: authStatus },
     { name: 'Login', link: '/login', active: !authStatus },
     { name: 'SignUp', link: '/signup', active: !authStatus },
-    { name: 'Normal', link: '/normal', active: !authStatus },
+    // { name: 'Normal', link: '/normal', active: !authStatus },
     { name: 'About', link: '/about', active: !authStatus },// isko active rako as user can see it without login
-    // { name : 'All Events',  link: '/allevent', active: authStatus }
 
   ];
 

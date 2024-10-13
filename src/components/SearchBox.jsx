@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Query } from "appwrite"; // Import Query from Appwrite SDK
 import dbService from "@/Backend/Appwrite/DbService";
 import SearchedEvents from "./SearchedEvent"; // Import the SearchedEvents component
 
@@ -9,20 +10,35 @@ const SearchBox = () => {
 
     const handleSearch = async (e) => {
         e.preventDefault(); // Prevent form submission
-        if (!searchTerm.trim()) return; // Do nothing if the search term is empty
+        const trimmedSearchTerm = searchTerm.trim();
+    
+        if (trimmedSearchTerm.length === 0) return; // Do nothing if the search term is empty
     
         setIsSearching(true);
         try {
-            const queries = [Query.equal('eventTitle', searchTerm)];
-             
+            const queries = [
+                Query.or([
+                    Query.search('eventTitle', trimmedSearchTerm), // Use Query.search
+                    Query.search('location', trimmedSearchTerm), // Use Query.search
+                    // Query.search('description', trimmedSearchTerm), // Use Query.search
+                    Query.contains('categories', trimmedSearchTerm), // Use Query.search
+                    Query.search('ticketType', trimmedSearchTerm), // Use Query.search
+                ]),
+            ];
+    
             const searchResults = await dbService.getAllEvents(queries);
+            console.log("Search Results:", searchResults); // For debugging
             setSearchedEvents(searchResults.documents || []);
         } catch (error) {
             console.log("Error searching events:", error.message);
+            setSearchedEvents([]); // Clear the search results on error
         } finally {
             setIsSearching(false);
         }
     };
+    
+    
+    
 
     return (
         <div className="search-container px-4 py-8 bg-gray-700 w-screen">

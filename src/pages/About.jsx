@@ -64,7 +64,7 @@ const About = () => {
     const teamMembers = [
         { name: "Sumit Singh", role: "Front-End Developer", image: Sumit },
         { name: "Siddesh Pansare", role:"Full-Stack Developer", image: siddesh },
-        { name: "Ashmit Singh", role: "Frontend Developer", image: ashmit },
+        { name: "Ashmit Singh", role: "Full-Stack Developer", image: ashmit },
         { name: "Sumit Singh", role: "Python Developer", image: dinya }
     ];
 

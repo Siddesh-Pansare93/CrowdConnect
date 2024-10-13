@@ -52,7 +52,7 @@ const RSVPForm = ({ onClose, eventId }) => {
 
             // Register the user for the event in your database (optional)
             console.log(eventId)
-            await dbService.addUserToEventAttendees(eventId, userData.$id); // Assuming you have a method to do this
+            await dbService.addUserToEventRegistrations(eventId, userData.$id); // Assuming you have a method to do this
 
             // Close the form
             setIsRegistered(true);

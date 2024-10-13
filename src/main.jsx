@@ -19,6 +19,7 @@ import YourEvents from './pages/yourevent.jsx'
 import About from './pages/About.jsx'
 import OTPVerification from './pages/Verify.jsx'
 import ProfileSettings from './components/Profilesettings.jsx'
+import EventManager from './pages/handleEvent.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
       <Route path='/event/:id' element={<ShowEvent/>}/>
       <Route path='/otp-verification' element={<OTPVerification/>}/>
       <Route path='/profile-settings' element={<ProfileSettings/>}/>
+      <Route path='/EventManager/:eventId' element={<EventManager/>}/>
 
     </Route>
   )

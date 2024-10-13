@@ -17,7 +17,7 @@ export class DbService {
 
 
     // Creating Event 
-    async createEvent({ id = ID.unique(), capacity, categories , latitude, longitude, date, description, endTime, eventTitle, featuredImage, location, organiser, startTime, tenantApproval, ticketPrice = null, ticketType }) {
+    async createEvent({ id = ID.unique(), capacity, categories , latitude, longitude, date, description, endTime, eventTitle, featuredImage, location, organiser, startTime, tenantApproval, ticketPrice = null, ticketType, registrations, attendees }) {
         try {
             return await this.database.createDocument(
                 conf.appwriteDatabaseId,
@@ -36,7 +36,9 @@ export class DbService {
                 endTime,
                 latitude,
                 longitude,
-                organiser , 
+                organiser,
+                registrations,
+                attendees , 
                 categories
 
 
@@ -84,7 +86,7 @@ export class DbService {
         }
     }
 
-    async addUserToEventAttendees(eventId, userId) {
+    async addUserToEventRegistrations(eventId, userId) {
         try {
             const event = await this.getEvent(eventId);
             
@@ -108,6 +110,74 @@ export class DbService {
         }
     }
     
+    async addUserToEventAttendees(eventId, userId) {
+        try {
+            // Fetch the current event details
+            const event = await this.getEvent(eventId);
+            
+            // Get the current attendees or initialize an empty array
+            const currentAttendees = event.attendees || [];
+            
+            // Check if the user is already an attendee to prevent duplicates
+            if (!currentAttendees.includes(userId)) {
+                // Add the userId to the attendees list
+                const updatedAttendees = [...currentAttendees, userId];
+    
+                // Update the event document in the database
+                const response = await this.database.updateDocument(
+                    conf.appwriteDatabaseId,
+                    conf.appwriteEventCollectionId,
+                    eventId,
+                    {
+                        attendees: updatedAttendees // Update the attendees array
+                    }
+                );
+    
+                return response; // Return the response from the database update
+            } else {
+                console.log(`User with ID ${userId} is already an attendee.`);
+                return event; // Return the existing event data if user is already an attendee
+            }
+        } catch (error) {
+            console.error('Failed to update attendees:', error);
+            throw error; // Re-throw the error for further handling
+        }
+    }
+    
+    async updateRegistrationStatus(eventId, userId, action) { 
+        try {
+            // Fetch the current event details
+            const event = await this.getEvent(eventId);
+    
+            // Update registrations based on action
+            let updatedRegistrations = event.registrations || [];
+            let updatedAttendees = event.attendees || [];
+    
+            // Remove user from registrations
+            updatedRegistrations = updatedRegistrations.filter((id) => id !== userId);
+    
+            // If approved, add to attendees
+            if (action === 'approved') {
+                updatedAttendees.push(userId);
+            }
+    
+            // Update the event document in the database
+            const response = await this.database.updateDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteEventCollectionId,
+                eventId,
+                {
+                    registrations: updatedRegistrations,
+                    attendees: updatedAttendees,
+                }
+            );
+    
+            return response; // Return the response from the database update
+        } catch (error) {
+            console.error(`Error updating registration status for event ${eventId}:`, error);
+            throw error;
+        }
+    }
     
 
 
@@ -189,4 +259,4 @@ export class DbService {
 
 const dbService = new DbService()
 
-export default dbService 
+export default dbService

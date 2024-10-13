@@ -43,7 +43,7 @@ function Header() {
         <div className="mr-4">
           <Link to="/">
             <h1 className="text-xl font-bold">CrowdConnect</h1>
-            <img src={crowd} alt="crowdconnect" className='ml-2' />
+            {/* <img src={crowd} alt="crowdconnect" className='ml-2' /> */}
           </Link>
         </div>
         <div className="hidden md:flex space-x-4">

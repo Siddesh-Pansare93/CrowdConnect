@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import emailjs from '@emailjs/browser';
 import { FaUsers, FaCalendarAlt, FaComments, FaStar } from "react-icons/fa";
 import { Carousel } from "react-responsive-carousel";
+import { FaGithub, FaLinkedin } from "react-icons/fa"; // Import icons for GitHub and LinkedIn
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 // Import images 
-import Sumit from '../assets/sumit.png';
-import dinya from '../assets/Dinya.jpg';
-import siddesh from '../assets/siddesh.jpg'
-import ashmit from '../assets/ashmit.png'
 
+import sumit from '../assets/sumit.jpg'; 
+import dinya from '../assets/Dinya.jpg';
+import siddesh from '../assets/siddesh.jpg';
+import ashmit from '../assets/ashmit.png';
 
 const About = () => {
     const [formData, setFormData] = useState({
@@ -30,11 +31,9 @@ const About = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Send email using EmailJS
         emailjs.send('service_o1k03ot', 'template_jc873aq', formData, 'fbxLzbBncfCIVbQwF')
             .then((response) => {
                 console.log('Email sent successfully:', response);
-                // Reset form data
                 setFormData({
                     name: "",
                     email: "",
@@ -61,17 +60,43 @@ const About = () => {
         { name: "Mike Johnson", content: "The ease of organizing meetups on CrowdConnect is unparalleled. Great job!" }
     ];
 
+
+
     const teamMembers = [
-        { name: "Sumit Singh", role: "Front-End Developer", image: Sumit },
-        { name: "Siddesh Pansare", role:"Full-Stack Developer", image: siddesh },
-        { name: "Ashmit Singh", role: "Frontend Developer", image: ashmit },
-        { name: "Sumit Singh", role: "Python Developer", image: dinya }
+        {
+            name: "Sumit Singh",
+            role: "Front-End Developer",
+            image: sumit,
+            github: "https://github.com/18-sumit",
+            linkedin: "https://www.linkedin.com/in/sumit-singh-721aa1254/"
+        },
+        {
+            name: "Siddesh Pansare",
+            role: "Full-Stack Developer",
+            image: siddesh,
+            github: "https://github.com/Siddesh-Pansare93",
+            linkedin: "https://www.linkedin.com/in/siddesh-pansare-537a322ab/"
+        },
+        {
+            name: "Ashmit Singh",
+            role: "Frontend Developer",
+            image: ashmit,
+            github: "https://github.com/Ashmit111",
+            linkedin: "https://www.linkedin.com/in/ashmit-singh-768456257/"
+        },
+        {
+            name: "Sumit Singh",
+            role: "Python Developer",
+            image: dinya,
+            github: "https://github.com/suuummiiit/",
+            linkedin: "https://www.linkedin.com/in/suuummiiit/"
+        }
     ];
 
     return (
         <div className="bg-gray-100 min-h-screen">
             {/* Header Section */}
-            <header className="relative h-96 bg-cover bg-center z-0"  style={{ backgroundImage: "url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80')" }}>
+            <header className="relative h-96 bg-cover bg-center z-0" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80')" }}>
                 <div className="absolute inset-0 bg-black opacity-50"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
                     <h1 className="text-5xl font-bold text-white">CrowdConnect</h1>
@@ -135,10 +160,18 @@ const About = () => {
                     <h2 className="text-3xl font-semibold mb-12 text-center">Meet Our Team</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         {teamMembers.map((member, index) => (
-                            <div key={index} className="bg-white p-6 rounded-lg shadow-md text-center transition-transform hover:scale-105">
+                            <div key={index} className="bg-white p-6 rounded-lg shadow-lg text-center transition-transform hover:scale-105">
                                 <img src={member.image} alt={member.name} className="w-32 h-32 rounded-full mx-auto mb-4 object-cover" />
                                 <h3 className="text-xl font-semibold mb-2">{member.name}</h3>
                                 <p className="text-gray-600">{member.role}</p>
+                                <div className="flex justify-center mt-4 space-x-4">
+                                    <a href={member.github} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
+                                        <FaGithub size={24} />
+                                    </a>
+                                    <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
+                                        <FaLinkedin size={24} />
+                                    </a>
+                                </div>
                             </div>
                         ))}
                     </div>

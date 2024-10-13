@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
+// import App from './App.jsx'
+import '../src/index.css'
 import { createBrowserRouter, createRoutesFromElements, Route, Router, RouterProvider } from 'react-router-dom'
 import Layout from './layouts/layout.jsx'
 import { Provider } from 'react-redux'
@@ -25,7 +25,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout />}>
       {/* <Route path='/showevent' element={<EventPage/>}/> */}
-      <Route path='/Home' element={<Home />} />
+      <Route path='/' element={<Home />} />
       <Route path='/About' element={<About />} />
       <Route path='/signup' element={<LoginRegisterForm />} />
       <Route path='/createevent' element={<CreateEventPage />} />

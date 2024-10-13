@@ -17,7 +17,7 @@ export class DbService {
 
 
     // Creating Event 
-    async createEvent({ id = ID.unique(), capacity, latitude, longitude, date, description, endTime, eventTitle, featuredImage, location, organiser, startTime, tenantApproval, ticketPrice = null, ticketType, registrations, attendees }) {
+    async createEvent({ id = ID.unique(), capacity, categories , latitude, longitude, date, description, endTime, eventTitle, featuredImage, location, organiser, startTime, tenantApproval, ticketPrice = null, ticketType, registrations, attendees }) {
         try {
             return await this.database.createDocument(
                 conf.appwriteDatabaseId,
@@ -38,7 +38,8 @@ export class DbService {
                 longitude,
                 organiser,
                 registrations,
-                attendees
+                attendees , 
+                categories
 
 
             })

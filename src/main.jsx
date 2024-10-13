@@ -21,6 +21,7 @@ import OTPVerification from './pages/Verify.jsx'
 import ProfileSettings from './components/Profilesettings.jsx'
 import EventManager from './pages/handleEvent.jsx'
 import SearchedEvents from './components/SearchedEvent'
+import RegisteredEvents from './components/UserRegisteredEvents'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,7 +31,7 @@ const router = createBrowserRouter(
       <Route path='/About' element={<About />} />
       <Route path='/signup' element={<LoginRegisterForm />} />
       <Route path='/createevent' element={<CreateEventPage />} />
-      <Route path='/allevent' element={<Events />} />
+      <Route path='/allevents' element={<Events />} />
       <Route path="/payment" element={<Payment />} />
       <Route path="/logout" element={<Logout />} />
       <Route path='/your-events' element={<YourEvents/>}/>
@@ -38,7 +39,7 @@ const router = createBrowserRouter(
       <Route path='/otp-verification' element={<OTPVerification/>}/>
       <Route path='/profile-settings' element={<ProfileSettings/>}/>
       <Route path='/EventManager/:eventId' element={<EventManager/>}/>
-
+      <Route path="/registered-events" element={<RegisteredEvents/>} />
       <Route path="/search" element={<SearchedEvents/>} />
 
     </Route>

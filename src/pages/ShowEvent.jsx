@@ -15,7 +15,7 @@ const EventPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isRsvpModalOpen, setIsRsvpModalOpen] = useState(false);
     const [event, setEvent] = useState({});
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(true);
     const [organiserName, setOrganiserName] = useState("");
     const [isRegistered, setIsRegistered] = useState(false);
     const { id } = useParams();
@@ -28,6 +28,14 @@ const EventPage = () => {
 
                 const organiser = await dbService.getUserById(event.organiser);
                 setOrganiserName(organiser.name);
+
+
+                // New code to check if user is already registered
+                const currentUser = await authService.getCurrentUser(); // Assuming this gets the currently logged-in user
+                const user = await dbService.getUserById(currentUser.$id); // Fetching user's registered events
+                if (user.RegisteredEvents && user.RegisteredEvents.includes(id)) {
+                    setIsRegistered(true); // User is already registered
+                }
             } catch (error) {
                 console.error("Error fetching event:", error);
             }
@@ -224,7 +232,7 @@ const EventPage = () => {
                 </div>
 
                 <Modal isOpen={isRsvpModalOpen} onClose={() => setIsRsvpModalOpen(false)}>
-                    <RSVPForm eventId={id} onClose={handleRegistrationSuccess} />
+                    <RSVPForm eventId={id} onCancel={()=>setIsRsvpModalOpen(false)} onClose={handleRegistrationSuccess} />
                 </Modal>
 
                 <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>

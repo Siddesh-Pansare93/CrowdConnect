@@ -132,9 +132,10 @@ const EventCreationPage = () => {
       const event = await dbService.createEvent(eventData);
       if (event) {
         console.log("Event created successfully:", event);
+
       } else {
         console.log("Failed to create the event");
-      }
+      } 
     } catch (error) {
       console.error("Error creating event:", error);
     } finally {

@@ -5,7 +5,7 @@ import emailjs from 'emailjs-com';
 import { toast } from 'react-toastify'; // For toast notifications
 import dbService from '@/Backend/Appwrite/DbService'; // Assuming you have a service to update your event
 
-const RSVPForm = ({ onClose, eventId }) => {
+const RSVPForm = ({ onClose, eventId ,onCancel }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [event, setEvent] = useState({});
     const userData = useSelector(state => state.auth.userData);
@@ -38,7 +38,7 @@ const RSVPForm = ({ onClose, eventId }) => {
             event_location: event.location,
             user_email: data.email,
         };
-
+    
         try {
             await emailjs.send(
                 'service_eq3m2ed',
@@ -46,14 +46,16 @@ const RSVPForm = ({ onClose, eventId }) => {
                 templateParams,
                 '152Q6uG2K9dkInbrZ'
             );
-
+    
             // Show success message
             toast.success("You have been successfully registered for the event! Check your email for further details.");
-
-            // Register the user for the event in your database (optional)
-            console.log(eventId)
+    
+            // Register the user for the event in your database
             await dbService.addUserToEventRegistrations(eventId, userData.$id); // Assuming you have a method to do this
-
+            
+            // Add event ID to user's registered events
+            await dbService.addEventToUserRegisteredEvents(userData.$id, eventId);
+    
             // Close the form
             setIsRegistered(true);
             onClose(); // This will close the RSVP form
@@ -62,6 +64,8 @@ const RSVPForm = ({ onClose, eventId }) => {
             toast.error("Failed to register. Please try again later.");
         }
     };
+    
+    
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
@@ -95,7 +99,7 @@ const RSVPForm = ({ onClose, eventId }) => {
                         {errors.reason && <span className="text-red-500 text-sm">This field is required</span>}
                     </div>
                     <div className="flex justify-end">
-                        <button type="button" onClick={onClose} className="mr-2 px-4 py-2 bg-gray-300 text-black rounded-lg">Cancel</button>
+                        <button type="button" onClick={onCancel} className="mr-2 px-4 py-2 bg-gray-300 text-black rounded-lg">Cancel</button>
                         <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-lg" disabled={isRegistered}>
                             {isRegistered ? "You have been registered for the event" : "Submit"}
                         </button>

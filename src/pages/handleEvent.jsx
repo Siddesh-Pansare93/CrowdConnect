@@ -177,9 +177,9 @@ const EventManager = () => {
                 <ul className="space-y-4">
                   {attendees.length > 0 ? (
                     attendees.map((attendee) => (
-                      <li key={attendee.id} className="p-4 bg-gray-100 dark:bg-gray-700 rounded-md">
-                        <p className="font-semibold">{attendee.name}</p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">{attendee.email}</p>
+                      <li key={attendee?.id} className="p-4 bg-gray-100 dark:bg-gray-700 rounded-md">
+                        <p className="font-semibold">{attendee?.name }</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{attendee?.email}</p>
                       </li>
                     ))
                   ) : (

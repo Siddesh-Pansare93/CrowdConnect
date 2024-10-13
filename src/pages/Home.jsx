@@ -13,7 +13,7 @@ const Home = () => {
         navigate("/signup");
     };
     const handleExploreEvents = () => {
-        navigate("/allevent");
+        navigate("/allevents");
     };
 
     return (
@@ -21,7 +21,8 @@ const Home = () => {
             {/* Spline as background */}
             <div className="fixed inset-0 z-0 w-full h-full">
                 <Spline
-                    scene="https://prod.spline.design/FsnGAumr8Orx2cRL/scene.splinecode"
+                    scene="https://prod.spline.design/utSEViqSzdzDIZVl/scene.splinecode"
+                    // scene="https://prod.spline.design/FsnGAumr8Orx2cRL/scene.splinecode"
                     className="w-full h-full object-cover"
                     style={{ zIndex: 1 }} // Keep a positive z-index
                 />

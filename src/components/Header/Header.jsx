@@ -14,7 +14,9 @@ function Header() {
   const navitems = [
     { name: 'Home', link: '/', active: true },
     { name: 'Create Event', link: '/createevent', active: authStatus },
+    { name: 'See All Events', link: '/allevents', active: authStatus },
     { name: 'Your Events', link: '/your-events', active: authStatus },
+    { name: 'Registerd Events', link: '/registered-events', active: authStatus },
     { name: 'Login', link: '/login', active: !authStatus },
     { name: 'SignUp', link: '/signup', active: !authStatus },
     { name: 'About', link: '/about', active: !authStatus },// isko active rako as user can see it without login

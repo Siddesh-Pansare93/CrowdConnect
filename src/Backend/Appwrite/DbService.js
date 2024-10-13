@@ -178,6 +178,37 @@ export class DbService {
             throw error;
         }
     }
+
+
+    async addEventToUserRegisteredEvents(userId, eventId) {
+        try {
+            const user = await this.getUserById(userId);
+            const currentRegisteredEvents = user.RegisteredEvents || [];
+    
+            // Prevent duplicates
+            if (!currentRegisteredEvents.includes(eventId)) {
+                const updatedRegisteredEvents = [...currentRegisteredEvents, eventId];
+    
+                const response = await this.database.updateDocument(
+                    conf.appwriteDatabaseId,
+                    conf.appwriteUserCollectionId,
+                    userId,
+                    {
+                        RegisteredEvents: updatedRegisteredEvents,
+                    }
+                );
+    
+                return response; // Return the response from the database update
+            } else {
+                console.log(`Event ID ${eventId} is already registered by user ${userId}.`);
+                return user; // Return existing user data if event is already registered
+            }
+        } catch (error) {
+            console.error('Failed to update user registered events:', error);
+            throw error;
+        }
+    }
+    
     
 
 

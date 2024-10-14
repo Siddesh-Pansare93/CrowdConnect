@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import emailjs from 'emailjs-com';
+import emailjs from '@emailjs/browser';
 import { toast } from 'react-toastify'; // For toast notifications
 import dbService from '@/Backend/Appwrite/DbService'; // Assuming you have a service to update your event
 

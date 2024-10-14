@@ -6,7 +6,8 @@ import authService from '../Backend/Appwrite/auth';
 import { useDispatch, useSelector } from "react-redux";
 import { login } from '../store/Features/authSlice';
 import { useNavigate } from "react-router-dom";
-import emailjs from 'emailjs-com';
+import emailjs from '@emailjs/browser';
+
 
 
 const LoginRegisterForm = () => {

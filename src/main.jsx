@@ -20,7 +20,7 @@ import OTPVerification from './pages/Verify.jsx'
 import ProfileSettings from './components/Profilesettings.jsx'
 import EventManager from './pages/handleEvent.jsx'
 import SearchedEvents from './components/SearchedEvent'
-import Layout from './layouts/layout.jsx'
+import Layout from './layouts/Layout'
 import RegisteredEvents from './components/UserRegisteredEvents'
 // import NormalEvent  from './pages/NormalEvent'
 

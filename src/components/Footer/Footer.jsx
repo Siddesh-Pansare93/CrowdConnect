@@ -30,9 +30,11 @@ const Footer = () => {
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-6 mb-8">
           <h2 className="text-2xl font-bold mb-2">Join Our Community Today!</h2>
           <p className="mb-4">Get exclusive access to our latest updates and offers.</p>
-          <button className="bg-white text-blue-600 font-bold py-2 px-4 rounded hover:bg-blue-100 transition duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
-            Sign Up Now
-          </button>
+          <a href="/signup">
+            <button className="bg-white text-blue-600 font-bold py-2 px-4 rounded hover:bg-blue-100 transition duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
+              Sign Up Now
+            </button>
+          </a>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
@@ -59,7 +61,7 @@ const Footer = () => {
             <h3 className="text-xl font-semibold mb-4">Information</h3>
             <p className="mb-2">Email: crowdconnect2024@gmail.com</p>
             <p className="mb-2">Phone: +91 87792 00752</p>
-            <p>Kisan Nagar, Silicon Valley, Wagle Estate 400 604</p>
+            <p>Kisan Nagar, Silicon , Thane 400 604</p>
           </div>
 
           <div>

@@ -1,4 +1,4 @@
-import React, { useCallback, lazy, Suspense } from "react";
+import React, { useCallback, lazy, Suspense, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
@@ -17,6 +17,32 @@ const Home = () => {
     const handleExploreEvents = useCallback(() => {
         navigate("/allevents");
     }, [navigate]);
+
+    // Touch event handling for smooth scrolling
+    useEffect(() => {
+        let startY;
+        let scrollY = window.scrollY;
+
+        const handleTouchStart = (e) => {
+            startY = e.touches[0].clientY;
+        };
+
+        const handleTouchMove = (e) => {
+            const currentY = e.touches[0].clientY;
+            const diffY = startY - currentY;
+            window.scrollTo(0, scrollY + diffY);
+        };
+
+        // Add event listeners for touch events
+        window.addEventListener('touchstart', handleTouchStart, { passive: true });
+        window.addEventListener('touchmove', handleTouchMove, { passive: false });
+
+        // Cleanup event listeners on component unmount
+        return () => {
+            window.removeEventListener('touchstart', handleTouchStart);
+            window.removeEventListener('touchmove', handleTouchMove);
+        };
+    }, []);
 
     return (
         <main className="relative flex items-center justify-center min-h-screen">

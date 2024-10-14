@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom"; // For accessing eventId from URL
 import dbService from "../Backend/Appwrite/DbService"; // Assuming dbService has methods for event fetching
 import storageService from "../Backend/Appwrite/storageService";
 import authService from "../Backend/Appwrite/auth";
-import emailjs from 'emailjs-com';
+import emailjs from '@emailjs/browser';
 
 const EventManager = () => {
   const { eventId } = useParams(); // Fetch eventId from the URL

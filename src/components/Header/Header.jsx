@@ -18,10 +18,8 @@ function Header() {
     { name: 'Your Events', link: '/your-events', active: authStatus },
     { name: 'Registered Events', link: '/registered-events', active: authStatus },
     { name: 'Login', link: '/login', active: !authStatus },
-    { name: 'SignUp', link: '/signup', active: !authStatus },
-    // { name: 'Normal', link: '/normal', active: !authStatus },
-    { name: 'About', link: '/about', active: authStatus },// isko active rako as user can see it without login
-
+    { name: 'Sign Up', link: '/signup', active: !authStatus },
+    { name: 'About', link: '/about', active: true }, // Can be accessed without login
   ];
 
   const fetchUser = async () => {
@@ -43,20 +41,19 @@ function Header() {
 
   return (
     <header className='py-3 shadow bg-black text-white sticky z-10'>
-      <nav className='flex items-center justify-between'>
+      <nav className='flex items-center justify-between container mx-auto px-4'>
         <div className="mr-4">
           <Link to="/">
             <h1 className="text-xl font-bold">CrowdConnect</h1>
-            
           </Link>
         </div>
-        <div className="hidden md:flex space-x-4">
+        <div className="hidden md:flex space-x-6">
           {navitems.map((item) =>
             item.active ? (
               <button
                 key={item.name}
                 onClick={() => navigate(item.link)}
-                className='inline-block px-4 py-2 duration-200 hover:bg-gray-700 rounded-md'
+                className='inline-block px-4 py-2 bg-black text-white rounded-2xl transition duration-200 transform hover:bg-white hover:text-black  hover:scale-100'
               >
                 {item.name}
               </button>
@@ -82,7 +79,7 @@ function Header() {
                   navigate(item.link);
                   setMenuOpen(false); // Close the menu after navigating
                 }}
-                className='w-full text-left px-4 py-2 hover:bg-gray-700 rounded-md'
+                className='w-full text-left px-4 py-2 bg-black text-white rounded transition duration-200 transform hover:bg-white hover:text-black hover:scale-105'
               >
                 {item.name}
               </button>

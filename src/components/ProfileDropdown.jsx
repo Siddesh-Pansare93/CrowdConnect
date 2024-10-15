@@ -35,7 +35,7 @@ const ProfileDropdown = ({ user }) => {
     }, []);
 
     return (
-        <div className="relative" ref={dropdownRef} >
+        <div className="relative" ref={dropdownRef}>
             <button
                 onClick={toggleDropdown}
                 className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
@@ -51,14 +51,14 @@ const ProfileDropdown = ({ user }) => {
 
             {isOpen && (
                 <div
-                    className="absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 z-999 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    className="absolute right-0 mt-2 w-48 rounded-md shadow-lg z-999 bg-gray-800 text-white py-2"
                     role="menu"
                     aria-orientation="vertical"
                     aria-labelledby="user-menu"
                 >
                     <a
                         href="#"
-                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="flex items-center px-4 py-2 text-sm hover:bg-gray-700 transition duration-200"
                         role="menuitem"
                         onClick={handleProfileSettings}
                     >
@@ -66,7 +66,7 @@ const ProfileDropdown = ({ user }) => {
                         Profile Settings
                     </a>
                     <button
-                        className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="flex items-center w-full px-4 py-2 text-sm hover:bg-gray-700 transition duration-200"
                         role="menuitem"
                         onClick={handleLogOut}
                     >

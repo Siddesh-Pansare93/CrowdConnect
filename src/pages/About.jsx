@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import emailjs from '@emailjs/browser';
-import { FaUsers, FaCalendarAlt, FaComments, FaStar } from "react-icons/fa";
+import { FaUsers, FaCalendarAlt, FaComments, FaStar, FaGithub, FaLinkedin } from "react-icons/fa";
 import { Carousel } from "react-responsive-carousel";
-import { FaGithub, FaLinkedin } from "react-icons/fa"; // Import icons for GitHub and LinkedIn
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-// Import images 
-
+// Import images
 import sumit from '../assets/sumit.jpg'; 
 import dinya from '../assets/Dinya.jpg';
 import siddesh from '../assets/siddesh.jpg';
@@ -30,7 +28,6 @@ const About = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         emailjs.send('service_o1k03ot', 'template_jc873aq', formData, 'fbxLzbBncfCIVbQwF')
             .then((response) => {
                 console.log('Email sent successfully:', response);
@@ -60,8 +57,6 @@ const About = () => {
         { name: "Mike Johnson", content: "The ease of organizing meetups on CrowdConnect is unparalleled. Great job!" }
     ];
 
-
-
     const teamMembers = [
         {
             name: "Sumit Singh",
@@ -85,7 +80,7 @@ const About = () => {
             linkedin: "https://www.linkedin.com/in/ashmit-singh-768456257/"
         },
         {
-            name: "Sumit Singh",
+            name: "Dinya",
             role: "Python Developer",
             image: dinya,
             github: "https://github.com/suuummiiit/",
@@ -94,7 +89,7 @@ const About = () => {
     ];
 
     return (
-        <div className="bg-gray-100 min-h-screen">
+        <div className="bg-black-200 text-white min-h-screen">
             {/* Header Section */}
             <header className="relative h-96 bg-cover bg-center z-0" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80')" }}>
                 <div className="absolute inset-0 bg-black opacity-50"></div>
@@ -106,21 +101,21 @@ const About = () => {
             {/* Introduction Section */}
             <section className="container mx-auto px-4 py-16">
                 <h2 className="text-3xl font-semibold mb-6 text-center">Welcome to CrowdConnect</h2>
-                <p className="text-lg text-gray-700 max-w-3xl mx-auto text-center">
+                <p className="text-lg text-gray-300 max-w-3xl mx-auto text-center">
                     CrowdConnect is a platform designed to bring people together, fostering meaningful connections and vibrant communities. We believe in the power of shared interests and experiences to create lasting relationships.
                 </p>
             </section>
 
             {/* Key Features Section */}
-            <section className="bg-white py-16">
-                <div className="container mx-auto px-4">
+            <section className="bg-gray-800 py-16">
+                <div className="container mx-auto px-4 ">
                     <h2 className="text-3xl font-semibold mb-12 text-center">Key Features</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {features.map((feature, index) => (
-                            <div key={index} className="flex flex-col items-center text-center p-6 bg-gray-100 rounded-lg shadow-md transition-transform hover:scale-105">
-                                <div className="text-4xl text-blue-600 mb-4">{feature.icon}</div>
+                            <div key={index} className="flex flex-col items-center text-center p-6 bg-gray-700 rounded-xl shadow-md transition-transform hover:scale-105">
+                                <div className="text-4xl text-blue-400 mb-4">{feature.icon}</div>
                                 <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                                <p className="text-gray-600">{feature.description}</p>
+                                <p className="text-gray-300">{feature.description}</p>
                             </div>
                         ))}
                     </div>
@@ -128,7 +123,7 @@ const About = () => {
             </section>
 
             {/* Testimonials Section */}
-            <section className="py-16 bg-gray-200">
+            <section className="py-16 bg-gray-900">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl font-semibold mb-12 text-center">What Our Users Say</h2>
                     <Carousel
@@ -140,9 +135,9 @@ const About = () => {
                         interval={5000}
                     >
                         {testimonials.map((testimonial, index) => (
-                            <div key={index} className="bg-white p-8 rounded-lg shadow-lg mx-4 my-2">
-                                <p className="text-gray-700 mb-4">"{testimonial.content}"</p>
-                                <p className="font-semibold text-blue-600">{testimonial.name}</p>
+                            <div key={index} className="bg-gray-800 p-8 rounded-lg shadow-lg mx-4 my-2">
+                                <p className="text-gray-300 mb-4">"{testimonial.content}"</p>
+                                <p className="font-semibold text-blue-400">{testimonial.name}</p>
                                 <div className="flex justify-center mt-2">
                                     {[...Array(5)].map((_, i) => (
                                         <FaStar key={i} className="text-yellow-400 mx-1" />
@@ -160,15 +155,15 @@ const About = () => {
                     <h2 className="text-3xl font-semibold mb-12 text-center">Meet Our Team</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         {teamMembers.map((member, index) => (
-                            <div key={index} className="bg-white p-6 rounded-lg shadow-lg text-center transition-transform hover:scale-105">
+                            <div key={index} className="bg-gray-800 p-6 rounded-lg shadow-lg text-center transition-transform hover:scale-105">
                                 <img src={member.image} alt={member.name} className="w-32 h-32 rounded-full mx-auto mb-4 object-cover" />
                                 <h3 className="text-xl font-semibold mb-2">{member.name}</h3>
-                                <p className="text-gray-600">{member.role}</p>
+                                <p className="text-gray-300">{member.role}</p>
                                 <div className="flex justify-center mt-4 space-x-4">
-                                    <a href={member.github} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
+                                    <a href={member.github} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-600">
                                         <FaGithub size={24} />
                                     </a>
-                                    <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
+                                    <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-600">
                                         <FaLinkedin size={24} />
                                     </a>
                                 </div>
@@ -179,7 +174,7 @@ const About = () => {
             </section>
 
             {/* Contact Form */}
-            <section className="py-16 bg-blue-100">
+            <section className="py-16 bg-gray-800">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl font-semibold mb-12 text-center">Get in Touch</h2>
                     <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
@@ -192,7 +187,8 @@ const About = () => {
                                 value={formData.name}
                                 onChange={handleInputChange}
                                 required
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-gray-600 rounded-2xl bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 "
+
                             />
                         </div>
                         <div className="mb-4">
@@ -204,7 +200,7 @@ const About = () => {
                                 value={formData.email}
                                 onChange={handleInputChange}
                                 required
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-gray-600 rounded-2xl bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                         </div>
                         <div className="mb-4">
@@ -216,7 +212,7 @@ const About = () => {
                                 value={formData.subject}
                                 onChange={handleInputChange}
                                 required
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-gray-600 rounded-2xl bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                         </div>
                         <div className="mb-4">
@@ -228,12 +224,12 @@ const About = () => {
                                 onChange={handleInputChange}
                                 required
                                 rows="4"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-gray-600 rounded-xl bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                             ></textarea>
                         </div>
                         <button
                             type="submit"
-                            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors duration-300"
+                            className="w-full bg-blue-600 text-white py-2 px-4 rounded-2xl hover:bg-blue-700 transition-colors duration-300"
                         >
                             Send Message
                         </button>

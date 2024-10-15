@@ -80,7 +80,7 @@ const About = () => {
             linkedin: "https://www.linkedin.com/in/ashmit-singh-768456257/"
         },
         {
-            name: "Dinya",
+            name: "Sumit Singh",
             role: "Python Developer",
             image: dinya,
             github: "https://github.com/suuummiiit/",

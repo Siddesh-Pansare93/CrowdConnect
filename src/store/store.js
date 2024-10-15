@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "./Features/authSlice";
-import eventSlice from "./Features/eventSlice";
 import { persistStore, persistReducer } from "redux-persist";  // assuming you use redux-persist
 import storage from "redux-persist/lib/storage";  // or another storage if needed
 
@@ -14,7 +13,7 @@ const persistedAuthReducer = persistReducer(persistConfig, authSlice);
 const store = configureStore({
   reducer: {
     auth: persistedAuthReducer,  // use persisted reducer
-    event: eventSlice
+   
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     serializableCheck: {

@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ProfileDropdown from '../ProfileDropdown';
 import authService from '@/Backend/Appwrite/auth';
 import { CgMenu } from 'react-icons/cg'; // Hamburger icon
+import { logout } from '@/store/Features/authSlice';
 
 function Header() {
   const navigate = useNavigate();
   const authStatus = useSelector((state) => state.auth.status);
   const [user, setUser] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const dispatch = useDispatch()
 
   const navitems = [
     { name: 'Home', link: '/', active: true },
@@ -28,6 +30,7 @@ function Header() {
       setUser(currentUser);
     } catch (error) {
       console.error('Failed to fetch user:', error);
+      dispatch(logout())
     }
   };
 

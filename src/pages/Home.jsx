@@ -24,33 +24,44 @@ const Home = () => {
 
     // Touch event handling for smooth scrolling
     useEffect(() => {
-
-        const user = authService.getCurrentUser()
-        if (!user) {
-            dispatch(logout())
+        
+        const checkIsLoggedIn = async()=>{
+            try {
+                const user = await authService.getCurrentUser()
+                console.log(user)
+                // if (!user) {
+                //     dispatch(logout())
+                // }
+            } catch (error) {
+                dispatch(logout())
+            }
+           
         }
+
+        checkIsLoggedIn()
+       
         
 
-        let startY;
-        let scrollY = window.scrollY;
+        // let startY;
+        // let scrollY = window.scrollY;
 
-        const handleTouchStart = (e) => {
-            startY = e.touches[0].clientY;
-        };
+        // const handleTouchStart = (e) => {
+        //     startY = e.touches[0].clientY;
+        // };
 
-        const handleTouchMove = (e) => {
-            const currentY = e.touches[0].clientY;
-            const diffY = startY - currentY;
-            window.scrollTo(0, scrollY + diffY);
-        };
+        // const handleTouchMove = (e) => {
+        //     const currentY = e.touches[0].clientY;
+        //     const diffY = startY - currentY;
+        //     window.scrollTo(0, scrollY + diffY);
+        // };
 
-        window.addEventListener('touchstart', handleTouchStart, { passive: true });
-        window.addEventListener('touchmove', handleTouchMove, { passive: false });
+        // window.addEventListener('touchstart', handleTouchStart, { passive: true });
+        // window.addEventListener('touchmove', handleTouchMove, { passive: false });
 
-        return () => {
-            window.removeEventListener('touchstart', handleTouchStart);
-            window.removeEventListener('touchmove', handleTouchMove);
-        };
+        // return () => {
+        //     window.removeEventListener('touchstart', handleTouchStart);
+        //     window.removeEventListener('touchmove', handleTouchMove);
+        // };
     }, []);
 
     // Spinner component for loading fallback

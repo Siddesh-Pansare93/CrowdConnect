@@ -21,7 +21,7 @@ const YourEventCard = ({ event }) => {
     // CSS for the  card
 
     return (
-        <div className="bg-slate-300 rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-95 p-6 border-5">
+        <div className="bg-gray-800 rounded-2xl shadow-2xl overflow-hidden transition-transform duration-300 hover:scale-95 p-6 border-5 h-fit">
 
             <img
                 src={storageService.getFilePreview(event.featuredImage)}
@@ -29,14 +29,14 @@ const YourEventCard = ({ event }) => {
                 className="w-full h-48 object-cover rounded-xl"
             />
 
-            <h2 className="text-xl font-bold mt-4 mb-2">{event.eventTitle}</h2>
-            <p className="text-sm text-gray-700 mb-4">Hosted by: {user}</p>
+            <h2 className="text-xl text-white font-bold mt-4 mb-2">{event.eventTitle}</h2>
+            <p className="text-sm text-white mb-4">Hosted by: {user}</p>
 
-            <div className="flex items-center mt-2 text-sm text-gray-800">
+            <div className="flex items-center mt-2 text-sm text-white">
                 <FaCalendarAlt className="mr-1" />
                 <span>{event.date} , {event.startTime} IST</span>
             </div>
-            <div className="flex items-center mt-1 text-sm text-gray-800">
+            <div className="flex items-center mt-1 text-sm text-white">
                 <FaUsers className="mr-1" />
                 <span>{event.attendees.length || 0} going</span>
                 <span className="mx-2">|</span>
@@ -44,11 +44,11 @@ const YourEventCard = ({ event }) => {
                 <span>{event.ticketType}</span>
             </div>
 
-            <p className="text-gray-600 mt-2">{event.description || "Join us for an insightful meetup!"}</p>
+            <p className="text-white mt-2">{event.description || "Join us for an insightful meetup!"}</p>
 
             <div className="flex justify-between items-center mt-4">
                 <Link to={`/event/${event.$id}`}>
-                    <button className="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition-all duration-300">
+                    <button className="bg-gray-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition-all duration-300">
                         View Details
                     </button>
                 </Link>

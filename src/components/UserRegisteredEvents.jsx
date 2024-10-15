@@ -29,7 +29,7 @@ const RegisteredEvents = () => {
             {registeredEvents?.length > 0 ? (
                 <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {registeredEvents.map(event => (
-                        <li key={event.$id} className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-md border border-white rounded-3xl p-4 shadow-2xl transition-transform transform hover:scale-105 hover:bg-bg2 hover:bg-opacity-30">
+                        <li key={event.$id} className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-md border border-white rounded-3xl p-4 shadow-2xl transition-transform transform hover:scale-95 hover:bg-bg2 hover:bg-opacity-30">
                             <h3 className="text-xl font-semibold text-white mb-2">{event?.eventTitle || "event Title"}</h3>
                             <p className="text-secondary mb-2">{event?.description}</p>
                             <p className="text-white"><strong>Date:</strong> {event?.date}</p>

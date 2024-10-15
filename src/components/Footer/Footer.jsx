@@ -33,7 +33,7 @@ const Footer = () => {
           <h2 className="text-2xl font-bold mb-2">Join Our Community Today!</h2>
           <p className="mb-4">Get exclusive access to our latest updates and offers.</p>
           <a href={authStatus ? "/about" : "/signup"}>
-            <button className="bg-white text-blue-600 font-bold py-2 px-4 rounded hover:bg-blue-100 transition duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
+            <button className="bg-white text-blue-600 font-bold py-2 px-4 rounded-2xl hover:bg-blue-100 transition duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
               {authStatus ? "Contact Us" : "Sign Up Now"} 
             </button>
           </a>
@@ -77,14 +77,14 @@ const Footer = () => {
                   value={email}
                   onChange={handleEmailChange}
                   placeholder="Enter your email"
-                  className={`w-full px-3 py-2 placeholder-gray-500 border ${isValidEmail ? 'border-gray-600' : 'border-red-500'} rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent bg-gray-800 text-white`}
+                  className={`w-full px-3 py-2 placeholder-gray-500 border ${isValidEmail ? 'border-gray-600' : 'border-red-500'} rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent bg-gray-800 text-white`}
                   required
                 />
                 {!isValidEmail && <p className="mt-1 text-sm text-red-500">Please enter a valid email address</p>}
               </div>
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+                className="w-full bg-blue-600 text-white font-bold py-2 px-4 hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 rounded-2xl"
                 disabled={!isValidEmail}
               >
                 Subscribe

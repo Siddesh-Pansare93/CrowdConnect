@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { FaSun, FaMoon, FaCheck, FaTimes } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 import { useParams } from "react-router-dom"; // For accessing eventId from URL
 import dbService from "../Backend/Appwrite/DbService"; // Assuming dbService has methods for event fetching
 import storageService from "../Backend/Appwrite/storageService";
 import authService from "../Backend/Appwrite/auth";
 import emailjs from '@emailjs/browser';
+import { useNavigate } from "react-router-dom";
 
 const EventManager = () => {
   const { eventId } = useParams(); // Fetch eventId from the URL
@@ -14,6 +16,7 @@ const EventManager = () => {
   const [attendees, setAttendees] = useState([]);
   const [eventDetails, setEventDetails] = useState(null);
   const [users, setUsers] = useState({}); // Object to hold user details
+  const navigate = useNavigate()
 
   useEffect(() => {
     document.body.classList.toggle("dark", darkMode);
@@ -84,6 +87,16 @@ const sendConfirmationEmail = (userEmail, userName, eventTitle) => {
     );
 };
 
+const onDelete = async () => {
+  try {
+    await dbService.deleteEvent(eventId);
+    navigate("/your-events")
+    console.log("Event deleted successfully.");
+  } catch (error) {
+    console.error("Error deleting event:", error);
+  }
+};
+
 
   const handleRegistration = async (action, userId) => {
     try {
@@ -128,33 +141,43 @@ const sendConfirmationEmail = (userEmail, userName, eventTitle) => {
         </header>
 
         <div className="grid md:grid-cols-2 gap-8">
-          <section className="mb-12 p-6 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-lg shadow-lg text-white">
-            <h2 className="text-3xl font-semibold mb-4">{eventDetails.eventTitle}</h2>
-            <div className="flex flex-col md:flex-row items-center mb-4">
-              <img
-                src={storageService.getFilePreview(eventDetails.featuredImage)}
-                alt={eventDetails.title}
-                className="w-full md:w-1/2 h-48 object-cover rounded-lg mb-4 md:mb-0 md:mr-4"
-              />
-              <div>
-                <p className="mb-2"><strong>Date:</strong> {eventDetails.date}</p>
-                <p className="mb-2"><strong>Location:</strong> {eventDetails.location}</p>
-                <p className="mb-2"><strong>Description:</strong> {eventDetails.description}</p>
-              </div>
-            </div>
-          </section>
+        <div className="mb-12 p-6 dark:bg-gray-800 rounded-2xl shadow-lg text-white h-fit">
+  <h2 className="text-3xl font-semibold mb-4 pl-3">{eventDetails.eventTitle}</h2>
+  <div className="flex flex-col items-center mb-4">
+    <img
+      src={storageService.getFilePreview(eventDetails.featuredImage)}
+      alt={eventDetails.title}
+      className="w-full md:w-3/4 h-48 object-cover rounded-xl mb-4"
+    />
+    <div className="text-center mb-4">
+      <p className="mb-2"><strong>Date:</strong> {eventDetails.date}</p>
+      <p className="mb-2"><strong>Location:</strong> {eventDetails.location}</p>
+      <p className="mb-2"><strong>Description:</strong> {eventDetails.description}</p>
+    </div>
+  </div>
+  <div className="flex justify-end">
+    <button
+      onClick={onDelete}
+      className="flex items-center bg-red-500 text-white font-semibold py-2 px-4 rounded hover:bg-red-600 transition duration-200">
+      <MdDelete className="mr-2" />
+      Delete
+    </button>
+  </div>
+</div>
 
-          <section className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <div className="flex mb-4">
+
+
+          <section className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md">
+            <div className="flex mb-4 gap-2">
               <button
                 onClick={() => setActiveTab("registration")}
-                className={`flex-1 py-2 px-4 rounded-tl-md rounded-tr-md ${activeTab === "registration" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"}`}
+                className={`flex-1 py-2 px-4 rounded-xl ${activeTab === "registration" ? "bg-gray-700 text-white" : "bg-gray-200 text-gray-700"}`}
               >
                 Registration
               </button>
               <button
                 onClick={() => setActiveTab("attendees")}
-                className={`flex-1 py-2 px-4 rounded-tl-md rounded-tr-md ${activeTab === "attendees" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"}`}
+                className={`flex-1 py-2 px-4 rounded-xl ${activeTab === "attendees" ? "bg-gray-700 text-white" : "bg-gray-200 text-gray-700"}`}
               >
                 Attendees
               </button>
@@ -205,7 +228,7 @@ const sendConfirmationEmail = (userEmail, userName, eventTitle) => {
                 <ul className="space-y-4">
                   {attendees.length > 0 ? (
                     attendees.map((attendee) => (
-                      <li key={attendee?.id} className="p-4 bg-gray-100 dark:bg-gray-700 rounded-md">
+                      <li key={attendee?.id} className="p-4 bg-gray-100 dark:bg-gray-700 rounded-2xl">
                         <p className="font-semibold">{attendee?.name }</p>
                         <p className="text-sm text-gray-600 dark:text-gray-400">{attendee?.email}</p>
                       </li>

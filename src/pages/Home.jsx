@@ -2,6 +2,7 @@ import React, { useCallback, lazy, Suspense, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
+import { FiLoader } from "react-icons/fi"; // Import spinner icon
 
 // Lazy load the Spline component
 const Spline = lazy(() => import('@splinetool/react-spline'));
@@ -33,24 +34,29 @@ const Home = () => {
             window.scrollTo(0, scrollY + diffY);
         };
 
-        // Add event listeners for touch events
         window.addEventListener('touchstart', handleTouchStart, { passive: true });
         window.addEventListener('touchmove', handleTouchMove, { passive: false });
 
-        // Cleanup event listeners on component unmount
         return () => {
             window.removeEventListener('touchstart', handleTouchStart);
             window.removeEventListener('touchmove', handleTouchMove);
         };
     }, []);
 
+    // Spinner component for loading fallback
+    const Spinner = () => (
+        <div className="flex items-center justify-center min-h-screen">
+            <FiLoader className="animate-spin text-white text-4xl" />
+        </div>
+    );
+
     return (
         <main className="relative flex items-center justify-center min-h-screen">
             <div className="fixed inset-0 z-0 w-full h-full">
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={<Spinner />}>
                     <Spline
                         scene="https://prod.spline.design/utSEViqSzdzDIZVl/scene.splinecode"
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover sm:pointer-events-auto pointer-events-none sm:z-1 z-0" // Apply Tailwind classes
                         style={{ zIndex: 1 }}
                     />
                 </Suspense>

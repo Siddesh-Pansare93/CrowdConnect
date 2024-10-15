@@ -140,7 +140,7 @@ const EventCreationPage = () => {
       console.error("Error creating event:", error);
     } finally {
       setIsSubmitting(false);
-      navigate("/your-event")
+      navigate("/your-events")
     }
   };
 

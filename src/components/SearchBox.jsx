@@ -48,13 +48,13 @@ const SearchBox = () => {
     return (
         <div className="search-container mx-auto px-4 py-4 w-full">
             <div className="mb-4 relative">
-                <form onSubmit={handleSearch} className="flex items-center border-2 border-gray-300 rounded-lg overflow-hidden">
+                <form onSubmit={handleSearch} className="flex items-center border-2 border-gray-300 rounded-3xl overflow-hidden shadow-2xl">
                     <input
                         id="search"
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full py-2 px-4 focus:outline-none bg-transparent"
+                        className="w-full py-2 px-4 focus:outline-none bg-transparent text-white shadow-2xl"
                         placeholder="Search for events..."
                         aria-label="Search events"
                     />

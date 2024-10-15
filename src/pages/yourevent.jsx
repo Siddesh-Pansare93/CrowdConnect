@@ -109,7 +109,7 @@ const YourEvents = () => {
                         <YourEventCard key={event.$id} event={event} />
                     ))
                 ) : (
-                    <p>No events found.</p>
+                    <h2 className="text-center text-white font-bold">No events found. Create Event </h2>
                 )}
             </div>
         </div>

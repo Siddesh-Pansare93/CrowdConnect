@@ -27,9 +27,9 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gray-900 text-white sticky z-10">
+    <footer className="bg-gray-900 text-white sticky z-10 ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-6 mb-8">
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-6 mb-8">
           <h2 className="text-2xl font-bold mb-2">Join Our Community Today!</h2>
           <p className="mb-4">Get exclusive access to our latest updates and offers.</p>
           <a href={authStatus ? "/about" : "/signup"}>

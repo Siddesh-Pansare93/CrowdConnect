@@ -51,7 +51,7 @@ function Header() {
   };
 
   return (
-    <header className='py-3 shadow bg-black text-white sticky z-10'>
+    <header className='py-3 shadow bg-black-200 text-white sticky z-10'>
       <nav className='flex items-center justify-between container mx-auto px-4'>
         <div className="mr-4">
           <Link to="/">

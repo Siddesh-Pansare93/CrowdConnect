@@ -38,7 +38,7 @@ const YourEventCard = ({ event }) => {
             </div>
             <div className="flex items-center mt-1 text-sm text-gray-800">
                 <FaUsers className="mr-1" />
-                <span>{event.goingCount || 0} going</span>
+                <span>{event.attendees.length || 0} going</span>
                 <span className="mx-2">|</span>
                 <FaTicketAlt className="mr-1" />
                 <span>{event.ticketType}</span>

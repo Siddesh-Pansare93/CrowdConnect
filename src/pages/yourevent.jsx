@@ -24,33 +24,33 @@ const YourEventCard = ({ event }) => {
     }, [event.organiser]);
 
     return (
-        <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg p-6">
+        <div className="bg-gray-800 rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 hover:shadow-lg p-6">
             <img
                 src={storageService.getFilePreview(event.featuredImage)}
                 alt={event.eventTitle}
-                className="w-full h-48 object-cover rounded-lg"
+                className="w-full h-48 object-cover rounded-2xl"
             />
 
-            <h2 className="text-xl font-bold mt-4 mb-2">{event.eventTitle}</h2>
-            <p className="text-sm text-gray-700 mb-4">Hosted by: {user || "Grafana and Friends"}</p>
+            <h2 className="text-xl font-bold mt-4 mb-2 text-white">{event.eventTitle}</h2>
+            <p className="text-sm text-white mb-4">Hosted by: {user || "Grafana and Friends"}</p>
 
-            <div className="flex items-center mt-2 text-sm text-gray-800">
+            <div className="flex items-center mt-2 text-sm text-white">
                 <FaCalendarAlt className="mr-1" />
                 <span>{event.date} , {event.startTime} IST</span>
             </div>
-            <div className="flex items-center mt-1 text-sm text-gray-800">
+            <div className="flex items-center mt-1 text-sm text-white">
                 <FaUsers className="mr-1" />
-                <span>{event.goingCount || 0} going</span>
+                <span>{event.attendees.length || 0} going</span>
                 <span className="mx-2">|</span>
                 <FaTicketAlt className="mr-1" />
                 <span>{event.ticketType}</span>
             </div>
 
-            <p className="text-gray-600 mt-2">{event.description || "Join us for an insightful meetup!"}</p>
+            <p className="text-white mt-2">{event.description || "Join us for an insightful meetup!"}</p>
 
             <div className="flex justify-between items-center mt-4">
                 <Link to={`/EventManager/${event.$id}`}>
-                    <button className="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition-all duration-300">
+                    <button className="bg-gray-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-xl transition-all duration-300">
                         View Details
                     </button>
                 </Link>
@@ -101,8 +101,8 @@ const YourEvents = () => {
     }
 // css for the YOUREVENTS page
     return (
-        <div className="container px-4 py-8 bg- w-vw">
-            <h1 className="text-4xl font-bold mb-8 text-center">Your Events</h1>
+        <div className="container px-4 py-8 bg- w-vw bg-gray-900">
+            <h1 className="text-4xl font-bold mb-8 text-center text-white">Your Events</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {events.length > 0 ? (
                     events.map((event) => (

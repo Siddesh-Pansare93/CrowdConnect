@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useSelector } from 'react-redux';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(true);
+  const authStatus = useSelector((state) => state.auth.status); // Getting auth status from Redux store
 
   const handleEmailChange = (e) => {
     const inputEmail = e.target.value;
@@ -25,14 +27,16 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gray-900 text-white sticky z-10 ">
+    <footer className="bg-gray-900 text-white sticky z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-6 mb-8">
           <h2 className="text-2xl font-bold mb-2">Join Our Community Today!</h2>
           <p className="mb-4">Get exclusive access to our latest updates and offers.</p>
-          <button className="bg-white text-blue-600 font-bold py-2 px-4 rounded hover:bg-blue-100 transition duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
-            Sign Up Now
-          </button>
+          <a href={authStatus ? "/about" : "/signup"}>
+            <button className="bg-white text-blue-600 font-bold py-2 px-4 rounded hover:bg-blue-100 transition duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
+              {authStatus ? "Contact Us" : "Sign Up Now"} 
+            </button>
+          </a>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
@@ -59,7 +63,7 @@ const Footer = () => {
             <h3 className="text-xl font-semibold mb-4">Information</h3>
             <p className="mb-2">Email: crowdconnect2024@gmail.com</p>
             <p className="mb-2">Phone: +91 87792 00752</p>
-            <p>Kisan Nagar, Silicon Valley, Wagle Estate 400 604</p>
+            <p>Kisan Nagar, Silicon, Thane 400 604</p>
           </div>
 
           <div>

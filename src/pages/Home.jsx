@@ -1,8 +1,10 @@
 import React, { useCallback, lazy, Suspense, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FiLoader } from "react-icons/fi"; // Import spinner icon
+import authService from "@/Backend/Appwrite/auth";
+import { logout } from "@/store/Features/authSlice";
 
 // Lazy load the Spline component
 const Spline = lazy(() => import('@splinetool/react-spline'));
@@ -10,6 +12,7 @@ const Spline = lazy(() => import('@splinetool/react-spline'));
 const Home = () => {
     const authStatus = useSelector(state => state.auth.status);
     const navigate = useNavigate();
+    const dispatch = useDispatch()
 
     const handleGetStarted = useCallback(() => {
         navigate("/signup");
@@ -21,6 +24,13 @@ const Home = () => {
 
     // Touch event handling for smooth scrolling
     useEffect(() => {
+
+        const user = authService.getCurrentUser()
+        if (!user) {
+            dispatch(logout())
+        }
+        
+
         let startY;
         let scrollY = window.scrollY;
 

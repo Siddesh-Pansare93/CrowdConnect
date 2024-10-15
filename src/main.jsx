@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client'
 import '../src/index.css'
 import { createBrowserRouter, createRoutesFromElements, Route, Router, RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import store  from './store/store.js'
+import store ,{persistor} from './store/store.js'
 import { PersistGate } from "redux-persist/integration/react";
 
 import CreateEventPage from './components/CreateEvent.jsx'
@@ -30,7 +30,7 @@ const router = createBrowserRouter(
     <Route path='/' element={<Layout />}>
       {/* <Route path='/showevent' element={<EventPage/>}/> */}
       <Route path='/' element={<Home />} />
-      <Route path='/about' element={<About />} />
+      <Route path='/About' element={<About />} />
       <Route path='/login' element={<LoginRegisterForm/>} />
       <Route path='/signup' element={<LoginRegisterForm />} />
       <Route path='/createevent' element={<CreateEventPage />} />
@@ -54,9 +54,9 @@ const router = createBrowserRouter(
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     {/* PersistGate delays rendering until the persisted state has been loaded */}
-   
+    <PersistGate loading={null} persistor={persistor}>
       <RouterProvider router={router} />
-  
+    </PersistGate>
   </Provider>,
 
 )

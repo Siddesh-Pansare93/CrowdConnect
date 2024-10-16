@@ -11,7 +11,7 @@ import dbService from "@/Backend/Appwrite/DbService";
 import storageService from "@/Backend/Appwrite/storageService";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify'; // For toast notifications
+import { toast } from 'react-toastify' ; // For toast notifications
 
 
 const EventCreationPage = () => {

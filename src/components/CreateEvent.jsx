@@ -462,6 +462,10 @@ const EventCreationPage = () => {
                   <option value="technology">Technology</option>
                   <option value="business">Business</option>
                   <option value="sports">Sports</option>
+                  <option value="gaming">Gaming</option>
+                  <option value="finance">Finance</option>
+                  <option value="cultural">Cultural</option>
+                  <option value="social">Social</option>
                 </select>
               </div>
               </div>

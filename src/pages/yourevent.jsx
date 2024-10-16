@@ -97,8 +97,18 @@ const YourEvents = () => {
     }, [userId]);
 
     if (loading) {
-        return <div>Loading events...</div>;
-    }
+        return (
+          <div className="flex items-center justify-center h-screen bg-black">
+            <div className="text-center">
+              <div className="animate-spin ml-14 rounded-full h-12 w-12 border-t-4 border-white border-solid"></div>
+              <p className="mt-4 text-lg font-semibold text-white">
+                Loading event data...
+              </p>
+            </div>
+          </div>
+        );
+      }
+      
 // css for the YOUREVENTS page
     return (
         <div className="container px-4 py-8 bg-[#050816] w-vw ">

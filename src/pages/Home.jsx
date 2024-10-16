@@ -66,8 +66,8 @@ const Home = () => {
 
     // Spinner component for loading fallback
     const Spinner = () => (
-        <div className="flex items-center justify-center min-h-screen">
-            <FiLoader className="animate-spin text-white text-4xl" />
+        <div className="flex items-center justify-center min-h-screen mb-32">
+            <FiLoader className="animate-spin text-white text-5xl mb-32" />
         </div>
     );
 

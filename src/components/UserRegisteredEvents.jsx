@@ -38,7 +38,7 @@ const RegisteredEvents = () => {
                             <p className="text-white"><strong>Date:</strong> {event?.date}</p>
                             <p className="text-white"><strong>Location:</strong> {event?.location}</p>
                             <Link to={`/event/${event?.$id}`}>
-                                <button className='mt-4 bg-blue-800   text-white py-2 px-4 rounded-xl shadow-md hover:bg-secondary transition duration-300'>
+                                <button className='mt-4 bg-blue-800   text-white py-2 px-4 rounded-xl shadow-md hover:scale-105 transition duration-300'>
                                     View Event Details
                                 </button>
                             </Link>

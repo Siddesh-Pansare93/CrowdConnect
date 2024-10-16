@@ -28,41 +28,51 @@ export class StorageService {
     }
 
     // deleting the file 
-    async deleteFile(fileId){
+    async deleteFile(fileId) {
         try {
             return await this.storage.deleteFile(
-                conf.appwriteBucketId ,
+                conf.appwriteBucketId,
                 fileId
             )
         } catch (error) {
-            console.log(`Error :: Appwrite :: DeleteFile :: ${error.message}`)   
+            console.log(`Error :: Appwrite :: DeleteFile :: ${error.message}`)
         }
     }
 
     //updating the file 
-    async updateFile(fileId){
+    async updateFile(fileId) {
         try {
             return await this.storage.updateFile(
-                conf.appwriteBucketId ,
+                conf.appwriteBucketId,
                 fileId
             )
         } catch (error) {
-            console.log(`Error :: Appwrite :: UpdateFile :: ${error.message}`)   
+            console.log(`Error :: Appwrite :: UpdateFile :: ${error.message}`)
         }
     }
 
     // getting file preview so that it can be shown to users
-     getFilePreview (fileId){
+    getFilePreview(fileId) {
         try {
-            return  this.storage.getFilePreview(
-                conf.appwriteBucketId ,
+            return this.storage.getFilePreview(
+                conf.appwriteBucketId,
                 fileId,
-                
+                1800,               // width, will be resized using this value.
+                0,                  // height, ignored when 0
+                'center',           // crop center
+                '90',               // slight compression
+                5,                  // border width
+                'CDCA30',           // border color
+                15,                 // border radius
+                1,                  // full opacity
+                0,                  // no rotation
+                'FFFFFF',
+
 
             )
         } catch (error) {
-            console.log(`Error :: Appwrite :: getFilePreview :: ${error.message}`)   
-            
+            console.log(`Error :: Appwrite :: getFilePreview :: ${error.message}`)
+
         }
     }
 }

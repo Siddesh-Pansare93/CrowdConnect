@@ -72,7 +72,7 @@ const Home = () => {
     );
 
     return (
-        <main className="relative flex items-center justify-center min-h-screen">
+        <main className="relative flex items-center justify-center min-h-screen bg-black">
             <div className="fixed inset-0 z-0 w-full h-full">
                 <Suspense fallback={<Spinner />}>
                     <Spline

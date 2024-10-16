@@ -57,17 +57,7 @@ export class StorageService {
             return this.storage.getFilePreview(
                 conf.appwriteBucketId,
                 fileId,
-                1800,               // width, will be resized using this value.
-                0,                  // height, ignored when 0
-                'center',           // crop center
-                '90',               // slight compression
-                5,                  // border width
-                'CDCA30',           // border color
-                15,                 // border radius
-                1,                  // full opacity
-                0,                  // no rotation
-                'FFFFFF',
-
+               
 
             )
         } catch (error) {

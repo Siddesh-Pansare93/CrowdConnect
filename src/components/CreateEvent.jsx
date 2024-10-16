@@ -134,7 +134,7 @@ const EventCreationPage = () => {
       const event = await dbService.createEvent(eventData);
       if (event) {
         console.log("Event created successfully:", event);
-        toast.success("You have been successfully created  event");
+        toast.success("Event have been successfully created");
 
 
       } else {

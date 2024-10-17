@@ -127,8 +127,19 @@ const onDelete = async () => {
   };
 
   if (!eventDetails) {
-    return <div>Loading event data...</div>;
+    return (
+      <div className="flex items-center justify-center h-screen bg-black">
+        <div className="text-center">
+          <div className="animate-spin rounded-full ml-14 h-12 w-12 border-t-4 border-white border-solid"></div>
+          <p className="mt-4 text-lg font-semibold text-white">
+            Loading event data...
+          </p>
+        </div>
+      </div>
+    );
   }
+  
+  
 
   return (
     <div className={`min-h-screen p-8 transition-colors duration-300 ${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"}`}>

@@ -11,6 +11,8 @@ import dbService from "@/Backend/Appwrite/DbService";
 import storageService from "@/Backend/Appwrite/storageService";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify' ; // For toast notifications
+
 
 const EventCreationPage = () => {
   const [imagePreview, setImagePreview] = useState(null);
@@ -132,14 +134,18 @@ const EventCreationPage = () => {
       const event = await dbService.createEvent(eventData);
       if (event) {
         console.log("Event created successfully:", event);
+        toast.success("Event have been successfully created");
+
 
       } else {
         console.log("Failed to create the event");
+        toast.error("Failed to create event")
       } 
     } catch (error) {
       console.error("Error creating event:", error);
     } finally {
       setIsSubmitting(false);
+
       navigate("/your-events")
     }
   };
@@ -456,6 +462,10 @@ const EventCreationPage = () => {
                   <option value="technology">Technology</option>
                   <option value="business">Business</option>
                   <option value="sports">Sports</option>
+                  <option value="gaming">Gaming</option>
+                  <option value="finance">Finance</option>
+                  <option value="cultural">Cultural</option>
+                  <option value="social">Social</option>
                 </select>
               </div>
               </div>

@@ -42,7 +42,7 @@ const Events = () => {
 
 
     return (
-        <div className="container  px-4 bg-gray-900 w-vh">
+        <div className="container  px-4 bg-[#050816] w-vh">
             <h1 className="text-4xl text-white font-bold mb-8 text-center pt-5">Latest Events</h1>
             <SearchBox/>
 

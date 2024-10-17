@@ -97,11 +97,21 @@ const YourEvents = () => {
     }, [userId]);
 
     if (loading) {
-        return <div>Loading events...</div>;
-    }
+        return (
+          <div className="flex items-center justify-center h-screen bg-black">
+            <div className="text-center">
+              <div className="animate-spin ml-14 rounded-full h-12 w-12 border-t-4 border-white border-solid"></div>
+              <p className="mt-4 text-lg font-semibold text-white">
+                Loading event data...
+              </p>
+            </div>
+          </div>
+        );
+      }
+      
 // css for the YOUREVENTS page
     return (
-        <div className="container px-4 py-8 bg- w-vw bg-gray-900">
+        <div className="container px-4 py-8 bg-[#050816] w-vw ">
             <h1 className="text-4xl font-bold mb-8 text-center text-white">Your Events</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {events.length > 0 ? (
@@ -109,7 +119,7 @@ const YourEvents = () => {
                         <YourEventCard key={event.$id} event={event} />
                     ))
                 ) : (
-                    <p>No events found.</p>
+                    <h2 className="text-center text-white font-bold">No events found. Create Event </h2>
                 )}
             </div>
         </div>

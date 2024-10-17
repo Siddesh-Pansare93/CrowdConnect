@@ -194,7 +194,7 @@ const EventCreationPage = () => {
               <div>
                 <label
                   htmlFor="eventTitle"
-                  className="block text-sm font-medium text-[#aaa6c3]"
+                  className="block text-sm font-medium text-[#aaa6c3] "
                 >
                   Event Title
                 </label>
@@ -204,7 +204,7 @@ const EventCreationPage = () => {
                   {...register("eventTitle", {
                     required: "Event title is required",
                   })}
-                  className={`mt-1 block w-full border border-gray-200 bg-[#151030] shadow-sm rounded-xl ${
+                  className={`mt-1 block w-full border border-gray-200 bg-[#151030] shadow-sm rounded-2xl focus:none px-2 ${
                     errors.eventTitle
                       ? "border-red-500"
                       : "border-gray-200"
@@ -230,7 +230,7 @@ const EventCreationPage = () => {
                   {...register("description", {
                     required: "Description is required",
                   })}
-                  className={`mt-1 block w-full border border-gray-200 bg-[#151030] rounded-xl shadow-sm ${
+                  className={`mt-1 block w-full border border-gray-200 bg-[#151030] rounded-xl shadow-sm  focus:none px-2 ${
                     errors.description
                       ? "border-red-500"
                       : "border-gray-300"
@@ -415,7 +415,7 @@ const EventCreationPage = () => {
                   {...register("capacity", {
                     required: "Capacity is required",
                   })}
-                  className={`block w-full border border-gray-200 bg-[#151030] rounded-xl ${
+                  className={`block w-full border border-gray-200 bg-[#151030] rounded-xl focus:none px-4 ${
                     errors.capacity ? "border-red-500" : "border-gray-300"
                   } text-[#aaa6c3]`}
                 />

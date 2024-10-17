@@ -58,7 +58,7 @@ export class StorageService {
             return this.storage.getFilePreview(
                 conf.appwriteBucketId,
                 fileId,
-               
+
 
             )
         } catch (error) {

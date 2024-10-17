@@ -17,7 +17,7 @@ export class DbService {
 
 
     // Creating Event 
-    async createEvent({ id = ID.unique(), capacity, categories , latitude, longitude, date, description, endTime, eventTitle, featuredImage, location, organiser, startTime, tenantApproval, ticketPrice = null, ticketType, registrations, attendees }) {
+    async createEvent({ id = ID.unique(), capacity, categories, latitude, longitude, date, description, endTime, eventTitle, featuredImage, location, organiser, startTime, tenantApproval, ticketPrice = null, ticketType, registrations, attendees }) {
         try {
             return await this.database.createDocument(
                 conf.appwriteDatabaseId,
@@ -29,7 +29,7 @@ export class DbService {
                 featuredImage,
                 ticketType,
                 date,
-                ticketPrice ,
+                ticketPrice,
                 tenantApproval,
                 capacity,
                 startTime,
@@ -38,7 +38,7 @@ export class DbService {
                 longitude,
                 organiser,
                 registrations,
-                attendees , 
+                attendees,
                 categories
 
 
@@ -54,7 +54,7 @@ export class DbService {
     async updateEvent({ id, capacity, categories, latitude, longitude, date, description, endTime, eventTitle, featuredImage, location, organiser, startTime, tenantApproval, ticketPrice = null, ticketType, registrations, attendees }) {
         console.log("Updating event with ID:", id);
         console.log("Event Data:", { eventTitle, description, location, featuredImage, ticketType, date, ticketPrice, tenantApproval, capacity, startTime, endTime, latitude, longitude, organiser, registrations, attendees, categories });
-    
+
         try {
             return await this.database.updateDocument(
                 conf.appwriteDatabaseId,
@@ -84,7 +84,7 @@ export class DbService {
             console.log(`Appwrite Error :: UpdateEvent :: error :: ${error.message}`);
         }
     }
-    
+
 
     // Delete Event 
 
@@ -103,11 +103,11 @@ export class DbService {
     async addUserToEventRegistrations(eventId, userId) {
         try {
             const event = await this.getEvent(eventId);
-            
+
             const currentRegistration = event.registrations || [];
-            
+
             const updatedRegistration = [...currentRegistration, userId];
-    
+
             const response = await this.database.updateDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteEventCollectionId,
@@ -116,27 +116,27 @@ export class DbService {
                     registrations: updatedRegistration,
                 }
             );
-    
+
             return response;
         } catch (error) {
             console.error('Failed to update attendees:', error);
             throw error;
         }
     }
-    
+
     async addUserToEventAttendees(eventId, userId) {
         try {
             // Fetch the current event details
             const event = await this.getEvent(eventId);
-            
+
             // Get the current attendees or initialize an empty array
             const currentAttendees = event.attendees || [];
-            
+
             // Check if the user is already an attendee to prevent duplicates
             if (!currentAttendees.includes(userId)) {
                 // Add the userId to the attendees list
                 const updatedAttendees = [...currentAttendees, userId];
-    
+
                 // Update the event document in the database
                 const response = await this.database.updateDocument(
                     conf.appwriteDatabaseId,
@@ -146,7 +146,7 @@ export class DbService {
                         attendees: updatedAttendees // Update the attendees array
                     }
                 );
-    
+
                 return response; // Return the response from the database update
             } else {
                 console.log(`User with ID ${userId} is already an attendee.`);
@@ -157,24 +157,24 @@ export class DbService {
             throw error; // Re-throw the error for further handling
         }
     }
-    
-    async updateRegistrationStatus(eventId, userId, action) { 
+
+    async updateRegistrationStatus(eventId, userId, action) {
         try {
             // Fetch the current event details
             const event = await this.getEvent(eventId);
-    
+
             // Update registrations based on action
             let updatedRegistrations = event.registrations || [];
             let updatedAttendees = event.attendees || [];
-    
+
             // Remove user from registrations
             updatedRegistrations = updatedRegistrations.filter((id) => id !== userId);
-    
+
             // If approved, add to attendees
             if (action === 'approved') {
                 updatedAttendees.push(userId);
             }
-    
+
             // Update the event document in the database
             const response = await this.database.updateDocument(
                 conf.appwriteDatabaseId,
@@ -185,7 +185,7 @@ export class DbService {
                     attendees: updatedAttendees,
                 }
             );
-    
+
             return response; // Return the response from the database update
         } catch (error) {
             console.error(`Error updating registration status for event ${eventId}:`, error);
@@ -198,11 +198,11 @@ export class DbService {
         try {
             const user = await this.getUserById(userId);
             const currentRegisteredEvents = user.RegisteredEvents || [];
-    
+
             // Prevent duplicates
             if (!currentRegisteredEvents.includes(eventId)) {
                 const updatedRegisteredEvents = [...currentRegisteredEvents, eventId];
-    
+
                 const response = await this.database.updateDocument(
                     conf.appwriteDatabaseId,
                     conf.appwriteUserCollectionId,
@@ -211,7 +211,7 @@ export class DbService {
                         RegisteredEvents: updatedRegisteredEvents,
                     }
                 );
-    
+
                 return response; // Return the response from the database update
             } else {
                 console.log(`Event ID ${eventId} is already registered by user ${userId}.`);
@@ -222,8 +222,8 @@ export class DbService {
             throw error;
         }
     }
-    
-    
+
+
 
 
 
@@ -254,7 +254,7 @@ export class DbService {
             console.log(`Appwrite Error :: GetALLEvent :: error :: ${error.message}`)
         }
     }
- 
+
     // Get only User Events
 
     async createUser({ id, name, email }) {
@@ -265,14 +265,14 @@ export class DbService {
             const result = await this.database.createDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteUserCollectionId, // Specify the user collection ID
-                id, 
+                id,
                 {
-                    id , 
+                    id,
                     name,
                     email,
-                    createdAt: new Date().toISOString(), 
+                    createdAt: new Date().toISOString(),
                 },
-               
+
             );
             console.log(result)
             return result
@@ -281,8 +281,8 @@ export class DbService {
             console.log(`Appwrite Error :: createUser :: error :: ${error}`)
         }
     }
-    
-    
+
+
     //
 
     async getUserById(id) {
@@ -292,11 +292,11 @@ export class DbService {
                 conf.appwriteUserCollectionId,
                 id
 
-            ); 
+            );
             return user;
         } catch (error) {
             console.log(`Error fetching user: ${error.message}`);
-            throw error; 
+            throw error;
         }
     }
 }

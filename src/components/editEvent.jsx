@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import dbService from "@/Backend/Appwrite/DbService";
 import storageService from "@/Backend/Appwrite/storageService";
 import { FaUpload, FaCalendarAlt, FaClock, FaMapMarkerAlt, FaRupeeSign } from "react-icons/fa";
+import { toast } from 'react-toastify';
 
 const EditEventPage = () => {
   const { eventId } = useParams();
@@ -100,9 +101,11 @@ const EditEventPage = () => {
 
         // Update the event in the database
         await dbService.updateEvent({ id: eventId, tenantApproval, capacity, ticketPrice,  ...eventUpdateData });
+        toast.success("Event Updated Successfully");
         navigate("/your-events");
     } catch (error) {
         console.error("Error updating event:", error);
+        toast.error("Failed to Update Event");
     } finally {
         setIsSubmitting(false);
     }

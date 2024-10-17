@@ -9,7 +9,7 @@ import storageService from "@/Backend/Appwrite/storageService";
 import { motion } from 'framer-motion';
 import authService from "@/Backend/Appwrite/auth";
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Import the CSS
+import 'react-toastify/dist/ReactToastify.css';
 
 const EventPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,12 +29,11 @@ const EventPage = () => {
                 const organiser = await dbService.getUserById(event.organiser);
                 setOrganiserName(organiser.name);
 
-
-                // New code to check if user is already registered
-                const currentUser = await authService.getCurrentUser(); // Assuming this gets the currently logged-in user
-                const user = await dbService.getUserById(currentUser.$id); // Fetching user's registered events
+                // Check if user is already registered
+                const currentUser = await authService.getCurrentUser();
+                const user = await dbService.getUserById(currentUser.$id);
                 if (user.RegisteredEvents && user.RegisteredEvents.includes(id)) {
-                    setIsRegistered(true); // User is already registered
+                    setIsRegistered(true);
                 }
             } catch (error) {
                 console.error("Error fetching event:", error);
@@ -112,8 +111,7 @@ const EventPage = () => {
 
     const handleRegistrationSuccess = () => {
         setIsRegistered(true);
-        // toast.success("You have been successfully registered for the event!");
-        setIsRsvpModalOpen(false); 
+        setIsRsvpModalOpen(false);
     };
 
     return (
@@ -151,7 +149,7 @@ const EventPage = () => {
                                 animate={{ x: 0, opacity: 1 }}
                                 transition={{ delay: 0.2 }}
                             >
-                               Hosted BY :  {organiserName}
+                                Hosted BY: {organiserName}
                             </motion.div>
 
                             <motion.h1
@@ -180,10 +178,22 @@ const EventPage = () => {
                                 <FaClock className="mr-2" /> {event.startTime}
                             </motion.p>
 
+                            {/* Display ticket price */}
+                            {event.ticketPrice !== null && (
+                                <motion.p
+                                    className="mt-2 text-lg text-gray-600 dark:text-gray-300 flex items-center"
+                                    initial={{ x: -50, opacity: 0 }}
+                                    animate={{ x: 0, opacity: 1 }}
+                                    transition={{ delay: 0.6 }}
+                                >
+                                    <span className="font-semibold">Ticket Price:</span> ₹{event.ticketPrice}
+                                </motion.p>
+                            )}
+
                             {renderCountdown()}
 
                             <motion.button
-                                onClick={() => setIsRsvpModalOpen(true)} 
+                                onClick={() => setIsRsvpModalOpen(true)}
                                 className="mt-6 px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-lg shadow-lg hover:scale-105 transition-all duration-300"
                                 whileHover={{ scale: 1.05 }}
                                 disabled={isRegistered}
@@ -232,7 +242,7 @@ const EventPage = () => {
                 </div>
 
                 <Modal isOpen={isRsvpModalOpen} onClose={() => setIsRsvpModalOpen(false)}>
-                    <RSVPForm eventId={id} onCancel={()=>setIsRsvpModalOpen(false)} onClose={handleRegistrationSuccess} />
+                    <RSVPForm eventId={id} onCancel={() => setIsRsvpModalOpen(false)} onClose={handleRegistrationSuccess} />
                 </Modal>
 
                 <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>

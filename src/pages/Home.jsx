@@ -24,8 +24,8 @@ const Home = () => {
 
     // Touch event handling for smooth scrolling
     useEffect(() => {
-        
-        const checkIsLoggedIn = async()=>{
+
+        const checkIsLoggedIn = async () => {
             try {
                 const user = await authService.getCurrentUser()
                 console.log(user)
@@ -35,33 +35,14 @@ const Home = () => {
             } catch (error) {
                 dispatch(logout())
             }
-           
+
         }
 
         checkIsLoggedIn()
-       
+
+
+
         
-
-        // let startY;
-        // let scrollY = window.scrollY;
-
-        // const handleTouchStart = (e) => {
-        //     startY = e.touches[0].clientY;
-        // };
-
-        // const handleTouchMove = (e) => {
-        //     const currentY = e.touches[0].clientY;
-        //     const diffY = startY - currentY;
-        //     window.scrollTo(0, scrollY + diffY);
-        // };
-
-        // window.addEventListener('touchstart', handleTouchStart, { passive: true });
-        // window.addEventListener('touchmove', handleTouchMove, { passive: false });
-
-        // return () => {
-        //     window.removeEventListener('touchstart', handleTouchStart);
-        //     window.removeEventListener('touchmove', handleTouchMove);
-        // };
     }, []);
 
     // Spinner component for loading fallback
@@ -86,7 +67,7 @@ const Home = () => {
                 <h1 className="text-5xl font-bold">CrowdConnect</h1>
                 <p className="mt-4 text-lg">Connecting people for better events.</p>
                 <motion.button
-                    className="mt-6 px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-lg shadow-lg hover:scale-105 transition-all duration-300"
+                    className="mt-6 px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-xl shadow-lg hover:scale-105 transition-all duration-100"
                     whileHover={{ scale: 1.1 }}
                     onClick={authStatus ? handleExploreEvents : handleGetStarted}
                 >

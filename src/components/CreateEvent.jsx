@@ -11,17 +11,16 @@ import dbService from "@/Backend/Appwrite/DbService";
 import storageService from "@/Backend/Appwrite/storageService";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify' ; // For toast notifications
-
+import { toast } from 'react-toastify'; // For toast notifications
 
 const EventCreationPage = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const navigate = useNavigate() ;
+  const navigate = useNavigate();
 
   const userData = useSelector((state) => state.auth.userData);
   if (!userData) {
-    throw new Error("Login to create post ");
+    throw new Error("Login to create post");
   }
 
   const {
@@ -65,9 +64,7 @@ const EventCreationPage = () => {
     const apiKey =
       "5b3ce3597851110001cf6248ea161ad8474a473891318c69b7978604";
     const response = await fetch(
-      `https://api.openrouteservice.org/geocode/search?api_key=${apiKey}&text=${encodeURIComponent(
-        location
-      )}`
+      `https://api.openrouteservice.org/geocode/search?api_key=${apiKey}&text=${encodeURIComponent(location)}`
     );
 
     if (!response.ok) {
@@ -129,30 +126,26 @@ const EventCreationPage = () => {
       eventData.categories = categories;
 
       console.log(eventData);
-
       // Submit the event data to the backend
       const event = await dbService.createEvent(eventData);
       if (event) {
         console.log("Event created successfully:", event);
-        toast.success("Event have been successfully created");
-
-
+        toast.success("Event has been successfully created");
       } else {
         console.log("Failed to create the event");
-        toast.error("Failed to create event")
-      } 
+        toast.error("Failed to create event");
+      }
     } catch (error) {
       console.error("Error creating event:", error);
     } finally {
       setIsSubmitting(false);
-
-      navigate("/your-events")
+      navigate("/your-events");
     }
   };
 
   return (
     <div className="min-h-screen bg-[#050816] py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto bg-[#151030]  rounded-xl shadow-xl overflow-hidden">
+      <div className="max-w-4xl mx-auto bg-[#151030] rounded-xl shadow-xl overflow-hidden">
         <div className="md:flex">
           {/* Left side image upload */}
           <div className="md:flex-shrink-0 md:w-1/2 bg-[#402C78] p-8 flex items-center justify-center">
@@ -176,7 +169,7 @@ const EventCreationPage = () => {
                     />
                     <label
                       htmlFor="image-upload"
-                      className="cursor-pointer bg-[#151030] text-[#aaa6c3] font-semibold py-2 px-4  rounded-xl inline-flex items-center transition duration-300 ease-in-out hover:bg-indigo-600"
+                      className="cursor-pointer bg-[#151030] text-[#aaa6c3] font-semibold py-2 px-4 rounded-xl inline-flex items-center transition duration-300 ease-in-out hover:bg-indigo-600"
                     >
                       <FaUpload className="mr-2" />
                       Choose Image
@@ -187,7 +180,7 @@ const EventCreationPage = () => {
                     <img
                       src={imagePreview}
                       alt="Event preview"
-                      className="max-w-full h-auto  rounded-xl shadow-md"
+                      className="max-w-full h-auto rounded-xl shadow-md"
                     />
                   </div>
                 )}
@@ -211,7 +204,7 @@ const EventCreationPage = () => {
                   {...register("eventTitle", {
                     required: "Event title is required",
                   })}
-                  className={`mt-1 block w-full border border-gray-200 bg-[#151030] shadow-sm    rounded-xl ${
+                  className={`mt-1 block w-full border border-gray-200 bg-[#151030] shadow-sm rounded-xl ${
                     errors.eventTitle
                       ? "border-red-500"
                       : "border-gray-200"
@@ -237,7 +230,7 @@ const EventCreationPage = () => {
                   {...register("description", {
                     required: "Description is required",
                   })}
-                  className={`mt-1 block w-full border border-gray-200 bg-[#151030]    rounded-xl shadow-sm ${
+                  className={`mt-1 block w-full border border-gray-200 bg-[#151030] rounded-xl shadow-sm ${
                     errors.description
                       ? "border-red-500"
                       : "border-gray-300"
@@ -257,7 +250,7 @@ const EventCreationPage = () => {
                 >
                   Location
                 </label>
-                <div className="mt-1 relative    rounded-xl shadow-sm">
+                <div className="mt-1 relative rounded-xl shadow-sm">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <FaMapMarkerAlt className="text-gray-400" />
                   </div>
@@ -267,7 +260,7 @@ const EventCreationPage = () => {
                     {...register("location", {
                       required: "Location is required",
                     })}
-                    className={`pl-10 block w-full border border-gray-200 bg-[#151030]    rounded-xl ${
+                    className={`pl-10 block w-full border border-gray-200 bg-[#151030] rounded-xl ${
                       errors.location
                         ? "border-red-500"
                         : "border-gray-300"
@@ -289,7 +282,7 @@ const EventCreationPage = () => {
                   >
                     Date
                   </label>
-                  <div className="mt-1 relative    rounded-xl shadow-sm">
+                  <div className="mt-1 relative rounded-xl shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <FaCalendarAlt className="text-gray-400" />
                     </div>
@@ -299,7 +292,7 @@ const EventCreationPage = () => {
                       {...register("date", {
                         required: "Date is required",
                       })}
-                      className={`pl-10 block w-full border border-gray-200 bg-[#151030]    rounded-xl ${
+                      className={`pl-10 block w-full border border-gray-200 bg-[#151030] rounded-xl ${
                         errors.date ? "border-red-500" : "border-gray-300"
                       } text-[#aaa6c3]`}
                     />
@@ -318,23 +311,16 @@ const EventCreationPage = () => {
                   >
                     Start Time
                   </label>
-                  <div className="mt-1 relative    rounded-xl shadow-sm">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaClock className="text-gray-400" />
-                    </div>
-                    <input
-                      type="time"
-                      id="startTime"
-                      {...register("startTime", {
-                        required: "Start time is required",
-                      })}
-                      className={`pl-10 block w-full border border-gray-200 bg-[#151030]    rounded-xl ${
-                        errors.startTime
-                          ? "border-red-500"
-                          : "border-gray-300"
-                      } text-[#aaa6c3]`}
-                    />
-                  </div>
+                  <input
+                    type="time"
+                    id="startTime"
+                    {...register("startTime", {
+                      required: "Start time is required",
+                    })}
+                    className={`block w-full border border-gray-200 bg-[#151030] rounded-xl ${
+                      errors.startTime ? "border-red-500" : "border-gray-300"
+                    } text-[#aaa6c3]`}
+                  />
                   {errors.startTime && (
                     <p className="mt-2 text-sm text-red-600">
                       {errors.startTime.message}
@@ -349,136 +335,133 @@ const EventCreationPage = () => {
                   >
                     End Time
                   </label>
-                  <div className="mt-1 relative    rounded-xl shadow-sm">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaClock className="text-gray-400" />
-                    </div>
-                    <input
-                      type="time"
-                      id="endTime"
-                      {...register("endTime", {
-                        required: "End time is required",
-                      })}
-                      className={`pl-10 block w-full border border-gray-200 bg-[#151030]    rounded-xl ${
-                        errors.endTime
-                          ? "border-red-500"
-                          : "border-gray-300"
-                      } text-[#aaa6c3]`}
-                    />
-                  </div>
+                  <input
+                    type="time"
+                    id="endTime"
+                    {...register("endTime", {
+                      required: "End time is required",
+                    })}
+                    className={`block w-full border border-gray-200 bg-[#151030] rounded-xl ${
+                      errors.endTime ? "border-red-500" : "border-gray-300"
+                    } text-[#aaa6c3]`}
+                  />
                   {errors.endTime && (
                     <p className="mt-2 text-sm text-red-600">
                       {errors.endTime.message}
                     </p>
                   )}
                 </div>
-
-                <div>
-                  <label
-                    htmlFor="ticketType"
-                    className="block text-sm font-medium text-[#aaa6c3]"
-                  >
-                    Ticket Type
-                  </label>
-                  <select
-                    id="ticketType"
-                    {...register("ticketType")}
-                    className="mt-1 block w-full border border-gray-200 bg-[#151030]    rounded-xl text-[#aaa6c3]"
-                  >
-                    <option value="free">Free</option>
-                    <option value="paid">Paid</option>
-                  </select>
-                </div>
-
-                {ticketType === "paid" && (
-                  <div>
-                    <label
-                      htmlFor="ticketPrice"
-                      className="block text-sm font-medium text-[#aaa6c3]"
-                    >
-                      Ticket Price
-                    </label>
-                    <div className="mt-1 relative    rounded-xl shadow-sm">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <FaRupeeSign className="text-gray-400" />
-                      </div>
-                      <input
-                        type="number"
-                        id="ticketPrice"
-                        {...register("ticketPrice")}
-                        className={`pl-10 block w-full border border-gray-200 bg-[#151030]    rounded-xl text-[#aaa6c3]`}
-                      />
-                    </div>
-                  </div>
-                )}
-
-                <div>
-                  <label
-                    htmlFor="tenantApproval"
-                    className="block text-sm font-medium text-[#aaa6c3]"
-                  >
-                    Tenant Approval Required?
-                  </label>
-                  <select
-                    id="tenantApproval"
-                    {...register("tenantApproval")}
-                    className="mt-1 block w-full border border-gray-200 bg-[#151030]    rounded-xl text-[#aaa6c3]"
-                  >
-                    <option value="no">No</option>
-                    <option value="yes">Yes</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="capacity"
-                    className="block text-sm font-medium text-[#aaa6c3]"
-                  >
-                    Capacity
-                  </label>
-                  <input
-                    type="number"
-                    id="capacity"
-                    {...register("capacity")}
-                    className="mt-1 block w-full border border-gray-200 bg-[#151030]    rounded-xl text-[#aaa6c3]"
-                  />
-                </div>
-
-                <div>
-                <label
-                  htmlFor="categories"
-                  className="block text-sm font-medium text-[#aaa6c3]"
-                >
-                  Categories
-                </label>
-                <select
-                  id="categories"
-                  {...register("categories")}
-                  className="mt-1 block w-full border text-[#aaa6c3] border-gray-200 bg-[#151030]   rounded-sm shadow-sm"
-                  multiple
-                >
-                  <option value="music">Music</option>
-                  <option value="art">Art</option>
-                  <option value="technology">Technology</option>
-                  <option value="business">Business</option>
-                  <option value="sports">Sports</option>
-                  <option value="gaming">Gaming</option>
-                  <option value="finance">Finance</option>
-                  <option value="cultural">Cultural</option>
-                  <option value="social">Social</option>
-                </select>
-              </div>
               </div>
 
               <div>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-[#402C78] text-white font-semibold py-2 px-4    rounded-xl transition duration-300 ease-in-out hover:bg-[#3d274f] disabled:opacity-50"
+                <label
+                  htmlFor="ticketType"
+                  className="block text-sm font-medium text-[#aaa6c3]"
                 >
-                  {isSubmitting ? "Creating Event..." : "Create Event"}
-                </button>
+                  Ticket Type
+                </label>
+                <select
+                  id="ticketType"
+                  {...register("ticketType")}
+                  className="block w-full border border-gray-200 bg-[#151030] rounded-xl text-[#aaa6c3]"
+                >
+                  <option value="free">Free</option>
+                  <option value="paid">Paid</option>
+                </select>
               </div>
+
+              {/* Conditionally Render Ticket Price Field */}
+              {ticketType === "paid" && (
+                <div>
+                  <label
+                    htmlFor="ticketPrice"
+                    className="block text-sm font-medium text-[#aaa6c3]"
+                  >
+                    Ticket Price
+                  </label>
+                  <div className="mt-1 relative rounded-xl shadow-sm">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <FaRupeeSign className="text-gray-400" />
+                    </div>
+                    <input
+                      type="number"
+                      id="ticketPrice"
+                      {...register("ticketPrice", {
+                        required: ticketType === "paid" ? "Ticket price is required for paid events" : false,
+                      })}
+                      className={`pl-10 block w-full border border-gray-200 bg-[#151030] rounded-xl text-[#aaa6c3] ${
+                        errors.ticketPrice ? "border-red-500" : "border-gray-300"
+                      }`}
+                    />
+                  </div>
+                  {errors.ticketPrice && (
+                    <p className="mt-2 text-sm text-red-600">
+                      {errors.ticketPrice.message}
+                    </p>
+                  )}
+                </div>
+              )}
+
+              <div>
+                <label
+                  htmlFor="capacity"
+                  className="block text-sm font-medium text-[#aaa6c3]"
+                >
+                  Capacity
+                </label>
+                <input
+                  type="number"
+                  id="capacity"
+                  {...register("capacity", {
+                    required: "Capacity is required",
+                  })}
+                  className={`block w-full border border-gray-200 bg-[#151030] rounded-xl ${
+                    errors.capacity ? "border-red-500" : "border-gray-300"
+                  } text-[#aaa6c3]`}
+                />
+                {errors.capacity && (
+                  <p className="mt-2 text-sm text-red-600">
+                    {errors.capacity.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-[#aaa6c3]">
+                  Tenant Approval
+                </label>
+                <div className="flex items-center space-x-4">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      {...register("tenantApproval")}
+                      value="yes"
+                      className="mr-2"
+                    />
+                    Yes
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      {...register("tenantApproval")}
+                      value="no"
+                      defaultChecked
+                      className="mr-2"
+                    />
+                    No
+                  </label>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className={`w-full bg-indigo-600 text-white font-semibold py-2 rounded-xl transition duration-300 ease-in-out hover:bg-indigo-700 ${
+                  isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              >
+                {isSubmitting ? "Creating..." : "Create Event"}
+              </button>
             </form>
           </div>
         </div>

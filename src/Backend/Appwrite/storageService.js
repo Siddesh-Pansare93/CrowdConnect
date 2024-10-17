@@ -24,6 +24,7 @@ export class StorageService {
             )
         } catch (error) {
             console.log(`Error :: Appwrite :: UploadFile :: ${error.message}`)
+            console.log(`Error :: Appwrite :: UploadFile :: ${error}`)
         }
     }
 

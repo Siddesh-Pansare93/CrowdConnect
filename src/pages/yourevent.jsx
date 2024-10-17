@@ -24,7 +24,7 @@ const YourEventCard = ({ event }) => {
     }, [event.organiser]);
 
     return (
-        <div className="bg-gray-800 rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 hover:shadow-lg p-6">
+        <div className="bg-gray-800 rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 hover:shadow-lg p-6 w-full h-fit">
             <img
                 src={storageService.getFilePreview(event.featuredImage)}
                 alt={event.eventTitle}

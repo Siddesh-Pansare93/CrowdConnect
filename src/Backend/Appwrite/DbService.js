@@ -51,26 +51,40 @@ export class DbService {
 
     // Update Event Details 
 
-    async updateEvent({ id, title, description, date_time, location, featuredImage, organiser, attendees }) {
+    async updateEvent({ id, capacity, categories, latitude, longitude, date, description, endTime, eventTitle, featuredImage, location, organiser, startTime, tenantApproval, ticketPrice = null, ticketType, registrations, attendees }) {
+        console.log("Updating event with ID:", id);
+        console.log("Event Data:", { eventTitle, description, location, featuredImage, ticketType, date, ticketPrice, tenantApproval, capacity, startTime, endTime, latitude, longitude, organiser, registrations, attendees, categories });
+    
         try {
             return await this.database.updateDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteEventCollectionId,
                 id,
                 {
-                    title,
+                    eventTitle,
                     description,
-                    date_time,
                     location,
                     featuredImage,
+                    ticketType,
+                    date,
+                    ticketPrice,
+                    tenantApproval,
+                    capacity,
+                    startTime,
+                    endTime,
+                    latitude,
+                    longitude,
                     organiser,
-                    attendees
+                    registrations,
+                    attendees,
+                    categories
                 }
-            )
+            );
         } catch (error) {
-            console.log(`Appwrite Error :: UpdateEvent :: error :: ${error.message}`)
+            console.log(`Appwrite Error :: UpdateEvent :: error :: ${error.message}`);
         }
     }
+    
 
     // Delete Event 
 

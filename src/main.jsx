@@ -22,6 +22,7 @@ import EventManager from './pages/handleEvent.jsx'
 import SearchedEvents from './components/SearchedEvent'
 import Layout from './layouts/Layout'
 import RegisteredEvents from './components/UserRegisteredEvents'
+import EditEventPage from './components/editEvent'
 // import NormalEvent  from './pages/NormalEvent'
 
 
@@ -43,6 +44,7 @@ const router = createBrowserRouter(
       <Route path='/profile-settings' element={<ProfileSettings/>}/>
       <Route path='/EventManager/:eventId' element={<EventManager/>}/>
       <Route path="/registered-events" element={<RegisteredEvents/>} />
+      <Route path='/edit-event/:eventId' element={<EditEventPage/>} />
       {/* <Route path= "/normalevents" element ={<NormalEvent/>} /> */}
 
       <Route path="/search" element={<SearchedEvents/>} />

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaSun, FaMoon, FaCheck, FaTimes } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdOutlineEdit } from "react-icons/md";
 import { useParams } from "react-router-dom"; // For accessing eventId from URL
 import dbService from "../Backend/Appwrite/DbService"; // Assuming dbService has methods for event fetching
 import storageService from "../Backend/Appwrite/storageService";
@@ -87,6 +87,10 @@ const sendConfirmationEmail = (userEmail, userName, eventTitle) => {
     );
 };
 
+const onEdit = async () => {
+  navigate(`/edit-event/${eventDetails.$id}`);
+}
+
 const onDelete = async () => {
   try {
     await dbService.deleteEvent(eventId);
@@ -155,14 +159,21 @@ const onDelete = async () => {
       <p className="mb-2"><strong>Description:</strong> {eventDetails.description}</p>
     </div>
   </div>
-  <div className="flex justify-end">
-    <button
-      onClick={onDelete}
-      className="flex items-center bg-red-500 text-white font-semibold py-2 px-4 rounded hover:bg-red-600 transition duration-200">
-      <MdDelete className="mr-2" />
-      Delete
-    </button>
-  </div>
+  <div className="flex justify-between items-center">
+  <button
+    onClick={onEdit}
+    className="flex items-center bg-green-500 text-white font-semibold py-2 px-4 rounded-xl shadow-xl hover:bg-green-600 transition duration-200">
+    <MdOutlineEdit className="mr-2" />
+    Edit
+  </button>
+  <button
+    onClick={onDelete}
+    className="flex items-center bg-red-500 text-white font-semibold py-2 px-4 rounded-xl shadow-xl hover:bg-red-600 transition duration-200">
+    <MdDelete className="mr-2" />
+    Delete
+  </button>
+</div>
+
 </div>
 
 

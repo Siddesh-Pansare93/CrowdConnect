@@ -1,13 +1,13 @@
 // YourEvents.js
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux"; 
+import { useDispatch, useSelector } from "react-redux";
 import dbService from "@/Backend/Appwrite/DbService";
 import { Query } from "appwrite";
 // YourEventCard
-import { FaHeart, FaCalendarAlt, FaUsers, FaTicketAlt } from "react-icons/fa"; 
+import { FaHeart, FaCalendarAlt, FaUsers, FaTicketAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import storageService from "@/Backend/Appwrite/storageService"; 
-import authService from "@/Backend/Appwrite/auth"; 
+import storageService from "@/Backend/Appwrite/storageService";
+import authService from "@/Backend/Appwrite/auth";
 
 const YourEventCard = ({ event }) => {
     const [isLiked, setIsLiked] = useState(false);
@@ -56,9 +56,8 @@ const YourEventCard = ({ event }) => {
                 </Link>
                 <button
                     onClick={() => setIsLiked(!isLiked)}
-                    className={`p-2 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 ${
-                        isLiked ? "bg-red-500 text-white" : "bg-gray-200 text-gray-500"
-                    }`}
+                    className={`p-2 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 ${isLiked ? "bg-red-500 text-white" : "bg-gray-200 text-gray-500"
+                        }`}
                     aria-label={isLiked ? "Unlike event" : "Like event"}
                 >
                     <FaHeart />
@@ -98,18 +97,18 @@ const YourEvents = () => {
 
     if (loading) {
         return (
-          <div className="flex items-center justify-center h-screen bg-black">
-            <div className="text-center">
-              <div className="animate-spin ml-14 rounded-full h-12 w-12 border-t-4 border-white border-solid"></div>
-              <p className="mt-4 text-lg font-semibold text-white">
-                Loading event data...
-              </p>
+            <div className="flex items-center justify-center h-screen bg-black">
+                <div className="text-center">
+                    <div className="animate-spin ml-14 rounded-full h-12 w-12 border-t-4 border-white border-solid"></div>
+                    <p className="mt-4 text-lg font-semibold text-white">
+                        Loading event data...
+                    </p>
+                </div>
             </div>
-          </div>
         );
-      }
-      
-// css for the YOUREVENTS page
+    }
+
+    // css for the YOUREVENTS page
     return (
         <div className="container px-4 py-8 bg-[#050816] w-vw ">
             <h1 className="text-4xl font-bold mb-8 text-center text-white">Your Events</h1>

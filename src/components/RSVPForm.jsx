@@ -2,70 +2,123 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import emailjs from '@emailjs/browser';
-import { toast } from 'react-toastify'; // For toast notifications
-import dbService from '@/Backend/Appwrite/DbService'; // Assuming you have a service to update your event
+import { toast } from 'react-toastify';
+import dbService from '@/Backend/Appwrite/DbService';
 
-const RSVPForm = ({ onClose, eventId ,onCancel }) => {
+const RSVPForm = ({ onClose, eventId, onCancel }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [event, setEvent] = useState({});
     const userData = useSelector(state => state.auth.userData);
-    const [template, setTemplate] = useState('');
+    const [isPaidEvent, setIsPaidEvent] = useState(false); // Check if event is paid
     const [isRegistered, setIsRegistered] = useState(false);
 
+    // Fetch Event Details
     useEffect(() => {
         const fetchEvent = async (eventId) => {
-            const event = await dbService.getEvent(eventId);
-            setEvent(event);
+            const eventData = await dbService.getEvent(eventId);
+            setEvent(eventData);
+            setIsPaidEvent(eventData.ticketPrice > 0); // Check if event is paid
         };
         fetchEvent(eventId);
     }, [eventId]);
 
-    useEffect(() => {
-        if (event.tenantApproval) {
-            setTemplate("template_j77s0ym");
-        } else {
-            setTemplate("");
-        }
-    }, [event.tenantApproval]);
-
-    const onSubmit = async (data) => {
-        const templateParams = {
-            event_name: event.eventTitle,
-            user_name: userData.name,
-            event_date: event.date,
-            event_time: event.startTime,
-            organisation_name: "CrowdConnect",
-            event_location: event.location,
-            user_email: data.email,
+    // Function to open Razorpay payment gateway
+    const openPaymentGateway = async (amount, onSuccess) => {
+        const options = {
+            key: "rzp_test_9TB3asShG3RvdV", // Razorpay key from env
+            amount: amount * 100, // Convert to paise
+            currency: 'INR',
+            name: event.eventTitle,
+            description: 'Event Registration Payment',
+            handler: onSuccess, // Function to call after successful payment
+            prefill: {
+                name: userData.name,
+                email: userData.email,
+            },
+            theme: {
+                color: '#F37254',
+            },
         };
-    
-        try {
-            await emailjs.send(
-                'service_eq3m2ed',
-                template,
-                templateParams,
-                '152Q6uG2K9dkInbrZ'
-            );
-    
-            // Show success message
-            toast.success("You have been successfully registered for the event! Check your email for further details.");
-    
-            // Register the user for the event in your database
-            await dbService.addUserToEventRegistrations(eventId, userData.$id); // Assuming you have a method to do this
-            
-            // Add event ID to user's registered events
-            await dbService.addEventToUserRegisteredEvents(userData.$id, eventId);
-    
-            // Close the form
-            setIsRegistered(true);
-            onClose(); // This will close the RSVP form
-        } catch (error) {
-            console.error('Failed to send mail:', error);
-            toast.error("Failed to register. Please try again later.");
+        
+        const razorpay = new window.Razorpay(options);
+        razorpay.open();
+    };
+
+    // Form Submission Handler
+    const onSubmit = async (data) => {
+        if (isPaidEvent) {
+            // Open Razorpay payment gateway with event price
+            openPaymentGateway(event.ticketPrice, async (response) => {
+                try {
+                    // After successful payment, add user directly to attendees
+                    await dbService.addUserToEventAttendees(eventId, userData.$id); // Add to attendees directly
+                    // Add event ID to user's registered events
+                    await dbService.addEventToUserRegisteredEvents(userData.$id, eventId);
+
+                    
+                    // Send email notification
+                    const templateParams = {
+                        event_name: event.eventTitle,
+                        user_name: userData.name,
+                        event_date: event.date,
+                        event_time: event.startTime,
+                        organisation_name: event.organiser,
+                        event_location: event.location,
+                        user_email: data.email,
+                    };
+
+                    await emailjs.send(
+                        'service_urnjv47',
+                        'template_gcil1w8', // Assuming this is the template for confirmation
+                        templateParams,
+                        'sTkbtnTzVWr4EoiBs'
+                    );
+
+                    // Show success message
+                    toast.success("You have been successfully registered for the event! Check your email for further details.");
+                    
+                    onClose(); // Close the form after success
+                } catch (error) {
+                    console.error('Failed to register:', error);
+                    toast.error("Failed to register. Please try again later.");
+                }
+            });
+        } else {
+            // Free event: Add user to the registrations array
+            try {
+                await dbService.addUserToEventRegistrations(eventId, userData.$id); // Add to registrations array
+                // Add event ID to user's registered events
+                await dbService.addEventToUserRegisteredEvents(userData.$id, eventId);
+
+
+                // Send email notification
+                const templateParams = {
+                    event_name: event.eventTitle,
+                    user_name: userData.name,
+                    event_date: event.date,
+                    event_time: event.startTime,
+                    organisation_name: "CrowdConnect",
+                    event_location: event.location,
+                    user_email: data.email,
+                };
+
+                await emailjs.send(
+                    'service_eq3m2ed',
+                    'template_j77s0ym', // Assuming this is the template for confirmation
+                    templateParams,
+                    '152Q6uG2K9dkInbrZ'
+                );
+
+                // Show success message
+                toast.success("You have been successfully registered for the event! Check your email for further details.");
+                
+                onClose(); // Close the form after success
+            } catch (error) {
+                console.error('Failed to register:', error);
+                toast.error("Failed to register. Please try again later.");
+            }
         }
     };
-    
-    
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
@@ -100,9 +153,10 @@ const RSVPForm = ({ onClose, eventId ,onCancel }) => {
                     </div>
                     <div className="flex justify-end">
                         <button type="button" onClick={onCancel} className="mr-2 px-4 py-2 bg-gray-300 text-black rounded-lg">Cancel</button>
-                        <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-lg" disabled={isRegistered}>
-                            {isRegistered ? "You have been registered for the event" : "Submit"}
+                        <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-lg">
+                            {isPaidEvent ? "Pay and Submit" : "Submit"}
                         </button>
+                        
                     </div>
                 </form>
             </div>

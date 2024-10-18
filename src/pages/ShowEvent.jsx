@@ -59,7 +59,7 @@ const EventPage = () => {
         if (timeRemaining < 0) {
             return (
                 <motion.div
-                    className="flex items-center justify-center space-x-4 mt-6 text-lg font-semibold bg-gray-100 dark:bg-gray-700 p-4 rounded-lg shadow-md"
+                    className="flex items-center justify-center space-x-4 mt-6 text-lg font-semibold bg-gray-100 dark:bg-gray-700 p-4 rounded-xl shadow-xl"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                 >
@@ -129,7 +129,7 @@ const EventPage = () => {
                     </motion.button>
                 </div>
 
-                <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden p-6">
+                <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-2xl overflow-hidden p-6">
                     <div className="md:flex items-center">
                         <motion.div
                             className="w-full md:w-1/3 md:h-48 h-48 mb-4 md:mb-0 flex-shrink-0 relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
@@ -194,7 +194,7 @@ const EventPage = () => {
 
                             <motion.button
                                 onClick={() => setIsRsvpModalOpen(true)}
-                                className="mt-6 px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-lg shadow-lg hover:scale-105 transition-all duration-300"
+                                className="mt-6 px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-xl shadow-xl hover:scale-105 transition-all duration-300"
                                 whileHover={{ scale: 1.05 }}
                                 disabled={isRegistered}
                             >
@@ -234,7 +234,7 @@ const EventPage = () => {
                         </p>
                         <button
                             onClick={() => setIsModalOpen(true)}
-                            className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition duration-300"
+                            className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-xl shadow-xl hover:bg-blue-600 transition duration-300"
                         >
                             See Location
                         </button>

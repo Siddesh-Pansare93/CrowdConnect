@@ -46,7 +46,7 @@ const Events = () => {
             <h1 className="text-4xl text-white font-bold mb-8 text-center pt-5">Latest Events</h1>
             <SearchBox/>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-8">
                 {events.map((event) => (
                     <EventCard key={event.id} event={event} />
                 ))}

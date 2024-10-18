@@ -32,7 +32,7 @@ const RegisteredEvents = () => {
                     {registeredEvents.map((event) => {
                         {if(event?.$id){
                             return (
-                                <li key={event?.$id} className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-md border border-white rounded-3xl p-4 shadow-2xl transition-transform transform hover:scale-105 hover:bg-bg2 hover:bg-opacity-30">
+                                <li key={event?.$id} className="bg-white bg-opacity-10 backdrop-filter h-fit backdrop-blur-md border border-white rounded-3xl p-4 shadow-2xl transition-transform transform hover:scale-105 hover:bg-bg2 hover:bg-opacity-30">
                             <h3 className="text-xl font-semibold text-white mb-2">{event?.eventTitle || "event Title"}</h3>
                             <p className="text-secondary mb-2">{event?.description}</p>
                             <p className="text-white"><strong>Date:</strong> {event?.date}</p>

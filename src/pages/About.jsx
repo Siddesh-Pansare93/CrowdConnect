@@ -60,7 +60,7 @@ const About = () => {
     const teamMembers = [
         {
             name: "Sumit Singh",
-            role: "Front-End Developer",
+            role: "Full-Stack Developer",
             image: sumit,
             github: "https://github.com/18-sumit",
             linkedin: "https://www.linkedin.com/in/sumit-singh-721aa1254/"

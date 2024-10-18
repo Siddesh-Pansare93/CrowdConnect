@@ -213,7 +213,7 @@ const onDelete = async () => {
                     registrations.map((userId) => {
                       const user = users[userId]; // Get user details using the ID
                       return (
-                        <li key={userId} className="flex justify-between items-center p-4 bg-gray-100 dark:bg-gray-700 rounded-md">
+                        <li key={userId} className="flex justify-between items-center p-4 bg-gray-100 dark:bg-gray-700 rounded-2xl">
                           <div>
                             <p className="font-semibold">{user ? user.name : "Loading..."}</p>
                             <p className="text-sm text-gray-600 dark:text-gray-400">{user ? user.email : "Loading..."}</p>

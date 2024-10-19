@@ -23,6 +23,8 @@ import SearchedEvents from './components/SearchedEvent'
 import Layout from './layouts/Layout'
 import RegisteredEvents from './components/UserRegisteredEvents'
 import EditEventPage from './components/editEvent'
+import Chatbot from './components/Chatbot';
+
 // import NormalEvent  from './pages/NormalEvent'
 
 

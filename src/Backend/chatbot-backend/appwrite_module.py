@@ -35,8 +35,8 @@ class AppwriteDataFetcher:
 
             # Print all event details
             # print(f"Title: {eventTitle}\nDate: {date}\nLocation: {location}\nTicket Type: {ticketType}\n")
-            # url = f"https://crowdconnect.vercel.app/event/{event_id}"
-            url = f"http://localhost:5173/event/{event_id}"
+            url = f"https://crowdconnect.vercel.app/event/{event_id}"
+            # url = f"http://localhost:5173/event/{event_id}"
             print(url + "\n\n")
             n = ['none']
 

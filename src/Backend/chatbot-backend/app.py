@@ -3,6 +3,7 @@ from flask_cors import CORS
 import llm
 from appwrite_module import AppwriteDataFetcher
 
+
 app = Flask(__name__)
 CORS(app)
 
@@ -42,6 +43,7 @@ def chat():
                 print(result)
     else:
         result = response
+        result = result.replace("1 | '", "")
         
 
     return jsonify({'response': result})

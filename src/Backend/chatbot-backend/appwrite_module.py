@@ -38,8 +38,9 @@ class AppwriteDataFetcher:
             # url = f"https://crowdconnect.vercel.app/event/{event_id}"
             url = f"http://localhost:5173/event/{event_id}"
             print(url + "\n\n")
+            n = ['none']
 
-            if date in date_array:
+            if date in date_array or date_array == n:
                 print(f"Date Matched - {eventTitle}")
                 for k in location_array:
                     print("k is " + k)

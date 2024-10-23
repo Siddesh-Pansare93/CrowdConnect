@@ -1,9 +1,8 @@
 from openai import OpenAI
 import datetime
-
-# prompt = input("Enter prompt: ")
-
-
+from dotenv import load_dotenv
+load_dotenv()
+import os
 
 def get_response(prompt):
   # Get the current date and time
@@ -16,16 +15,8 @@ def get_response(prompt):
   system = f.read()
   f.close()
   system = f"{system} Today's date and day : {date_time_str}"
-  # print(system)
 
-
-  ## Set the API key
-  f = open("llmreq/api", "r")
-  key = f.read()
-  f.close()
-
-  key = key.split()
-  key = key[0]
+  key = os.getenv("OPENAI_API_KEY")
 
   MODEL="gpt-4o"
   client = OpenAI(api_key=key)

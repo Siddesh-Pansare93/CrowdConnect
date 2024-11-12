@@ -8,7 +8,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import sumit from '../assets/sumit.jpg'; 
 import dinya from '../assets/Dinya.jpg';
 import siddesh from '../assets/siddesh.jpg';
-import ashmit from '../assets/ashmit.png';
+import ashmit from '../assets/dp.jpg'
 
 const About = () => {
     const [formData, setFormData] = useState({

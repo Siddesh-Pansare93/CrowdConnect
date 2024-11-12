@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client'
 // import App from './App.jsx'
 import '../src/index.css'
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, createRoutesFromElements, Route, Router, RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store ,{persistor} from './store/store.js'
 import { PersistGate } from "redux-persist/integration/react";
@@ -22,9 +22,9 @@ import SearchedEvents from './components/SearchedEvent'
 import Layout from './layouts/Layout'
 import RegisteredEvents from './components/UserRegisteredEvents'
 import EditEventPage from './components/editEvent'
-import TermsAndConditions from './components/TermsCondition'
-import ScrollToTop from './components/ScrollToTop'
-import PrivacyPolicy from './components/PrivacyPolicy'
+// import Chatbot from './components/Chatbot';
+
+// import NormalEvent  from './pages/NormalEvent'
 
 
 const router = createBrowserRouter(
@@ -46,9 +46,9 @@ const router = createBrowserRouter(
       <Route path='/EventManager/:eventId' element={<EventManager/>}/>
       <Route path="/registered-events" element={<RegisteredEvents/>} />
       <Route path='/edit-event/:eventId' element={<EditEventPage/>} />
-      <Route path='/terms-and-conditions' element = {<TermsAndConditions/>} />
+      {/* <Route path= "/normalevents" element ={<NormalEvent/>} /> */}
+
       <Route path="/search" element={<SearchedEvents/>} />
-      <Route path="/privacy-policy" element={<PrivacyPolicy/>} />
 
     </Route>
   )
@@ -58,9 +58,7 @@ createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     {/* PersistGate delays rendering until the persisted state has been loaded */}
     <PersistGate loading={null} persistor={persistor}>
-      <RouterProvider router={router} >
-        <ScrollToTop />
-        </RouterProvider>
+      <RouterProvider router={router} />
     </PersistGate>
   </Provider>,
 

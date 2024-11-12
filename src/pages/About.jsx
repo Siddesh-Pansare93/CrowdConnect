@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import emailjs from '@emailjs/browser';
 import { FaUsers, FaCalendarAlt, FaComments, FaStar, FaGithub, FaLinkedin } from "react-icons/fa";
 import { Carousel } from "react-responsive-carousel";
@@ -136,7 +136,7 @@ const About = () => {
                     >
                         {testimonials.map((testimonial, index) => (
                             <div key={index} className="bg-gray-800 p-8 rounded-lg shadow-lg mx-4 my-2">
-                                <p className="text-gray-300 mb-4">"{testimonial.content}"</p>
+                                <p className="text-gray-300 mb-4">{testimonial.content}</p>
                                 <p className="font-semibold text-blue-400">{testimonial.name}</p>
                                 <div className="flex justify-center mt-2">
                                     {[...Array(5)].map((_, i) => (
@@ -155,7 +155,7 @@ const About = () => {
                     <h2 className="text-3xl font-semibold mb-12 text-center">Meet Our Team</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         {teamMembers.map((member, index) => (
-                            <div key={index} className="bg-gray-800 p-6 rounded-lg shadow-lg text-center transition-transform hover:scale-105">
+                            <div key={index} className="bg-gray-800 p-6 rounded-2xl shadow-lg text-center transition-transform hover:scale-105">
                                 <img src={member.image} alt={member.name} className="w-32 h-32 rounded-full mx-auto mb-4 object-cover" />
                                 <h3 className="text-xl font-semibold mb-2">{member.name}</h3>
                                 <p className="text-gray-300">{member.role}</p>

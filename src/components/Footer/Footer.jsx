@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector } from 'react-redux';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -34,7 +35,7 @@ const Footer = () => {
           <p className="mb-4">Get exclusive access to our latest updates and offers.</p>
           <a href={authStatus ? "/about" : "/signup"}>
             <button className="bg-white text-blue-600 font-bold py-2 px-4 rounded-2xl hover:bg-blue-100 transition duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
-              {authStatus ? "Contact Us" : "Sign Up Now"} 
+              {authStatus ? "Contact Us" : "Sign Up Now"}
             </button>
           </a>
         </div>
@@ -96,9 +97,12 @@ const Footer = () => {
         <div className="border-t border-gray-700 pt-8 text-sm text-gray-400">
           <p>&copy; 2024 CrowdConnect. All rights reserved.</p>
           <div className="mt-2 space-x-4">
-            <a href="#" className="hover:text-white transition duration-300">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition duration-300">Terms of Service</a>
-            <a href="#" className="hover:text-white transition duration-300">Cookie Policy</a>
+            <Link to="/privacy-policy" className="hover:text-white transition duration-300">
+              Privacy Policy
+            </Link>
+            <Link to="/terms-and-conditions" className="hover:text-white transition duration-300">
+              Terms and Condition
+            </Link>
           </div>
         </div>
       </div>

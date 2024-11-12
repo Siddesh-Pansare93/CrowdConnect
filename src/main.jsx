@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client'
 // import App from './App.jsx'
 import '../src/index.css'
-import { createBrowserRouter, createRoutesFromElements, Route, Router, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store ,{persistor} from './store/store.js'
 import { PersistGate } from "redux-persist/integration/react";
@@ -25,6 +25,8 @@ import EditEventPage from './components/editEvent'
 // import Chatbot from './components/Chatbot';
 
 // import NormalEvent  from './pages/NormalEvent'
+import PrivacyPolicy from './components/PrivacyPolicy'
+import TermsAndConditions from './components/TermsCondition'
 
 
 const router = createBrowserRouter(
@@ -46,10 +48,9 @@ const router = createBrowserRouter(
       <Route path='/EventManager/:eventId' element={<EventManager/>}/>
       <Route path="/registered-events" element={<RegisteredEvents/>} />
       <Route path='/edit-event/:eventId' element={<EditEventPage/>} />
-      {/* <Route path= "/normalevents" element ={<NormalEvent/>} /> */}
-
       <Route path="/search" element={<SearchedEvents/>} />
-
+      <Route path='/privacy-policy' element = {<PrivacyPolicy/>} />
+      <Route path='/terms-and-conditions' element = {<TermsAndConditions/>} />
     </Route>
   )
 )
